@@ -7,7 +7,7 @@ import { Newsletter } from '@/components/common/Newsletter';
 import { AdSlot } from '@/components/common/AdSlot';
 import { getArticlesByCategory } from '@/data/articles';
 import { Button } from '@/components/ui/button';
-import { SEO } from '@/components/SEO';
+import { SEO } from '@/components/seo';
 import { getCategoryBreadcrumb } from '@/lib/seo-helpers';
 
 const categoryInfo = {
