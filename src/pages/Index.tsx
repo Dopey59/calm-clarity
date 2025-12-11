@@ -7,6 +7,8 @@ import { AdSlot } from '@/components/common/AdSlot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getFeaturedArticles, getArticlesByCategory, getRecentArticles } from '@/data/articles';
+import { SEO } from '@/components/SEO';
+import { generateWebsiteSchema, generateOrganizationSchema, getHomeBreadcrumb } from '@/lib/seo-helpers';
 
 const Index = () => {
   const featuredArticles = getFeaturedArticles();
@@ -14,11 +16,33 @@ const Index = () => {
   const stressArticles = getArticlesByCategory('stress').slice(0, 3);
   const recentArticles = getRecentArticles(4);
 
+  // Génération des schemas JSON-LD
+  const jsonLdSchemas = [
+    generateWebsiteSchema(),
+    generateOrganizationSchema(),
+    getHomeBreadcrumb(),
+  ];
+
   return (
     <Layout>
-      {/* SEO Meta */}
-      <title>CalmeClair - Conseils & Techniques pour Gérer Stress et Anxiété</title>
-      <meta name="description" content="Découvrez des techniques éprouvées et conseils d'experts pour mieux gérer votre stress et anxiété au quotidien. Articles, exercices et ressources gratuites." />
+      {/* SEO Meta - Nouveau système */}
+      <SEO
+        title="CalmeClair - Conseils & Techniques pour Gérer Stress et Anxiété"
+        description="Découvrez des techniques éprouvées et conseils d'experts pour mieux gérer votre stress et anxiété au quotidien. Articles, exercices et ressources gratuites."
+        canonical="https://calmeclair.com/"
+        ogType="website"
+        keywords={[
+          'stress',
+          'anxiété',
+          'santé mentale',
+          'bien-être',
+          'gestion du stress',
+          'techniques de relaxation',
+          'méditation',
+          'anxiété au quotidien',
+        ]}
+        jsonLd={jsonLdSchemas}
+      />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 via-background to-background">
@@ -172,25 +196,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* JSON-LD Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          "name": "CalmeClair",
-          "description": "Votre ressource de confiance pour comprendre et gérer le stress et l'anxiété au quotidien.",
-          "url": "https://calmeclair.example",
-          "publisher": {
-            "@type": "Organization",
-            "name": "CalmeClair",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://calmeclair.example/logo.png"
-            }
-          }
-        })
-      }} />
     </Layout>
   );
 };
