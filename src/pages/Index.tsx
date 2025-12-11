@@ -7,7 +7,7 @@ import { AdSlot } from '@/components/common/AdSlot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getFeaturedArticles, getArticlesByCategory, getRecentArticles } from '@/data/articles';
-import { SEO } from '@/components/SEO';
+import { SEO } from '@/components/seo';
 import { generateWebsiteSchema, generateOrganizationSchema, getHomeBreadcrumb } from '@/lib/seo-helpers';
 
 const Index = () => {
