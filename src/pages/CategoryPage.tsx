@@ -7,17 +7,21 @@ import { Newsletter } from '@/components/common/Newsletter';
 import { AdSlot } from '@/components/common/AdSlot';
 import { getArticlesByCategory } from '@/data/articles';
 import { Button } from '@/components/ui/button';
+import { SEO } from '@/components/SEO';
+import { getCategoryBreadcrumb } from '@/lib/seo-helpers';
 
 const categoryInfo = {
   anxiete: {
     title: 'Anxiété',
     description: 'Découvrez nos articles et conseils pour comprendre, prévenir et gérer l\'anxiété au quotidien. Des techniques pratiques et des informations basées sur la science.',
     metaDescription: 'Conseils et techniques pour gérer l\'anxiété. Exercices de respiration, gestion des crises, TCC et méthodes naturelles pour retrouver la sérénité.',
+    keywords: ['anxiété', 'crise d\'anxiété', 'trouble anxieux', 'gestion anxiété', 'relaxation', 'respiration'],
   },
   stress: {
     title: 'Stress',
     description: 'Explorez nos ressources pour réduire le stress et retrouver votre équilibre. Méditation, alimentation, sommeil et bien plus encore.',
     metaDescription: 'Techniques anti-stress éprouvées : méditation, alimentation, exercices et conseils pratiques pour diminuer votre niveau de stress au quotidien.',
+    keywords: ['stress', 'gestion du stress', 'anti-stress', 'méditation', 'relaxation', 'burnout'],
   },
 };
 
@@ -42,12 +46,37 @@ export default function CategoryPage() {
   const info = categoryInfo[category];
   const articles = getArticlesByCategory(category);
 
+  // Génération du breadcrumb schema
+  const breadcrumbSchema = getCategoryBreadcrumb(info.title, category);
+
+  // Génération du schema ItemList pour les articles
+  const itemListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    'name': `${info.title} - CalmeClair`,
+    'description': info.description,
+    'url': `https://calmeclair.com/categorie/${category}`,
+    'mainEntity': {
+      '@type': 'ItemList',
+      'itemListElement': articles.map((article, index) => ({
+        '@type': 'ListItem',
+        'position': index + 1,
+        'url': `https://calmeclair.com/article/${article.datePublished.substring(0, 4)}/${article.datePublished.substring(5, 7)}/${article.slug}`
+      }))
+    }
+  };
+
   return (
     <Layout>
-      {/* Meta */}
-      <title>{info.title} - Conseils & Techniques | CalmeClair</title>
-      <meta name="description" content={info.metaDescription} />
-      <link rel="canonical" href={`https://calmeclair.example/categorie/${category}`} />
+      {/* SEO - Nouveau système */}
+      <SEO
+        title={`${info.title} - Conseils & Techniques`}
+        description={info.metaDescription}
+        canonical={`https://calmeclair.com/categorie/${category}`}
+        ogType="website"
+        keywords={info.keywords}
+        jsonLd={[breadcrumbSchema, itemListSchema]}
+      />
 
       {/* Breadcrumb */}
       <div className="container-content py-4">
@@ -88,7 +117,6 @@ export default function CategoryPage() {
             </>
           ))}
         </div>
-
         {articles.length === 0 && (
           <div className="text-center py-16">
             <p className="text-muted-foreground mb-4">Aucun article dans cette catégorie pour le moment.</p>
@@ -120,25 +148,6 @@ export default function CategoryPage() {
           </Button>
         </div>
       </section>
-
-      {/* JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": `${info.title} - CalmeClair`,
-          "description": info.description,
-          "url": `https://calmeclair.example/categorie/${category}`,
-          "mainEntity": {
-            "@type": "ItemList",
-            "itemListElement": articles.map((article, index) => ({
-              "@type": "ListItem",
-              "position": index + 1,
-              "url": `https://calmeclair.example/article/${article.datePublished.substring(0, 4)}/${article.datePublished.substring(5, 7)}/${article.slug}`
-            }))
-          }
-        })
-      }} />
     </Layout>
   );
 }
