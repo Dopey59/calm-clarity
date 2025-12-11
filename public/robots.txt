@@ -15,4 +15,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /private/
 
-Sitemap: https://calmeclair.example/sitemap.xml
+Sitemap: https://calmeclair.com/sitemap.xml
