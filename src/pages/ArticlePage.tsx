@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { getArticleBySlug, getArticlesByCategory, Article } from '@/data/articles';
 import { cn } from '@/lib/utils';
-import { SEO, useArticleSEO } from '@/components/SEO';
+import { SEO, useArticleSEO } from '@/components/seo';
 import { getArticleBreadcrumb, generateArticleSchema } from '@/lib/seo-helpers';
 
 function formatDate(dateString: string) {
