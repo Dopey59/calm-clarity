@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { getArticleBySlug, getArticlesByCategory, Article } from '@/data/articles';
 import { cn } from '@/lib/utils';
+import { SEO, useArticleSEO } from '@/components/SEO';
+import { getArticleBreadcrumb, generateArticleSchema } from '@/lib/seo-helpers';
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -81,14 +83,50 @@ export default function ArticlePage() {
     .slice(0, 3);
 
   const categoryUrl = `/categorie/${article.category}`;
-  const articleUrl = `/article/${article.datePublished.substring(0, 4)}/${article.datePublished.substring(5, 7)}/${article.slug}`;
+  const year = article.datePublished.substring(0, 4);
+  const month = article.datePublished.substring(5, 7);
+  const articleUrl = `/article/${year}/${month}/${article.slug}`;
+
+  // Utilisation du hook pour générer les métadonnées SEO
+  const seoProps = useArticleSEO({
+    title: article.title,
+    excerpt: article.excerpt,
+    slug: article.slug,
+    publishedAt: article.datePublished,
+    updatedAt: article.dateModified,
+    category: article.categoryLabel,
+    imageUrl: article.image ? `https://calmeclair.com${article.image}` : undefined,
+    keywords: article.tags,
+  });
+
+  // Génération des schemas JSON-LD
+  const breadcrumbSchema = getArticleBreadcrumb(
+    article.categoryLabel,
+    article.category,
+    article.title,
+    article.slug,
+    article.datePublished
+  );
+
+  const articleSchema = generateArticleSchema({
+    title: article.title,
+    excerpt: article.excerpt,
+    content: article.content,
+    publishedAt: article.datePublished,
+    updatedAt: article.dateModified,
+    author: 'CalmeClair',
+    category: article.categoryLabel,
+    imageUrl: article.image ? `https://calmeclair.com${article.image}` : undefined,
+    slug: article.slug,
+  });
 
   return (
     <Layout>
-      {/* Meta tags */}
-      <title>{article.title} | CalmeClair</title>
-      <meta name="description" content={article.excerpt} />
-      <link rel="canonical" href={`https://calmeclair.example${articleUrl}`} />
+      {/* SEO - Nouveau système */}
+      <SEO
+        {...seoProps}
+        jsonLd={[breadcrumbSchema, articleSchema]}
+      />
 
       <article>
         {/* Breadcrumb */}
@@ -136,7 +174,6 @@ export default function ArticlePage() {
                 <span>{article.readingTime} min de lecture</span>
               </div>
             </div>
-
             {article.dateModified !== article.datePublished && (
               <p className="text-xs text-muted-foreground mt-2">
                 Mis à jour le {formatDate(article.dateModified)}
@@ -221,10 +258,8 @@ export default function ArticlePage() {
                 <div className="p-4 bg-card rounded-xl shadow-soft border border-border/50">
                   <TableOfContents content={article.content} />
                 </div>
-
                 {/* Ad Slot */}
                 <AdSlot size="rectangle" />
-
                 {/* Newsletter */}
                 <Newsletter variant="compact" />
               </div>
@@ -254,32 +289,6 @@ export default function ArticlePage() {
           </section>
         )}
       </article>
-
-      {/* JSON-LD Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": article.title,
-          "description": article.excerpt,
-          "image": [`https://calmeclair.example${article.image}`],
-          "datePublished": article.datePublished,
-          "dateModified": article.dateModified,
-          "author": {
-            "@type": "Organization",
-            "name": "CalmeClair"
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "CalmeClair",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://calmeclair.example/logo.png"
-            }
-          },
-          "mainEntityOfPage": `https://calmeclair.example${articleUrl}`
-        })
-      }} />
     </Layout>
   );
 }
