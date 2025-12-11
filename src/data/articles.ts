@@ -601,7 +601,7 @@ Oui, certains aliments peuvent amplifier ou réduire vos symptômes. La caféine
   category: 'anxiete',
   categoryLabel: 'Anxiété',
   tags: ['stress', 'anxiété', 'différence', 'gestion', 'TCC', 'santé-mentale'],
-  image: '/images/stress-anxiete-difference.jpg',
+  image: 'https://images.unsplash.com/photo-1533858602901-34c7b371015a?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   imageAlt: 'Illustration symbolisant la distinction entre stress et anxiété',
   datePublished: '2025-12-11',
   dateModified: '2025-12-11',
