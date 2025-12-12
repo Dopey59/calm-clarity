@@ -1,11 +1,22 @@
 /**
- * Helper pour générer le schema BreadcrumbList JSON-LD
- * Utilisé pour améliorer le SEO des fils d'Ariane
+ * Helper pour générer les schemas JSON-LD avancés pour le SEO
+ * Incluant BreadcrumbList, Article, FAQPage, HowTo, WebSite, Organization
  */
 
 interface BreadcrumbItem {
   name: string;
   href: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface HowToStep {
+  name: string;
+  text: string;
+  image?: string;
 }
 
 /**
@@ -88,6 +99,10 @@ export function generateArticleSchema(article: {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const articleUrl = `https://calmeclair.com/article/${year}/${month}/${article.slug}`;
 
+  // Estimation du temps de lecture (250 mots/minute)
+  const wordCount = article.content.split(/\s+/).length;
+  const readingTime = Math.ceil(wordCount / 250);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -101,6 +116,7 @@ export function generateArticleSchema(article: {
     'author': {
       '@type': 'Person',
       'name': article.author,
+      'url': 'https://calmeclair.com/a-propos'
     },
     'publisher': {
       '@type': 'Organization',
@@ -115,6 +131,54 @@ export function generateArticleSchema(article: {
       '@id': articleUrl,
     },
     'articleSection': article.category,
+    'wordCount': wordCount,
+    'timeRequired': `PT${readingTime}M`,
+    'inLanguage': 'fr-FR',
+  };
+}
+
+/**
+ * Génère le schema FAQPage pour les sections FAQ
+ */
+export function generateFAQSchema(faqs: FAQItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map(faq => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer
+      }
+    }))
+  };
+}
+
+/**
+ * Génère le schema HowTo pour les guides pratiques
+ */
+export function generateHowToSchema(data: {
+  name: string;
+  description: string;
+  steps: HowToStep[];
+  totalTime?: string; // Format: PT30M pour 30 minutes
+  imageUrl?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    'name': data.name,
+    'description': data.description,
+    'image': data.imageUrl || 'https://calmeclair.com/images/og-image.jpg',
+    'totalTime': data.totalTime || 'PT10M',
+    'step': data.steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      'position': index + 1,
+      'name': step.name,
+      'text': step.text,
+      'image': step.image
+    }))
   };
 }
 
@@ -136,6 +200,7 @@ export function generateWebsiteSchema() {
       },
       'query-input': 'required name=search_term_string',
     },
+    'inLanguage': 'fr-FR',
   };
 }
 
@@ -149,10 +214,76 @@ export function generateOrganizationSchema() {
     'name': 'CalmeClair',
     'url': 'https://calmeclair.com',
     'logo': 'https://calmeclair.com/images/logo.png',
+    'description': 'Plateforme de bien-être mental et de gestion du stress',
     'sameAs': [
       // Ajoutez vos réseaux sociaux ici
       // 'https://twitter.com/calmeclair',
       // 'https://facebook.com/calmeclair',
     ],
   };
+}
+
+/**
+ * Génère le schema MedicalWebPage pour les articles de santé
+ */
+export function generateMedicalWebPageSchema(article: {
+  title: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    'name': article.title,
+    'description': article.description,
+    'url': article.url,
+    'datePublished': new Date(article.datePublished).toISOString(),
+    'dateModified': article.dateModified 
+      ? new Date(article.dateModified).toISOString() 
+      : new Date(article.datePublished).toISOString(),
+    'about': {
+      '@type': 'MedicalCondition',
+      'name': 'Stress et Anxiété'
+    },
+    'specialty': {
+      '@type': 'MedicalSpecialty',
+      'name': 'Psychiatrie'
+    },
+    'inLanguage': 'fr-FR',
+  };
+}
+
+/**
+ * Extrait automatiquement les questions FAQ d'un contenu markdown
+ * Cherche les patterns "**Question:**" ou titres commençant par des mots interrogatifs
+ */
+export function extractFAQsFromContent(content: string): FAQItem[] {
+  const faqs: FAQItem[] = [];
+  
+  // Pattern 1: Questions en gras suivies de réponses
+  const boldQuestionPattern = /\*\*([^*]+\?)\*\*\s*\n([^\n]+(?:\n(?!\*\*)[^\n]+)*)/g;
+  let match;
+  
+  while ((match = boldQuestionPattern.exec(content)) !== null) {
+    faqs.push({
+      question: match[1].trim(),
+      answer: match[2].trim()
+    });
+  }
+  
+  // Pattern 2: Titres de niveau 3 avec "?" suivis du paragraphe suivant
+  const h3QuestionPattern = /### ([^#\n]+\?)\n\n([^\n]+(?:\n(?!###)[^\n]+)*)/g;
+  
+  while ((match = h3QuestionPattern.exec(content)) !== null) {
+    if (!faqs.find(f => f.question === match[1].trim())) {
+      faqs.push({
+        question: match[1].trim(),
+        answer: match[2].trim()
+      });
+    }
+  }
+  
+  return faqs;
 }
