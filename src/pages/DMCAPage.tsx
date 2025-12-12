@@ -75,7 +75,7 @@ export default function DMCAPage() {
             <div className="bg-card border border-border p-6 rounded-lg my-6 not-prose">
               <p className="font-semibold mb-2">Agent DMCA - CalmeClair</p>
               <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>Email : <a href="mailto:dmca@calmeclair.fr" className="text-primary hover:underline">dmca@calmeclair.fr</a></li>
+                <li>Email : <a href="mailto:dmca@calmeclair.com" className="text-primary hover:underline">dmca@calmeclair.com</a></li>
                 <li>Objet : "Notification DMCA"</li>
               </ul>
             </div>
@@ -152,7 +152,7 @@ export default function DMCAPage() {
               Pour toute question concernant cette politique ou les droits d'auteur :
             </p>
             <ul>
-              <li>Email DMCA : <a href="mailto:dmca@calmeclair.fr">dmca@calmeclair.fr</a></li>
+              <li>Email DMCA : <a href="mailto:dmca@calmeclair.com">dmca@calmeclair.com</a></li>
               <li>Contact général : <Link to="/contact">Formulaire de contact</Link></li>
             </ul>
           </section>

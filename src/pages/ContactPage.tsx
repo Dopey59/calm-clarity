@@ -113,8 +113,8 @@ export default function ContactPage() {
               <h3 className="font-semibold mb-1">Email direct</h3>
               <p className="text-sm text-muted-foreground">
                 Vous pouvez également nous écrire directement à{' '}
-                <a href="mailto:contact@calmeclair.example" className="text-primary hover:underline">
-                  contact@calmeclair.example
+                <a href="mailto:contact@calmeclair.com" className="text-primary hover:underline">
+                  contact@calmeclair.com
                 </a>
               </p>
             </div>

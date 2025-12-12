@@ -22,11 +22,11 @@ export default function MentionsLegalesPage() {
             </p>
             <ul>
               <li><strong>Nom / Raison sociale :</strong> CalmeClair</li>
-              <li><strong>Forme juridique :</strong> [À compléter]</li>
-              <li><strong>Adresse du siège social :</strong> [À compléter]</li>
-              <li><strong>Email :</strong> contact@calmeclair.fr</li>
-              <li><strong>Numéro SIRET :</strong> [À compléter]</li>
-              <li><strong>Numéro de TVA intracommunautaire :</strong> [À compléter]</li>
+              <li><strong>Forme juridique :</strong> EI</li>
+              <li><strong>Adresse du siège social :</strong> Lille</li>
+              <li><strong>Email :</strong> contact@calmeclair.com</li>
+              <li><strong>Numéro SIRET :</strong> 902 603 273</li>
+              {/* <li><strong>Numéro de TVA intracommunautaire :</strong> [À compléter]</li> */}
             </ul>
           </section>
 
@@ -39,11 +39,11 @@ export default function MentionsLegalesPage() {
 
           <section>
             <h2>3. Hébergement</h2>
-            <p>Le Site est hébergé par :</p>
+            <p>Le Site est hébergé par : </p>
             <ul>
-              <li><strong>Nom de l'hébergeur :</strong> [À compléter - ex: Vercel, Netlify, OVH]</li>
-              <li><strong>Adresse :</strong> [À compléter]</li>
-              <li><strong>Téléphone :</strong> [À compléter]</li>
+              <li><strong>Nom de l'hébergeur :</strong> Vercel</li>
+              {/* <li><strong>Adresse :</strong> [À compléter]</li>
+              <li><strong>Téléphone :</strong> [À compléter]</li> */}
             </ul>
           </section>
 
@@ -73,7 +73,7 @@ export default function MentionsLegalesPage() {
               Les images utilisées sur ce site proviennent de :
             </p>
             <ul>
-              <li>Banques d'images libres de droits (Unsplash, Pexels)</li>
+              <li>Banques d'images libres de droits (Unsplash, Pexels, IA)</li>
               <li>Créations originales de CalmeClair</li>
               <li>Illustrations sous licence appropriée</li>
             </ul>
@@ -128,7 +128,7 @@ export default function MentionsLegalesPage() {
               Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter :
             </p>
             <ul>
-              <li>Par email : contact@calmeclair.fr</li>
+              <li>Par email : contact@calmeclair.com</li>
               <li>Via notre <a href="/contact">formulaire de contact</a></li>
             </ul>
           </section>
