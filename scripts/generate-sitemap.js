@@ -2,6 +2,7 @@
 
 /**
  * Script de génération automatique du sitemap.xml
+ * Inclut TOUS les articles depuis le fichier articles.ts
  * Usage: node scripts/generate-sitemap.js
  */
 
@@ -15,27 +16,56 @@ const __dirname = path.dirname(__filename);
 // Configuration
 const SITE_URL = 'https://calmeclair.com';
 const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
-
-// Import des articles depuis votre fichier de données
-// Adaptez ce chemin selon votre structure
-// import { articles } from '../src/data/articles.js';
+const ARTICLES_PATH = path.join(__dirname, '../src/data/articles.ts');
 
 // Catégories du site
 const categories = [
   { slug: 'anxiete', priority: 0.9 },
   { slug: 'stress', priority: 0.9 },
-  { slug: 'depression', priority: 0.9 },
-  { slug: 'burn-out', priority: 0.9 },
-  { slug: 'troubles-sommeil', priority: 0.9 },
-  { slug: 'confiance-estime', priority: 0.9 },
+  { slug: 'depression', priority: 0.8 },
+  { slug: 'burn-out', priority: 0.8 },
+  { slug: 'troubles-sommeil', priority: 0.8 },
+  { slug: 'confiance-estime', priority: 0.8 },
 ];
 
-// Pages légales
-const legalPages = [
+// Pages du site
+const pages = [
+  { slug: 'a-propos', priority: 0.5 },
+  { slug: 'contact', priority: 0.5 },
   { slug: 'mentions-legales', priority: 0.3 },
-  { slug: 'politique-confidentialite', priority: 0.3 },
-  { slug: 'cgu', priority: 0.3 },
+  { slug: 'confidentialite', priority: 0.3 },
+  { slug: 'dmca', priority: 0.3 },
 ];
+
+/**
+ * Extrait les articles depuis le fichier articles.ts
+ */
+function extractArticles() {
+  try {
+    const content = fs.readFileSync(ARTICLES_PATH, 'utf8');
+    
+    // Regex pour extraire les articles
+    const articles = [];
+    const articleRegex = /\{\s*id:\s*['"](\d+)['"]\s*,\s*slug:\s*['"]([^'"]+)['"]\s*,[^}]*datePublished:\s*['"]([^'"]+)['"]\s*,[^}]*featured:\s*(true|false)?/g;
+    
+    let match;
+    while ((match = articleRegex.exec(content)) !== null) {
+      const [, id, slug, datePublished, featured] = match;
+      articles.push({
+        id,
+        slug,
+        datePublished,
+        featured: featured === 'true'
+      });
+    }
+    
+    console.log(`✅ ${articles.length} articles extraits`);
+    return articles;
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'extraction des articles:', error);
+    return [];
+  }
+}
 
 /**
  * Génère une entrée URL pour le sitemap
@@ -54,6 +84,7 @@ function generateUrlEntry(loc, lastmod, changefreq, priority) {
  */
 function formatDate(date) {
   if (!date) date = new Date();
+  if (typeof date === 'string') date = new Date(date);
   return date.toISOString().split('T')[0];
 }
 
@@ -82,25 +113,26 @@ function generateSitemap() {
     ));
   });
 
-  // Articles
-  // Décommentez et adaptez cette section une fois que vous avez importé les articles
-  /*
+  // Articles dynamiques
+  const articles = extractArticles();
   articles.forEach(article => {
-    const date = new Date(article.publishedAt);
+    const date = new Date(article.datePublished);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     
+    // Articles featured ont une priorité plus élevée
+    const priority = article.featured ? '0.9' : '0.8';
+    
     urls.push(generateUrlEntry(
       `${SITE_URL}/article/${year}/${month}/${article.slug}`,
-      formatDate(date),
+      formatDate(article.datePublished),
       'monthly',
-      '0.8'
+      priority
     ));
   });
-  */
 
-  // Pages légales
-  legalPages.forEach(page => {
+  // Pages du site
+  pages.forEach(page => {
     urls.push(generateUrlEntry(
       `${SITE_URL}/${page.slug}`,
       now,
@@ -138,8 +170,13 @@ function writeSitemap() {
     }
     
     fs.writeFileSync(OUTPUT_PATH, sitemap, 'utf8');
+    
+    // Compter le nombre d'URLs
+    const urlCount = (sitemap.match(/<url>/g) || []).length;
+    
     console.log('✅ Sitemap généré avec succès:', OUTPUT_PATH);
     console.log(`📍 ${SITE_URL}/sitemap.xml`);
+    console.log(`📊 ${urlCount} URLs indexées`);
   } catch (error) {
     console.error('❌ Erreur lors de la génération du sitemap:', error);
     process.exit(1);
