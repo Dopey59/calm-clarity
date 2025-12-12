@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Script de génération automatique d'articles avec images
- * Version 2.0 - Optimisé pour Google AdSense
+ * Script de génération automatique d'articles avec images COHÉRENTES
+ * Version 3.0 - Images basées sur le sujet réel de l'article
  * Usage: ANTHROPIC_API_KEY=sk-... UNSPLASH_ACCESS_KEY=xxx node scripts/generate-article.js
  */
 
@@ -27,9 +27,8 @@ if (!API_KEY) {
 
 const anthropic = new Anthropic({ apiKey: API_KEY });
 
-// Sujets d'articles optimisés pour le trafic SEO
+// Sujets d'articles optimisés pour le trafic SEO (mots-clés à fort volume)
 const ARTICLE_TOPICS = [
-  // Mots-clés à fort volume de recherche
   "Comment gérer une crise d'anxiété en 5 minutes",
   "10 techniques de respiration anti-stress scientifiquement prouvées",
   "Anxiété nocturne : causes et solutions pratiques",
@@ -58,25 +57,73 @@ const ARTICLE_TOPICS = [
 ];
 
 /**
- * Recherche une image sur Unsplash en fonction du sujet
+ * Extrait les mots-clés principaux du sujet pour la recherche d'image
+ * NOUVEAU : Utilise le SUJET RÉEL au lieu de termes aléatoires
  */
-async function findImage(topic, keywords) {
+function extractImageKeywords(topic) {
+  const keywords = [];
+  
+  // Mapping des concepts vers des termes de recherche visuels cohérents
+  const keywordMap = {
+    'anxiété': 'anxiety person worried',
+    'stress': 'stress person overwhelmed',
+    'burn-out': 'burnout exhausted professional',
+    'méditation': 'meditation peaceful calm',
+    'respiration': 'breathing exercise calm',
+    'panique': 'panic anxiety attack',
+    'insomnie': 'insomnia sleepless night',
+    'social': 'social anxiety people',
+    'perfectionnisme': 'perfectionism stress',
+    'travail': 'work stress office',
+    'examen': 'exam stress student',
+    'adolescent': 'teen teenager anxiety',
+    'alimentation': 'healthy food nutrition',
+    'sport': 'exercise fitness wellness',
+    'cohérence cardiaque': 'breathing meditation',
+    'pleine conscience': 'mindfulness meditation',
+    'journaling': 'journal writing wellness',
+    'rumination': 'overthinking worried person',
+  };
+  
+  // Chercher les mots-clés pertinents dans le sujet
+  const topicLower = topic.toLowerCase();
+  
+  for (const [key, value] of Object.entries(keywordMap)) {
+    if (topicLower.includes(key)) {
+      keywords.push(value);
+    }
+  }
+  
+  // Si aucun mot-clé spécifique, utiliser des termes génériques mais pertinents
+  if (keywords.length === 0) {
+    keywords.push('mental health wellness');
+  }
+  
+  // Retourner le premier mot-clé trouvé (le plus pertinent)
+  return keywords[0];
+}
+
+/**
+ * Recherche une image COHÉRENTE sur Unsplash basée sur le sujet de l'article
+ */
+async function findImage(topic, seoKeywords) {
   if (!UNSPLASH_KEY) {
     console.log('⚠️  Pas de clé Unsplash - utilisation d\'image par défaut');
     return {
       url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
-      alt: `Illustration de l'article : ${topic}`,
+      alt: `Illustration cohérente pour l'article : ${topic}`,
       photographer: 'Unsplash',
       photographerUrl: 'https://unsplash.com'
     };
   }
 
   try {
-    // Mots-clés de recherche optimisés
-    const searchTerms = ['meditation', 'wellness', 'mental health', 'calm', 'mindfulness', 'stress relief'];
-    const query = searchTerms[Math.floor(Math.random() * searchTerms.length)];
+    // CORRECTION CRITIQUE : Utiliser le sujet réel pour trouver une image cohérente
+    const searchQuery = extractImageKeywords(topic);
     
-    const url = `https://api.unsplash.com/photos/random?query=${encodeURIComponent(query)}&orientation=landscape&client_id=${UNSPLASH_KEY}`;
+    console.log(`   🔍 Recherche d'image pour : "${searchQuery}"`);
+    
+    const url = `https://api.unsplash.com/photos/random?query=${encodeURIComponent(searchQuery)}&orientation=landscape&client_id=${UNSPLASH_KEY}`;
     
     const data = await new Promise((resolve, reject) => {
       https.get(url, (res) => {
@@ -95,7 +142,7 @@ async function findImage(topic, keywords) {
     if (data.urls && data.urls.regular) {
       return {
         url: data.urls.regular + '&w=1200&h=630&fit=crop',
-        alt: data.alt_description || `Illustration de l'article : ${topic}`,
+        alt: data.alt_description || `Illustration visuelle cohérente : ${topic}`,
         photographer: data.user.name,
         photographerUrl: data.user.links.html
       };
@@ -105,94 +152,78 @@ async function findImage(topic, keywords) {
     console.error('⚠️  Erreur Unsplash:', error.message);
   }
 
-  // Fallback
+  // Fallback avec terme générique mais cohérent
   return {
     url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
-    alt: `Illustration de l'article : ${topic}`,
+    alt: `Illustration pour l'article : ${topic}`,
     photographer: 'Unsplash',
     photographerUrl: 'https://unsplash.com'
   };
 }
 
 /**
- * Prompt optimisé pour générer des articles AdSense-friendly
+ * Prompt optimisé pour générer des articles de QUALITÉ (pas de sur-promesses)
  */
-const ARTICLE_GENERATION_PROMPT = `Tu es un expert en rédaction de contenu santé/bien-être pour CalmeClair, optimisé pour Google AdSense.
+const ARTICLE_GENERATION_PROMPT = `Tu es un expert en rédaction de contenu santé/bien-être pour CalmeClair.
 
 CONTRAINTES STRICTES :
 1. Article en français formel (vouvoiement)
-2. 2800-3500 mots (optimal pour SEO et temps de lecture = plus de vues de pubs)
-3. Sources scientifiques vérifiées via web_search
-4. Structure optimale pour AdSense (sections courtes, espaces pour les pubs)
-5. Mots-clés SEO naturellement intégrés
-6. AUCUN contenu qui viole les politiques AdSense (pas de promesses médicales non vérifiées)
+2. 2800-3500 mots (optimal pour SEO et engagement lecteur)
+3. VÉRIFIER TOUTES les affirmations via web_search
+4. Pas de sur-promesses, pas d'inventions
+5. Toujours recommander de consulter un professionnel
+6. Politiques AdSense respectées (pas de promesses médicales)
 
-STRUCTURE OPTIMISÉE POUR ADSENSE :
-## Introduction (150-200 mots - accrocheuse)
-[Espace pub natif après intro]
+STRUCTURE POUR BON SEO :
+## Introduction (150-200 mots - empathique et engageante)
 
 ## Comprendre [le sujet] (400-500 mots)
 ### Sous-section 1
 ### Sous-section 2
-[Espace pub après cette section]
 
-## Les causes principales (400-500 mots)
+## Les causes / mécanismes (400-500 mots)
 ### Cause 1
 ### Cause 2
 ### Cause 3
-[Espace pub]
 
 ## Symptômes et manifestations (300-400 mots)
-[Espace pub]
 
 ## Solutions pratiques (600-800 mots - SECTION PRINCIPALE)
 ### Solution 1 : [Titre accrocheur]
+(avec étapes concrètes)
 ### Solution 2 : [Titre accrocheur]
+(avec étapes concrètes)
 ### Solution 3 : [Titre accrocheur]
-### Solution 4 : [Titre accrocheur]
-[Espace pub]
+(avec étapes concrètes)
 
 ## Quand consulter un professionnel (200-300 mots)
-[Espace pub]
 
 ## Questions fréquentes (6-8 questions)
 **Question 1 ?**
-Réponse détaillée
+Réponse détaillée basée sur des faits
 
 **Question 2 ?**
-Réponse détaillée
+Réponse détaillée basée sur des faits
 
-[Continuer avec 6-8 FAQ au total]
-[Espace pub final]
+[6-8 FAQ au total]
 
-## Conclusion (150-200 mots - Call to action doux)
+## Conclusion (150-200 mots - bienveillante)
 
 ## Sources et références
 
 OPTIMISATIONS SEO :
-- Titre avec mot-clé principal (55-65 caractères)
+- Titre optimisé (55-65 caractères)
 - Meta description engageante (150-160 caractères)
-- H2/H3 avec variations du mot-clé
-- Listes à puces (meilleur engagement)
-- Paragraphes courts (3-4 lignes max)
-- Tableaux comparatifs si pertinent
+- H2/H3 avec mots-clés naturels
+- Listes à puces pour clarté
+- Paragraphes courts (3-4 lignes)
 
-MOTS-CLÉS À INTÉGRER NATURELLEMENT :
-- Principal : celui du titre
-- Secondaires : variations et synonymes
-- Longue traîne : questions spécifiques
-
-IMPORTANT - POLITIQUE ADSENSE :
+IMPORTANT - QUALITÉ ET HONNÊTETÉ :
+- Vérifier toutes les statistiques avec web_search
+- Privilégier : Inserm, HAS, OMS, Santé publique France
+- Pas de chiffres inventés
 - Pas de promesses de guérison
-- Toujours recommander de consulter un professionnel
-- Sources médicales fiables uniquement
-- Ton bienveillant et informatif (pas alarmiste)
-
-SOURCES AUTORISÉES :
-- Inserm, HAS, OMS, Santé publique France
-- Études peer-reviewed
-- Sites .gouv.fr pour la France
-- ÉVITER : blogs personnels, forums, sites commerciaux
+- Ton bienveillant et informatif
 
 Génère un article complet sur : "{TOPIC}"
 
@@ -200,7 +231,7 @@ Format JSON attendu :
 {
   "title": "Titre SEO optimisé (60 caractères max)",
   "excerpt": "Meta description engageante (155 caractères max)",
-  "content": "Contenu complet en Markdown avec ## pour H2 et ### pour H3",
+  "content": "Contenu complet en Markdown",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
   "category": "anxiete" ou "stress",
   "readingTime": 10,
@@ -261,10 +292,9 @@ function generateSlug(title) {
 /**
  * Ajoute un article au fichier articles.ts
  */
-async function addArticleToFile(articleData) {
+async function addArticleToFile(articleData, topic) {
   const content = fs.readFileSync(ARTICLES_PATH, 'utf8');
   
-  // Générer le nouvel ID
   const lastIdMatch = content.match(/id: '(\d+)'/g);
   const ids = lastIdMatch ? lastIdMatch.map(m => parseInt(m.match(/\d+/)[0])) : [0];
   const newId = Math.max(...ids) + 1;
@@ -272,9 +302,9 @@ async function addArticleToFile(articleData) {
   const slug = generateSlug(articleData.title);
   const today = new Date().toISOString().split('T')[0];
   
-  // Rechercher une image appropriée
-  console.log('🖼️  Recherche d\'une image...');
-  const imageData = await findImage(articleData.title, articleData.seoKeywords || []);
+  // Rechercher une image COHÉRENTE avec le sujet
+  console.log('🖼️  Recherche d\'une image cohérente...');
+  const imageData = await findImage(topic, articleData.seoKeywords || []);
   
   const newArticle = `{
   id: '${newId}',
@@ -308,7 +338,7 @@ ${articleData.content}
   fs.writeFileSync(ARTICLES_PATH, updatedContent, 'utf8');
   
   console.log(`✅ Article ajouté : ID ${newId}, Slug: ${slug}`);
-  console.log(`🖼️  Image : ${imageData.url}`);
+  console.log(`🖼️  Image cohérente : ${imageData.url}`);
   
   return { id: newId, slug, imageUrl: imageData.url };
 }
@@ -324,7 +354,7 @@ async function main() {
     console.log(`📝 Sujet sélectionné : "${topic}"\n`);
     
     const articleData = await generateArticle(topic);
-    const { id, slug, imageUrl } = await addArticleToFile(articleData);
+    const { id, slug, imageUrl } = await addArticleToFile(articleData, topic);
     
     const date = new Date();
     const year = date.getFullYear();
@@ -336,7 +366,7 @@ async function main() {
     console.log(`   - Titre: ${articleData.title}`);
     console.log(`   - Slug: ${slug}`);
     console.log(`   - Mots: ~${articleData.content.split(/\s+/).length}`);
-    console.log(`   - Image: ${imageUrl}`);
+    console.log(`   - Image: COHÉRENTE avec le sujet`);
     console.log(`   - URL: https://calmeclair.com/article/${year}/${month}/${slug}`);
     
   } catch (error) {
