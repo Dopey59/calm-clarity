@@ -1,0 +1,54 @@
+name: Auto-générer et publier articles
+
+on:
+  schedule:
+    # Exécution 2 fois par jour : 9h et 15h (heure de Paris)
+    - cron: '0 8 * * *'  # 9h Paris (8h UTC en hiver)
+    - cron: '0 14 * * *' # 15h Paris (14h UTC en hiver)
+  
+  # Permet aussi le déclenchement manuel depuis GitHub
+  workflow_dispatch:
+
+jobs:
+  generate-and-publish-article:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Generate new article
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run generate-article
+      
+      - name: Commit and push new article
+        run: |
+          git config user.name "CalmeClair Bot"
+          git config user.email "bot@calmeclair.com"
+          git add src/data/articles.ts
+          
+          # Vérifier s'il y a des changements
+          if git diff --staged --quiet; then
+            echo "Aucun nouvel article généré"
+            exit 0
+          fi
+          
+          git commit -m "🤖 Publication automatique d'un nouvel article"
+          git push
+      
+      - name: Summary
+        run: |
+          echo "✅ Article publié avec succès!"
+          echo "📢 Vercel va déployer automatiquement le nouveau contenu"
