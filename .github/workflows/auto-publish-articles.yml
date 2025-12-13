@@ -9,6 +9,10 @@ on:
   # Permet aussi le déclenchement manuel depuis GitHub
   workflow_dispatch:
 
+# IMPORTANT: Permissions nécessaires pour que le bot puisse push
+permissions:
+  contents: write
+
 jobs:
   generate-and-publish-article:
     runs-on: ubuntu-latest
