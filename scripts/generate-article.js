@@ -2,7 +2,9 @@
 
 /**
  * Script de génération automatique d'articles avec images COHÉRENTES
- * Version 3.0 - Images basées sur le sujet réel de l'article
+ * Version 4.0 - Alternance intelligente stress/anxiété selon l'heure
+ * - 9h (matin) → Articles STRESS (travail, quotidien)
+ * - 15h (après-midi) → Articles ANXIÉTÉ (émotionnel, personnel)
  * Usage: ANTHROPIC_API_KEY=sk-... UNSPLASH_ACCESS_KEY=xxx node scripts/generate-article.js
  */
 
@@ -27,43 +29,80 @@ if (!API_KEY) {
 
 const anthropic = new Anthropic({ apiKey: API_KEY });
 
-// Sujets d'articles optimisés pour le trafic SEO (mots-clés à fort volume)
-const ARTICLE_TOPICS = [
-  "Comment gérer une crise d'anxiété en 5 minutes",
+// Sujets STRESS - Pour publication le matin (9h)
+// Thématiques : travail, quotidien, performance, gestion du temps
+const STRESS_TOPICS = [
   "10 techniques de respiration anti-stress scientifiquement prouvées",
-  "Anxiété nocturne : causes et solutions pratiques",
   "Burn-out : reconnaître les 7 signes précurseurs",
+  "Alimentation anti-stress : les 15 meilleurs aliments",
+  "Cohérence cardiaque : exercice de 5 minutes pour se détendre",
+  "Douleurs thoraciques liées au stress : quand s'inquiéter",
+  "Pleine conscience au quotidien : 12 exercices simples",
+  "Stress au travail : 10 techniques pour rester zen",
+  "Compléments alimentaires anti-stress : ce que dit la science",
+  "Stress des examens : techniques de gestion éprouvées",
+  "Gestion du stress professionnel : guide pratique",
+  "Stress chronique : reconnaître les symptômes d'alerte",
+  "Techniques de relaxation rapide pour situations stressantes",
+  "Sport et stress : quel exercice pour se détendre",
+  "Stress et sommeil : comment mieux dormir",
+  "Boule dans la gorge : comprendre ce symptôme de stress"
+];
+
+// Sujets ANXIÉTÉ - Pour publication l'après-midi (15h)
+// Thématiques : émotions, relations, anxiété sociale, troubles anxieux
+const ANXIETY_TOPICS = [
+  "Comment gérer une crise d'anxiété en 5 minutes",
+  "Anxiété nocturne : causes et solutions pratiques",
   "Méditation pour débutants : guide complet en 10 étapes",
   "Différence entre stress et anxiété : tout comprendre",
   "Comment calmer une attaque de panique rapidement",
-  "Alimentation anti-stress : les 15 meilleurs aliments",
-  "Cohérence cardiaque : exercice de 5 minutes pour se détendre",
   "Anxiété sociale : 8 stratégies pour la surmonter",
   "Insomnie et anxiété : solutions naturelles qui marchent",
   "Sport et anxiété : quel exercice choisir",
   "Perfectionnisme et anxiété : briser le cercle vicieux",
-  "Boule dans la gorge : comprendre et soulager ce symptôme",
-  "Douleurs thoraciques liées au stress : quand s'inquiéter",
-  "Pleine conscience au quotidien : 12 exercices simples",
   "Anxiété anticipatoire : comment arrêter de s'inquiéter",
-  "Stress au travail : 10 techniques pour rester zen",
   "Journaling pour l'anxiété : méthode complète",
-  "Compléments alimentaires anti-stress : ce que dit la science",
   "Anxiété de performance : stratégies efficaces",
   "Comment aider un proche anxieux : guide pratique",
-  "Stress des examens : techniques de gestion éprouvées",
   "Ruminations mentales : comment arrêter de penser en boucle",
-  "Anxiété chez les adolescents : signes et solutions",
+  "Anxiété chez les adolescents : signes et solutions"
 ];
 
 /**
+ * Détermine la catégorie selon l'heure de publication
+ * 9h Paris (8h UTC hiver / 7h UTC été) → STRESS
+ * 15h Paris (14h UTC hiver / 13h UTC été) → ANXIÉTÉ
+ */
+function determineCategory() {
+  const now = new Date();
+  const hour = now.getUTCHours();
+  
+  // Plage matin : 6h-10h UTC (couvre 7h-8h UTC)
+  if (hour >= 6 && hour < 10) {
+    return { category: 'stress', topics: STRESS_TOPICS, label: 'STRESS (matin - travail/quotidien)' };
+  }
+  
+  // Plage après-midi : 12h-16h UTC (couvre 13h-14h UTC)
+  if (hour >= 12 && hour < 16) {
+    return { category: 'anxiete', topics: ANXIETY_TOPICS, label: 'ANXIÉTÉ (après-midi - émotionnel/personnel)' };
+  }
+  
+  // Fallback pour tests manuels : alterner selon les minutes
+  const isEven = now.getMinutes() % 2 === 0;
+  if (isEven) {
+    return { category: 'stress', topics: STRESS_TOPICS, label: 'STRESS (test manuel)' };
+  } else {
+    return { category: 'anxiete', topics: ANXIETY_TOPICS, label: 'ANXIÉTÉ (test manuel)' };
+  }
+}
+
+/**
  * Extrait les mots-clés principaux du sujet pour la recherche d'image
- * NOUVEAU : Utilise le SUJET RÉEL au lieu de termes aléatoires
  */
 function extractImageKeywords(topic) {
   const keywords = [];
   
-  // Mapping des concepts vers des termes de recherche visuels cohérents
   const keywordMap = {
     'anxiété': 'anxiety person worried',
     'stress': 'stress person overwhelmed',
@@ -85,7 +124,6 @@ function extractImageKeywords(topic) {
     'rumination': 'overthinking worried person',
   };
   
-  // Chercher les mots-clés pertinents dans le sujet
   const topicLower = topic.toLowerCase();
   
   for (const [key, value] of Object.entries(keywordMap)) {
@@ -94,17 +132,15 @@ function extractImageKeywords(topic) {
     }
   }
   
-  // Si aucun mot-clé spécifique, utiliser des termes génériques mais pertinents
   if (keywords.length === 0) {
     keywords.push('mental health wellness');
   }
   
-  // Retourner le premier mot-clé trouvé (le plus pertinent)
   return keywords[0];
 }
 
 /**
- * Recherche une image COHÉRENTE sur Unsplash basée sur le sujet de l'article
+ * Recherche une image COHÉRENTE sur Unsplash
  */
 async function findImage(topic, seoKeywords) {
   if (!UNSPLASH_KEY) {
@@ -118,9 +154,7 @@ async function findImage(topic, seoKeywords) {
   }
 
   try {
-    // CORRECTION CRITIQUE : Utiliser le sujet réel pour trouver une image cohérente
     const searchQuery = extractImageKeywords(topic);
-    
     console.log(`   🔍 Recherche d'image pour : "${searchQuery}"`);
     
     const url = `https://api.unsplash.com/photos/random?query=${encodeURIComponent(searchQuery)}&orientation=landscape&client_id=${UNSPLASH_KEY}`;
@@ -147,12 +181,10 @@ async function findImage(topic, seoKeywords) {
         photographerUrl: data.user.links.html
       };
     }
-
   } catch (error) {
     console.error('⚠️  Erreur Unsplash:', error.message);
   }
 
-  // Fallback avec terme générique mais cohérent
   return {
     url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
     alt: `Illustration pour l'article : ${topic}`,
@@ -162,9 +194,14 @@ async function findImage(topic, seoKeywords) {
 }
 
 /**
- * Prompt optimisé pour générer des articles de QUALITÉ (pas de sur-promesses)
+ * Prompt avec catégorie FORCÉE pour garantir l'alternance
  */
-const ARTICLE_GENERATION_PROMPT = `Tu es un expert en rédaction de contenu santé/bien-être pour CalmeClair.
+function getArticlePrompt(topic, forcedCategory) {
+  return `Tu es un expert en rédaction de contenu santé/bien-être pour CalmeClair.
+
+CONTRAINTE CRITIQUE - CATÉGORIE IMPOSÉE :
+- Tu DOIS utiliser la catégorie "${forcedCategory}" (obligatoire)
+- Ne change PAS cette catégorie, même si le sujet pourrait être dans l'autre
 
 CONTRAINTES STRICTES :
 1. Article en français formel (vouvoiement)
@@ -225,7 +262,7 @@ IMPORTANT - QUALITÉ ET HONNÊTETÉ :
 - Pas de promesses de guérison
 - Ton bienveillant et informatif
 
-Génère un article complet sur : "{TOPIC}"
+Génère un article complet sur : "${topic}"
 
 Format JSON attendu :
 {
@@ -233,16 +270,18 @@ Format JSON attendu :
   "excerpt": "Meta description engageante (155 caractères max)",
   "content": "Contenu complet en Markdown",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
-  "category": "anxiete" ou "stress",
+  "category": "${forcedCategory}",
   "readingTime": 10,
   "seoKeywords": ["mot-clé principal", "variation 1", "variation 2"]
 }`;
+}
 
 /**
  * Génère un nouvel article via l'API Claude
  */
-async function generateArticle(topic) {
+async function generateArticle(topic, forcedCategory) {
   console.log(`🤖 Génération de l'article : "${topic}"`);
+  console.log(`📂 Catégorie forcée : "${forcedCategory}"`);
   
   try {
     const message = await anthropic.messages.create({
@@ -252,7 +291,7 @@ async function generateArticle(topic) {
       messages: [
         {
           role: 'user',
-          content: ARTICLE_GENERATION_PROMPT.replace('{TOPIC}', topic)
+          content: getArticlePrompt(topic, forcedCategory)
         }
       ],
     });
@@ -265,7 +304,15 @@ async function generateArticle(topic) {
     }
     
     const articleData = JSON.parse(jsonMatch[0]);
+    
+    // Vérification de sécurité : forcer la catégorie si Claude l'a changée
+    if (articleData.category !== forcedCategory) {
+      console.log(`⚠️  Catégorie corrigée : ${articleData.category} → ${forcedCategory}`);
+      articleData.category = forcedCategory;
+    }
+    
     console.log(`✅ Article généré : "${articleData.title}"`);
+    console.log(`✅ Catégorie confirmée : "${articleData.category}"`);
     
     return articleData;
     
@@ -302,7 +349,6 @@ async function addArticleToFile(articleData, topic) {
   const slug = generateSlug(articleData.title);
   const today = new Date().toISOString().split('T')[0];
   
-  // Rechercher une image COHÉRENTE avec le sujet
   console.log('🖼️  Recherche d\'une image cohérente...');
   const imageData = await findImage(topic, articleData.seoKeywords || []);
   
@@ -344,16 +390,22 @@ ${articleData.content}
 }
 
 /**
- * Fonction principale
+ * Fonction principale avec alternance intelligente
  */
 async function main() {
   try {
-    const topic = ARTICLE_TOPICS[Math.floor(Math.random() * ARTICLE_TOPICS.length)];
+    // Déterminer la catégorie selon l'heure
+    const { category, topics, label } = determineCategory();
+    
+    // Sélectionner un sujet aléatoire dans la catégorie appropriée
+    const topic = topics[Math.floor(Math.random() * topics.length)];
     
     console.log('🚀 Démarrage de la génération automatique\n');
-    console.log(`📝 Sujet sélectionné : "${topic}"\n`);
+    console.log(`🕐 Heure UTC : ${new Date().toISOString()}`);
+    console.log(`📂 Catégorie sélectionnée : ${label}`);
+    console.log(`📝 Sujet : "${topic}"\n`);
     
-    const articleData = await generateArticle(topic);
+    const articleData = await generateArticle(topic, category);
     const { id, slug, imageUrl } = await addArticleToFile(articleData, topic);
     
     const date = new Date();
@@ -364,6 +416,7 @@ async function main() {
     console.log(`📝 Nouvel article créé :`);
     console.log(`   - ID: ${id}`);
     console.log(`   - Titre: ${articleData.title}`);
+    console.log(`   - Catégorie: ${articleData.category}`);
     console.log(`   - Slug: ${slug}`);
     console.log(`   - Mots: ~${articleData.content.split(/\s+/).length}`);
     console.log(`   - Image: COHÉRENTE avec le sujet`);
