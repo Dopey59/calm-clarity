@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log('\n🚀 MIGRATION COMPLÈTE MDX → TypeScript\n');
-console.log('='.\repeat(50));
+console.log('='.repeat(50));
 console.log('\n');
 
 try {
@@ -24,7 +24,7 @@ try {
   execSync('node scripts/migrate-mdx-to-ts.js', { stdio: 'inherit' });
   
   console.log('\n✅ Articles migrés!\n');
-  console.log('='.\repeat(50));
+  console.log('='.repeat(50));
   console.log('\n');
   
   // ÉTAPE 2: Tester la compilation
@@ -37,7 +37,7 @@ try {
     console.error('\n⚠️  Compilation avec warnings (normal)\n');
   }
   
-  console.log('='.\repeat(50));
+  console.log('='.repeat(50));
   console.log('\n');
   
   // ÉTAPE 3: Supprimer les fichiers MDX
@@ -68,7 +68,7 @@ try {
   });
   
   console.log('\n✅ Fichiers MDX supprimés!\n');
-  console.log('='.\repeat(50));
+  console.log('='.repeat(50));
   console.log('\n');
   
   // ÉTAPE 4: Mettre à jour package.json
@@ -87,7 +87,7 @@ try {
   console.log('    - generate-article → TypeScript');
   console.log('    - build-index → supprimé (plus nécessaire)\n');
   
-  console.log('='.\repeat(50));
+  console.log('='.repeat(50));
   console.log('\n');
   
   // ÉTAPE 5: Commit
@@ -97,7 +97,7 @@ try {
   execSync('git commit -m "Migration complete: MDX → TypeScript"', { stdio: 'inherit' });
   
   console.log('\n✅ Changements commités!\n');
-  console.log('='.\repeat(50));
+  console.log('='.repeat(50));
   console.log('\n');
   
   // RÉSUMÉ
