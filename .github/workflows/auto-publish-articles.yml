@@ -60,30 +60,24 @@ jobs:
         run: npm run build-index
       
       - name: Commit et push
+        env:
+          CATEGORY: ${{ steps.category.outputs.category }}
+          TOPIC: ${{ steps.category.outputs.topic }}
         run: |
           git config user.name "CalmeClair Bot"
           git config user.email "bot@calmeclair.com"
           
-          # Trouver le dernier article créé
-          NEW_ARTICLE=$(ls -t content/articles/${{ steps.category.outputs.category }}/*.mdx | head -1)
-          ARTICLE_NAME=$(basename "$NEW_ARTICLE" .mdx)
-          
-          git add content/articles/${{ steps.category.outputs.category }}/*.mdx
+          git add content/articles/$CATEGORY/*.mdx
           git add content/_index.json
           
-          # Vérifier s'il y a des changements
           if git diff --staged --quiet; then
             echo "Aucun nouvel article généré"
             exit 0
           fi
           
-          git commit -m "🤖 Nouvel article: $ARTICLE_NAME
-
-Catégorie: ${{ steps.category.outputs.topic }}
-Date: $(date +'%Y-%m-%d %H:%M')
-Architecture: MDX
-Auto-publié avec image optimisée"
+          ARTICLE_NAME=$(ls -t content/articles/$CATEGORY/*.mdx | head -1 | xargs basename -s .mdx)
           
+          git commit -m "🤖 Nouvel article MDX - $TOPIC - $ARTICLE_NAME"
           git push
       
       - name: Submit sitemap to Google Search Console
