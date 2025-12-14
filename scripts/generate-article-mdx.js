@@ -2,7 +2,7 @@
 
 /**
  * Génération automatique d'articles au format MDX
- * VERSION CORRIGÉE avec anti-duplication et échappement correct
+ * VERSION CORRIGÉE avec IDs uniques basés sur MAX + 1
  */
 
 import Anthropic from '@anthropic-ai/sdk';
@@ -23,6 +23,40 @@ const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+/**
+ * Trouver le prochain ID unique (MAX + 1)
+ * CORRECTION: Au lieu de compter les fichiers, on trouve le MAX des IDs existants
+ */
+function getNextId() {
+  const categories = ['anxiete', 'stress'];
+  let maxId = 0;
+  
+  categories.forEach(category => {
+    const categoryPath = path.join(process.cwd(), 'content/articles', category);
+    if (!fs.existsSync(categoryPath)) return;
+    
+    const files = fs.readdirSync(categoryPath);
+    files.forEach(file => {
+      if (!file.endsWith('.mdx')) return;
+      
+      const filePath = path.join(categoryPath, file);
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      
+      try {
+        const { data } = matter(fileContent);
+        const id = parseInt(data.id);
+        if (!isNaN(id) && id > maxId) {
+          maxId = id;
+        }
+      } catch (error) {
+        // Ignorer les fichiers mal formés
+      }
+    });
+  });
+  
+  return maxId + 1;
+}
 
 /**
  * Lister tous les sujets déjà traités
@@ -221,14 +255,15 @@ async function createMDXFile(article) {
   const imageQuery = `${TOPIC} mental health wellness calm`;
   const image = await searchUnsplashImage(imageQuery);
   
-  // Générer l'ID unique
+  // Générer l'ID unique BASÉ SUR LE MAX
+  const nextId = getNextId();
+  console.log(`🔢 Nouvel ID unique: ${nextId}`);
+  
+  // Créer le dossier si nécessaire
   const categoryDir = path.join(process.cwd(), 'content/articles', CATEGORY);
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
   }
-  
-  const allFiles = fs.readdirSync(categoryDir).filter(f => f.endsWith('.mdx'));
-  const nextId = allFiles.length + 1;
   
   // Générer les métadonnées
   const today = new Date().toISOString().split('T')[0];
