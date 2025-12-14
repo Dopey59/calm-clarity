@@ -1,98 +1,49 @@
-name: Auto-générer et publier articles MDX
+﻿name: Auto-générer articles TypeScript
 
 on:
   schedule:
-    # 9h Paris (7h UTC) - Article STRESS
     - cron: '0 7 * * *'
-    # 15h Paris (13h UTC) - Article ANXIÉTÉ  
     - cron: '0 13 * * *'
-  
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate-and-publish-article:
+  generate:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
       
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
       
-      - name: Déterminer la catégorie selon l'heure
-        id: category
+      - id: category
         run: |
           HOUR=$(date -u +%H)
-          echo "Heure UTC actuelle: $HOUR"
-          
           if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 10 ]; then
             echo "category=stress" >> $GITHUB_OUTPUT
             echo "topic=stress" >> $GITHUB_OUTPUT
-            echo "📊 Catégorie sélectionnée: STRESS (matin)"
           else
             echo "category=anxiete" >> $GITHUB_OUTPUT
             echo "topic=anxiété" >> $GITHUB_OUTPUT
-            echo "😰 Catégorie sélectionnée: ANXIÉTÉ (après-midi)"
           fi
       
-      - name: Générer l'article MDX
-        env:
+      - env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           CATEGORY: ${{ steps.category.outputs.category }}
           TOPIC: ${{ steps.category.outputs.topic }}
         run: npm run generate-article
       
-      - name: Régénérer l'index
-        run: npm run build-index
-      
-      - name: Commit et push
-        env:
-          CATEGORY: ${{ steps.category.outputs.category }}
-          TOPIC: ${{ steps.category.outputs.topic }}
-        run: |
-          git config user.name "CalmeClair Bot"
+      - run: |
+          git config user.name "Bot"
           git config user.email "bot@calmeclair.com"
-          
-          git add public/_index.json
-          git add content/articles/$CATEGORY/*.mdx
-          git add content/_index.json
-          
-          if git diff --staged --quiet; then
-            echo "Aucun nouvel article généré"
-            exit 0
-          fi
-          
-          ARTICLE_NAME=$(ls -t content/articles/$CATEGORY/*.mdx | head -1 | xargs basename -s .mdx)
-          
-          git commit -m "🤖 Nouvel article MDX - $TOPIC - $ARTICLE_NAME"
-          git push
-      
-      - name: Submit sitemap to Google Search Console
-        env:
-          GOOGLE_SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS }}
-        run: npm run submit-sitemap
-        continue-on-error: true
-      
-      - name: Summary
-        run: |
-          echo "✅ Article MDX publié avec succès!"
-          echo "📁 Catégorie: ${{ steps.category.outputs.topic }}"
-          echo "🖼️  Image optimisée incluse"
-          echo "📊 Index JSON régénéré"
-          echo "💰 Article optimisé pour Google AdSense"
-          echo "🗺️  Sitemap soumis à Google Search Console"
-          echo "📢 Vercel va déployer automatiquement"
+          git add src/data/articles-generated.ts
+          git diff --staged --quiet || (git commit -m "🤖 Article TS" && git push)
