@@ -67,6 +67,7 @@ jobs:
           git config user.name "CalmeClair Bot"
           git config user.email "bot@calmeclair.com"
           
+          git add public/_index.json
           git add content/articles/$CATEGORY/*.mdx
           git add content/_index.json
           
