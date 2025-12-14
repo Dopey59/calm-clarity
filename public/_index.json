@@ -76,25 +76,6 @@
     "featured": true
   },
   {
-    "id": "10",
-    "slug": "anxiete-nocturne-comprendre-et-apaiser-les-angoisses-qui-perturbent-le-sommeil",
-    "title": "Anxiété nocturne : comprendre et apaiser les angoisses qui perturbent le sommeil",
-    "excerpt": "Vous êtes-vous déjà retrouvé(e) allongé(e) dans votre lit, épuisé(e) par votre journée, mais incapable de trouver le sommeil à cause dun tourbillon de pensées anxieuses ? Cette sensation désagréable",
-    "category": "anxiete",
-    "categoryLabel": "Anxiété",
-    "tags": [
-      "anxiété",
-      "bien-être",
-      "santé mentale"
-    ],
-    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop",
-    "imageAlt": "Illustration pour article : Anxiété nocturne : comprendre et apaiser les angoisses qui perturbent le sommeil",
-    "datePublished": "2025-12-14",
-    "dateModified": "2025-12-14",
-    "readingTime": 10,
-    "featured": true
-  },
-  {
     "id": "11",
     "slug": "anxiete-sociale-comment-surmonter-la-peur-du-jugement-et-retrouver-confiance-en-soi",
     "title": "Anxiété sociale : Comment surmonter la peur du jugement et retrouver confiance en soi",
@@ -196,7 +177,7 @@
     "featured": true
   },
   {
-    "id": "10",
+    "id": "15",
     "slug": "douleurs-thoraciques-stress",
     "title": "Douleurs Thoraciques et Stress : Différences et Solutions",
     "excerpt": "Douleurs thoraciques liées au stress ou crise cardiaque ? Découvrez les différences, les symptômes et les solutions pour distinguer et soulager ces douleurs.",
