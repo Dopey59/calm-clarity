@@ -2,12 +2,13 @@
 
 /**
  * Génération automatique d'articles au format MDX
- * Adapté pour la nouvelle architecture
+ * VERSION CORRIGÉE avec anti-duplication et échappement correct
  */
 
 import Anthropic from '@anthropic-ai/sdk';
 import fs from 'fs';
 import path from 'path';
+import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -22,6 +23,40 @@ const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+/**
+ * Lister tous les sujets déjà traités
+ */
+function getExistingTopics() {
+  const topics = [];
+  const categories = ['anxiete', 'stress'];
+  
+  categories.forEach(category => {
+    const categoryPath = path.join(process.cwd(), 'content/articles', category);
+    
+    if (!fs.existsSync(categoryPath)) return;
+    
+    const files = fs.readdirSync(categoryPath);
+    
+    files.forEach(file => {
+      if (!file.endsWith('.mdx')) return;
+      
+      const filePath = path.join(categoryPath, file);
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      
+      try {
+        const { data } = matter(fileContent);
+        if (data.title) {
+          topics.push(data.title.toLowerCase());
+        }
+      } catch (error) {
+        // Ignorer les fichiers mal formés
+      }
+    });
+  });
+  
+  return topics;
+}
 
 // Rechercher une image Unsplash
 async function searchUnsplashImage(query) {
@@ -43,7 +78,7 @@ async function searchUnsplashImage(query) {
     
     if (data.results && data.results.length > 0) {
       const photo = data.results[0];
-      return `https://images.unsplash.com/${photo.id}?w=1200&h=630&fit=crop`;
+      return `https://images.unsplash.com/photo-${photo.id}?w=1200&h=630&fit=crop`;
     }
     
     return 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop';
@@ -57,12 +92,28 @@ async function searchUnsplashImage(query) {
 async function generateArticle() {
   console.log(`📝 Génération d'un article sur: ${TOPIC}`);
   
+  // Récupérer les sujets déjà traités
+  const existingTopics = getExistingTopics();
+  console.log(`\n🔍 ${existingTopics.length} articles existants détectés`);
+  
+  const existingTopicsList = existingTopics.map(t => `- ${t}`).join('\n');
+  
   const prompt = `Tu es un expert en rédaction d'articles sur la santé mentale pour CalmeClair.
 
 Rédige un article original, détaillé et scientifiquement fondé sur un sujet lié à "${TOPIC}".
 
+RÈGLE ABSOLUE - ANTI-DUPLICATION :
+Les sujets suivants ont DÉJÀ été traités. Tu DOIS choisir un sujet TOTALEMENT DIFFÉRENT :
+
+${existingTopicsList}
+
+Tu DOIS impérativement :
+1. Éviter COMPLÈTEMENT ces sujets déjà traités
+2. Choisir un angle nouveau et original
+3. Traiter un aspect spécifique non couvert
+
 Critères obligatoires:
-- Titre accrocheur et SEO-friendly
+- Titre accrocheur et SEO-friendly (UNIQUE, jamais traité)
 - Introduction empathique
 - Contenu structuré avec H2/H3
 - Solutions pratiques et concrètes
@@ -89,6 +140,20 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown (titre, sections, paragraphes
   const titleMatch = content.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1] : 'Article sans titre';
   
+  // Vérifier la duplication du titre
+  const titleLower = title.toLowerCase();
+  const isDuplicate = existingTopics.some(existing => {
+    const similarity = calculateSimilarity(titleLower, existing);
+    return similarity > 0.6; // 60% de similarité = duplication
+  });
+  
+  if (isDuplicate) {
+    console.warn('⚠️  Titre trop similaire détecté, régénération...');
+    throw new Error('DUPLICATE_TITLE');
+  }
+  
+  console.log(`✅ Titre unique validé: "${title}"`);
+  
   // Créer le slug
   const slug = title
     .toLowerCase()
@@ -97,9 +162,16 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown (titre, sections, paragraphes
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
   
-  // Extraire l'excerpt
+  // Extraire l'excerpt (sans apostrophes problématiques)
   const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
-  const excerpt = paragraphs[0]?.substring(0, 200) || 'Article sur ' + TOPIC;
+  let excerpt = paragraphs[0]?.substring(0, 200) || `Article sur ${TOPIC}`;
+  
+  // Nettoyer l'excerpt pour YAML
+  excerpt = excerpt
+    .replace(/"/g, '') // Supprimer les guillemets doubles
+    .replace(/'/g, '') // Supprimer les apostrophes
+    .replace(/\n/g, ' ') // Supprimer les retours à la ligne
+    .trim();
   
   return {
     title,
@@ -107,6 +179,40 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown (titre, sections, paragraphes
     excerpt,
     content,
   };
+}
+
+/**
+ * Calculer la similarité entre deux chaînes (Levenshtein simplifié)
+ */
+function calculateSimilarity(s1, s2) {
+  const longer = s1.length > s2.length ? s1 : s2;
+  const shorter = s1.length > s2.length ? s2 : s1;
+  
+  if (longer.length === 0) return 1.0;
+  
+  const editDistance = levenshtein(longer, shorter);
+  return (longer.length - editDistance) / longer.length;
+}
+
+function levenshtein(s1, s2) {
+  const costs = [];
+  for (let i = 0; i <= s1.length; i++) {
+    let lastValue = i;
+    for (let j = 0; j <= s2.length; j++) {
+      if (i === 0) {
+        costs[j] = j;
+      } else if (j > 0) {
+        let newValue = costs[j - 1];
+        if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+        }
+        costs[j - 1] = lastValue;
+        lastValue = newValue;
+      }
+    }
+    if (i > 0) costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
 }
 
 // Créer le fichier MDX
@@ -121,22 +227,26 @@ async function createMDXFile(article) {
     fs.mkdirSync(categoryDir, { recursive: true });
   }
   
-  const allFiles = fs.readdirSync(categoryDir);
+  const allFiles = fs.readdirSync(categoryDir).filter(f => f.endsWith('.mdx'));
   const nextId = allFiles.length + 1;
   
   // Générer les métadonnées
   const today = new Date().toISOString().split('T')[0];
   
+  // IMPORTANT: Nettoyer le titre pour YAML (enlever apostrophes et guillemets)
+  const titleClean = article.title.replace(/'/g, '').replace(/"/g, '');
+  const excerptClean = article.excerpt.replace(/'/g, '').replace(/"/g, '');
+  
   const frontmatter = `---
 id: "${nextId}"
 slug: "${article.slug}"
-title: "${article.title}"
-excerpt: "${article.excerpt}"
+title: "${titleClean}"
+excerpt: "${excerptClean}"
 category: "${CATEGORY}"
 categoryLabel: "${CATEGORY === 'anxiete' ? 'Anxiété' : 'Stress'}"
 tags: ["${TOPIC}", "bien-être", "santé mentale"]
 image: "${image}"
-imageAlt: "Illustration pour l'article : ${article.title}"
+imageAlt: "Illustration pour article : ${titleClean}"
 datePublished: "${today}"
 dateModified: "${today}"
 readingTime: 10
@@ -177,6 +287,10 @@ async function main() {
     console.log(`   Fichier: ${result.filename}`);
     
   } catch (error) {
+    if (error.message === 'DUPLICATE_TITLE') {
+      console.error('\n❌ Titre dupliqué détecté. Veuillez relancer le workflow.');
+      process.exit(1);
+    }
     console.error('\n❌ Erreur:', error);
     process.exit(1);
   }
