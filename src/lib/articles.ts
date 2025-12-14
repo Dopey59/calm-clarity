@@ -11,7 +11,8 @@ import { Article } from '@/types/Article';
  */
 export async function getAllArticles(): Promise<Article[]> {
   try {
-    const response = await fetch('/content/_index.json');
+    // IMPORTANT: Charge depuis /_index.json (dans public/)
+    const response = await fetch('/_index.json');
     if (!response.ok) {
       console.warn('Index JSON non trouvé, fallback vers articles.ts');
       // Fallback vers l'ancien système si l'index n'existe pas encore
