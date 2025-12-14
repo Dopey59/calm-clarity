@@ -50,7 +50,7 @@ function getNextId() {
   }
   
   const content = fs.readFileSync(articlesFile, 'utf8');
-  const idMatches = content.matchAll(/id: ['"]([\d]+)['"]/g);
+  const idMatches = content.matchAll(/id: ['"](\d+)['"]/g);
   const ids = Array.from(idMatches).map(m => parseInt(m[1]));
   
   return ids.length > 0 ? Math.max(...ids) + 1 : 1;
@@ -128,7 +128,7 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown. Pas de frontmatter.`;
     .replace(/^-|-$/g, '');
   
   const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
-  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['"]g, '') || `Article sur ${TOPIC}`;
+  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['"]/g, '') || `Article sur ${TOPIC}`;
   
   return { title, slug, excerpt, content };
 }
