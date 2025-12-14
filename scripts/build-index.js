@@ -2,7 +2,7 @@
 
 /**
  * Script de génération de l'index JSON des articles
- * VERSION PRODUCTION - Copie dans public/ pour accessibilité
+ * VERSION CORRIGÉE - Inclut le contenu complet des articles
  */
 
 import fs from 'fs';
@@ -19,7 +19,7 @@ const INDEX_PATH_CONTENT = path.join(process.cwd(), 'content/_index.json');
 const INDEX_PATH_PUBLIC = path.join(process.cwd(), 'public/_index.json');
 
 /**
- * Scanner tous les fichiers MDX
+ * Scanner tous les fichiers MDX ET extraire leur contenu
  */
 function scanArticles() {
   const articles = [];
@@ -42,7 +42,7 @@ function scanArticles() {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       
       try {
-        const { data } = matter(fileContent);
+        const { data, content } = matter(fileContent);
         
         // Validation des champs obligatoires
         if (!data.id || !data.slug || !data.title) {
@@ -64,6 +64,7 @@ function scanArticles() {
           dateModified: data.dateModified,
           readingTime: data.readingTime,
           featured: data.featured || false,
+          content: content.trim(), // ← CONTENU AJOUTÉ !
         });
         
       } catch (error) {
@@ -107,6 +108,13 @@ function generateIndex() {
   console.log(`   Anxiété: ${articles.filter(a => a.category === 'anxiete').length}`);
   console.log(`   Stress: ${articles.filter(a => a.category === 'stress').length}`);
   console.log(`   En vedette: ${articles.filter(a => a.featured).length}`);
+  console.log(`   Avec contenu: ${articles.filter(a => a.content).length}`);
+  console.log('');
+  
+  // Taille du fichier
+  const stats = fs.statSync(INDEX_PATH_PUBLIC);
+  const sizeKB = (stats.size / 1024).toFixed(2);
+  console.log(`📦 Taille de l'index: ${sizeKB} KB`);
   console.log('');
   
   // Générer aussi des stats par tags
