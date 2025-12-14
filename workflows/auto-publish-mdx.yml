@@ -1,0 +1,66 @@
+name: 📝 Auto-Publish Articles MDX
+
+on:
+  schedule:
+    # 9h Paris (7h UTC) - Article stress
+    - cron: '0 7 * * *'
+    # 15h Paris (13h UTC) - Article anxiété
+    - cron: '0 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  publish-article:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Installer les dépendances
+        run: npm ci
+      
+      - name: Déterminer la catégorie
+        id: category
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 10 ]; then
+            echo "category=stress" >> $GITHUB_OUTPUT
+            echo "topic=stress" >> $GITHUB_OUTPUT
+          else
+            echo "category=anxiete" >> $GITHUB_OUTPUT
+            echo "topic=anxiété" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Générer l'article MDX
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          CATEGORY: ${{ steps.category.outputs.category }}
+          TOPIC: ${{ steps.category.outputs.topic }}
+        run: node scripts/generate-article-mdx.js
+      
+      - name: Régénérer l'index
+        run: node scripts/build-index.js
+      
+      - name: Commit et Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          NEW_ARTICLE=$(ls -t content/articles/${{ steps.category.outputs.category }}/*.mdx | head -1)
+          ARTICLE_NAME=$(basename "$NEW_ARTICLE" .mdx)
+          
+          git add content/articles/${{ steps.category.outputs.category }}/*.mdx
+          git add content/_index.json
+          
+          git commit -m "📝 Nouvel article: $ARTICLE_NAME
+
+Catégorie: ${{ steps.category.outputs.topic }}
+Date: $(date +'%Y-%m-%d %H:%M')
+Architecture: MDX
+Auto-publié"
+          
+          git push
