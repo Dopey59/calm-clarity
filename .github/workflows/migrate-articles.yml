@@ -14,19 +14,18 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Installer gray-matter
-        run: npm install gray-matter
-      
-      - name: Migration vers MDX
+      - name: Créer le script de migration
         run: |
-          node << 'SCRIPT'
+          cat > migrate.js << 'ENDOFFILE'
           const fs = require('fs');
           const path = require('path');
+          
+          console.log('🚀 Démarrage migration...\n');
           
           // Lire le fichier articles.ts
           const articlesContent = fs.readFileSync('src/data/articles.ts', 'utf8');
           
-          // Extraire le tableau d'articles (regex simplifiée)
+          // Extraire le tableau d'articles
           const articlesMatch = articlesContent.match(/export const articles[^=]*=\s*\[([\s\S]*)\];/);
           
           if (!articlesMatch) {
@@ -34,7 +33,6 @@ jobs:
             process.exit(1);
           }
           
-          // Parser les articles (approche simplifiée pour 13 articles)
           const articlesText = articlesMatch[1];
           
           // Créer les dossiers
@@ -50,35 +48,38 @@ jobs:
           const articles = [];
           
           articleBlocks.forEach((block, index) => {
-            // Nettoyer le bloc
             block = block.trim();
             if (!block.startsWith('{')) block = '{' + block;
             if (!block.endsWith('}')) block = block + '}';
             
-            // Extraire les champs
             const extract = (field) => {
-              const match = block.match(new RegExp(`${field}:\\s*['"\`](.*?)['"\`]`, 's'));
-              return match ? match[1].replace(/\\n/g, '\n').replace(/\\'/g, "'") : '';
+              const regex = new RegExp(field + ':\\s*[\'"`]([\\s\\S]*?)[\'"`]', 's');
+              const match = block.match(regex);
+              if (!match) return '';
+              return match[1].replace(/\\n/g, '\n').replace(/\\'/g, "'");
             };
             
             const extractArray = (field) => {
-              const match = block.match(new RegExp(`${field}:\\s*\\[(.*?)\\]`, 's'));
+              const regex = new RegExp(field + ':\\s*\\[([^\\]]+)\\]');
+              const match = block.match(regex);
               if (!match) return [];
               return match[1].split(',').map(t => t.trim().replace(/['"]/g, '')).filter(Boolean);
             };
             
             const extractNumber = (field) => {
-              const match = block.match(new RegExp(`${field}:\\s*(\\d+)`));
+              const regex = new RegExp(field + ':\\s*(\\d+)');
+              const match = block.match(regex);
               return match ? parseInt(match[1]) : 0;
             };
             
             const extractBoolean = (field) => {
-              const match = block.match(new RegExp(`${field}:\\s*(true|false)`));
+              const regex = new RegExp(field + ':\\s*(true|false)');
+              const match = block.match(regex);
               return match ? match[1] === 'true' : false;
             };
             
             const extractContent = () => {
-              const match = block.match(/content:\s*`([\s\S]*?)`\s*,/);
+              const match = block.match(/content:\s*`([\s\S]*?)`[,\s]*(?:datePublished|$)/);
               return match ? match[1] : '';
             };
             
@@ -102,31 +103,31 @@ jobs:
             if (article.id && article.slug) {
               articles.push(article);
               
-              // Créer le fichier MDX
-              const frontmatter = `---
-id: "${article.id}"
-slug: "${article.slug}"
-title: "${article.title.replace(/"/g, '\\"')}"
-excerpt: "${article.excerpt.replace(/"/g, '\\"')}"
-category: "${article.category}"
-categoryLabel: "${article.categoryLabel}"
-tags: [${article.tags.map(t => `"${t}"`).join(', ')}]
-image: "${article.image}"
-imageAlt: "${article.imageAlt}"
-datePublished: "${article.datePublished}"
-dateModified: "${article.dateModified}"
-readingTime: ${article.readingTime}
-featured: ${article.featured}
----
-
-${article.content}
-`;
+              const titleClean = article.title.replace(/"/g, '\\"');
+              const excerptClean = article.excerpt.replace(/"/g, '\\"');
               
-              const filename = `${article.slug}.mdx`;
+              const frontmatter = '---\n' +
+                'id: "' + article.id + '"\n' +
+                'slug: "' + article.slug + '"\n' +
+                'title: "' + titleClean + '"\n' +
+                'excerpt: "' + excerptClean + '"\n' +
+                'category: "' + article.category + '"\n' +
+                'categoryLabel: "' + article.categoryLabel + '"\n' +
+                'tags: [' + article.tags.map(t => '"' + t + '"').join(', ') + ']\n' +
+                'image: "' + article.image + '"\n' +
+                'imageAlt: "' + article.imageAlt + '"\n' +
+                'datePublished: "' + article.datePublished + '"\n' +
+                'dateModified: "' + article.dateModified + '"\n' +
+                'readingTime: ' + article.readingTime + '\n' +
+                'featured: ' + article.featured + '\n' +
+                '---\n\n' +
+                article.content + '\n';
+              
+              const filename = article.slug + '.mdx';
               const filepath = path.join('content/articles', article.category, filename);
               
               fs.writeFileSync(filepath, frontmatter, 'utf8');
-              console.log(`✅ ${article.category}/${filename}`);
+              console.log('✅ ' + article.category + '/' + filename);
             }
           });
           
@@ -149,8 +150,20 @@ ${article.content}
           
           fs.writeFileSync('content/_index.json', JSON.stringify(index, null, 2), 'utf8');
           
-          console.log(`\n🎉 Migration terminée: ${articles.length} articles`);
-          SCRIPT
+          console.log('\n🎉 Migration terminée: ' + articles.length + ' articles migrés!');
+          ENDOFFILE
+      
+      - name: Exécuter la migration
+        run: node migrate.js
+      
+      - name: Vérifier les fichiers créés
+        run: |
+          echo "📁 Fichiers créés:"
+          ls -la content/articles/anxiete/
+          ls -la content/articles/stress/
+          echo ""
+          echo "📊 Index:"
+          cat content/_index.json | head -20
       
       - name: Commit et Push
         run: |
@@ -160,7 +173,7 @@ ${article.content}
           git add content/
           git commit -m "✨ Migration complète vers MDX
 
-- 13 articles migrés vers fichiers individuels
+- Articles migrés vers fichiers individuels
 - Index JSON généré
 - Structure optimisée pour scalabilité"
           
