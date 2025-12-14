@@ -5,9 +5,14 @@
  * Scanne tous les fichiers MDX et crée content/_index.json
  */
 
-const fs = require('fs');
-const path = require('path');
-const matter = require('gray-matter');
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const ARTICLES_DIR = path.join(process.cwd(), 'content/articles');
 const INDEX_PATH = path.join(process.cwd(), 'content/_index.json');
