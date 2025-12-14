@@ -2,7 +2,7 @@
 
 /**
  * Script de génération de l'index JSON des articles
- * Scanne tous les fichiers MDX et crée content/_index.json
+ * VERSION PRODUCTION - Copie dans public/ pour accessibilité
  */
 
 import fs from 'fs';
@@ -15,7 +15,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const ARTICLES_DIR = path.join(process.cwd(), 'content/articles');
-const INDEX_PATH = path.join(process.cwd(), 'content/_index.json');
+const INDEX_PATH_CONTENT = path.join(process.cwd(), 'content/_index.json');
+const INDEX_PATH_PUBLIC = path.join(process.cwd(), 'public/_index.json');
 
 /**
  * Scanner tous les fichiers MDX
@@ -87,14 +88,19 @@ function generateIndex() {
     new Date(b.datePublished).getTime() - new Date(a.datePublished).getTime()
   );
   
-  // Sauvegarder l'index
-  fs.writeFileSync(
-    INDEX_PATH, 
-    JSON.stringify(articles, null, 2), 
-    'utf8'
-  );
+  const indexContent = JSON.stringify(articles, null, 2);
   
-  console.log(`✅ Index généré: ${INDEX_PATH}`);
+  // Sauvegarder dans content/ (pour git)
+  fs.writeFileSync(INDEX_PATH_CONTENT, indexContent, 'utf8');
+  console.log(`✅ Index sauvegardé: content/_index.json`);
+  
+  // Sauvegarder dans public/ (pour production)
+  if (!fs.existsSync(path.dirname(INDEX_PATH_PUBLIC))) {
+    fs.mkdirSync(path.dirname(INDEX_PATH_PUBLIC), { recursive: true });
+  }
+  fs.writeFileSync(INDEX_PATH_PUBLIC, indexContent, 'utf8');
+  console.log(`✅ Index copié: public/_index.json (pour production)`);
+  
   console.log('');
   console.log('📊 Statistiques:');
   console.log(`   Total articles: ${articles.length}`);
