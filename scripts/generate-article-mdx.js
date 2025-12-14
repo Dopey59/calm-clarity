@@ -5,9 +5,14 @@
  * Adapté pour la nouvelle architecture
  */
 
-const Anthropic = require('@anthropic-ai/sdk');
-const fs = require('fs');
-const path = require('path');
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Configuration
 const CATEGORY = process.env.CATEGORY || 'stress';
@@ -111,7 +116,7 @@ async function createMDXFile(article) {
   const image = await searchUnsplashImage(imageQuery);
   
   // Générer l'ID unique
-  const categoryDir = path.join('content/articles', CATEGORY);
+  const categoryDir = path.join(process.cwd(), 'content/articles', CATEGORY);
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
   }
