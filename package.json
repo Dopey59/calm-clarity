@@ -11,8 +11,7 @@
     "preview": "vite preview",
     "copy-content": "node scripts/copy-content.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "generate-article": "node scripts/generate-article-mdx.js",
-    "build-index": "node scripts/build-index.js",
+    "generate-article": "node scripts/generate-article-ts.js",
     "submit-sitemap": "node scripts/submit-sitemap.js"
   },
   "dependencies": {

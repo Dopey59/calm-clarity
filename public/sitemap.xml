@@ -7,70 +7,154 @@
 
   <url>
     <loc>https://calmeclair.com/</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/anxiete</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/stress</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/depression</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/burn-out</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/troubles-sommeil</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calmeclair.com/categorie/confiance-estime</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/burn-out-reconnaitre-les-7-signes-precurseurs-essentiels</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
+    <loc>https://calmeclair.com/article/2025/12/anxiete-anticipatoire-7-methodes-pour-arreter-de-sinquieter</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/10-techniques-de-respiration-anti-stress-scientifiquement-prouvees</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/anxiete-de-performance-7-strategies-scientifiquement-prouvees</loc>
+    <lastmod>2025-12-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/06/gerer-crise-anxiete-7-etapes</loc>
+    <lastmod>2025-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/05/meditation-debutants-stress</loc>
+    <lastmod>2025-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/04/exercices-respiration-anxiete</loc>
+    <lastmod>2025-04-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/difference-stress-anxiete</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/boule-dans-la-gorge-causes-solutions</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/article/2025/12/douleurs-thoraciques-stress</loc>
+    <lastmod>2025-12-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/a-propos</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://calmeclair.com/contact</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://calmeclair.com/mentions-legales</loc>
-    <lastmod>2025-12-11</lastmod>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://calmeclair.com/politique-confidentialite</loc>
-    <lastmod>2025-12-11</lastmod>
+    <loc>https://calmeclair.com/confidentialite</loc>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://calmeclair.com/cgu</loc>
-    <lastmod>2025-12-11</lastmod>
+    <loc>https://calmeclair.com/dmca</loc>
+    <lastmod>2025-12-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
