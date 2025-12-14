@@ -1,15 +1,14 @@
-name: Auto-générer et publier articles avec images
+name: Auto-générer et publier articles MDX
 
 on:
   schedule:
-    # Exécution 2 fois par jour : 9h et 15h (heure de Paris)
-    - cron: '0 8 * * *'  # 9h Paris (8h UTC en hiver)
-    - cron: '0 14 * * *' # 15h Paris (14h UTC en hiver)
+    # 9h Paris (7h UTC) - Article STRESS
+    - cron: '0 7 * * *'
+    # 15h Paris (13h UTC) - Article ANXIÉTÉ  
+    - cron: '0 13 * * *'
   
-  # Permet aussi le déclenchement manuel depuis GitHub
   workflow_dispatch:
 
-# IMPORTANT: Permissions nécessaires pour que le bot puisse push
 permissions:
   contents: write
 
@@ -22,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: true  # Important pour permettre le push
+          persist-credentials: true
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,19 +30,46 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       
-      - name: Generate new article with image
+      - name: Déterminer la catégorie selon l'heure
+        id: category
+        run: |
+          HOUR=$(date -u +%H)
+          echo "Heure UTC actuelle: $HOUR"
+          
+          if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 10 ]; then
+            echo "category=stress" >> $GITHUB_OUTPUT
+            echo "topic=stress" >> $GITHUB_OUTPUT
+            echo "📊 Catégorie sélectionnée: STRESS (matin)"
+          else
+            echo "category=anxiete" >> $GITHUB_OUTPUT
+            echo "topic=anxiété" >> $GITHUB_OUTPUT
+            echo "😰 Catégorie sélectionnée: ANXIÉTÉ (après-midi)"
+          fi
+      
+      - name: Générer l'article MDX
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          CATEGORY: ${{ steps.category.outputs.category }}
+          TOPIC: ${{ steps.category.outputs.topic }}
         run: npm run generate-article
       
-      - name: Commit and push new article
+      - name: Régénérer l'index
+        run: npm run build-index
+      
+      - name: Commit et push
         run: |
           git config user.name "CalmeClair Bot"
           git config user.email "bot@calmeclair.com"
-          git add src/data/articles.ts
+          
+          # Trouver le dernier article créé
+          NEW_ARTICLE=$(ls -t content/articles/${{ steps.category.outputs.category }}/*.mdx | head -1)
+          ARTICLE_NAME=$(basename "$NEW_ARTICLE" .mdx)
+          
+          git add content/articles/${{ steps.category.outputs.category }}/*.mdx
+          git add content/_index.json
           
           # Vérifier s'il y a des changements
           if git diff --staged --quiet; then
@@ -51,19 +77,27 @@ jobs:
             exit 0
           fi
           
-          git commit -m "🤖 Publication automatique : nouvel article avec image"
+          git commit -m "🤖 Nouvel article: $ARTICLE_NAME
+
+Catégorie: ${{ steps.category.outputs.topic }}
+Date: $(date +'%Y-%m-%d %H:%M')
+Architecture: MDX
+Auto-publié avec image optimisée"
+          
           git push
       
       - name: Submit sitemap to Google Search Console
         env:
           GOOGLE_SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS }}
         run: npm run submit-sitemap
-        continue-on-error: true  # Ne pas bloquer si la soumission échoue
+        continue-on-error: true
       
       - name: Summary
         run: |
-          echo "✅ Article publié avec succès!"
+          echo "✅ Article MDX publié avec succès!"
+          echo "📁 Catégorie: ${{ steps.category.outputs.topic }}"
           echo "🖼️  Image optimisée incluse"
+          echo "📊 Index JSON régénéré"
           echo "💰 Article optimisé pour Google AdSense"
           echo "🗺️  Sitemap soumis à Google Search Console"
           echo "📢 Vercel va déployer automatiquement"
