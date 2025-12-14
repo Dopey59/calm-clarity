@@ -1,206 +1,81 @@
 [
   {
-    "id": "14",
-    "slug": "burn-out-reconnaitre-les-7-signes-precurseurs-essentiels",
-    "title": "Burn-out : reconnaître les 7 signes précurseurs essentiels",
-    "excerpt": "Découvrez les 7 signes avant-coureurs du burn-out pour agir avant l\\",
-    "category": "stress",
-    "categoryLabel": "Stress",
-    "tags": [
-      "burn-out",
-      "épuisement professionnel",
-      "stress au travail",
-      "signes précurseurs",
-      "santé mentale"
-    ],
-    "image": "https://images.unsplash.com/photo-1517842645767-c639042777db?w=1200&h=630&fit=crop",
-    "imageAlt": "Illustration pour l\\",
-    "datePublished": "2025-12-14",
-    "dateModified": "2025-12-14",
-    "readingTime": 12,
-    "featured": true
-  },
-  {
-    "id": "13",
-    "slug": "anxiete-anticipatoire-7-methodes-pour-arreter-de-sinquieter",
-    "title": "Anxiété anticipatoire : 7 méthodes pour arrêter de s\\",
-    "excerpt": "Découvrez des stratégies éprouvées pour gérer l\\",
-    "category": "anxiete",
-    "categoryLabel": "Anxiété",
-    "tags": [
-      "anxiété anticipatoire",
-      "gestion stress",
-      "relaxation",
-      "bien-être mental",
-      "techniques apaisement"
-    ],
-    "image": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=630&fit=crop",
-    "imageAlt": "Illustration pour l\\",
-    "datePublished": "2025-12-13",
-    "dateModified": "2025-12-13",
-    "readingTime": 12,
-    "featured": true
-  },
-  {
-    "id": "12",
-    "slug": "10-techniques-de-respiration-anti-stress-scientifiquement-prouvees",
-    "title": "10 Techniques de Respiration Anti-Stress Scientifiquement Prouvées",
-    "excerpt": "Découvrez 10 méthodes respiratoires validées par la science pour réduire stress et anxiété. Techniques simples à pratiquer partout.",
-    "category": "stress",
-    "categoryLabel": "Stress",
-    "tags": [
-      "respiration",
-      "anti-stress",
-      "relaxation",
-      "bien-être",
-      "anxiété"
-    ],
-    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=630&fit=crop",
-    "imageAlt": "Illustration pour l\\",
-    "datePublished": "2025-12-13",
-    "dateModified": "2025-12-13",
-    "readingTime": 12,
-    "featured": true
-  },
-  {
-    "id": "11",
-    "slug": "anxiete-de-performance-7-strategies-scientifiquement-prouvees",
-    "title": "Anxiété de performance : 7 stratégies scientifiquement prouvées",
-    "excerpt": "Découvrez des méthodes validées pour surmonter l\\",
+    "id": "10",
+    "slug": "anxiete-de-performance-comment-surmonter-la-peur-de-l-echec-et-retrouver-confiance-en-soi",
+    "title": "Anxiété de performance : Comment surmonter la peur de l'échec et retrouver confiance en soi",
+    "excerpt": "L'anxiété de performance touche des millions de personnes à travers le monde, transformant des situations normales en véritables épreuves. Que vous soyez étudiant face à un examen, employé avant une p",
     "category": "anxiete",
     "categoryLabel": "Anxiété",
     "tags": [
       "anxiété",
-      "performance",
-      "stress",
-      "gestion émotions",
-      "confiance en soi"
+      "bien-être",
+      "santé mentale"
     ],
     "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop",
-    "imageAlt": "Illustration pour l\\",
-    "datePublished": "2025-12-13",
-    "dateModified": "2025-12-13",
-    "readingTime": 12,
+    "imageAlt": "Illustration pour l'article : Anxiété de performance : Comment surmonter la peur de l'échec et retrouver confiance en soi",
+    "datePublished": "2025-12-14",
+    "dateModified": "2025-12-14",
+    "readingTime": 10,
     "featured": true
   },
   {
-    "id": "1",
-    "slug": "gerer-crise-anxiete-7-etapes",
-    "title": "Comment gérer une crise d\\",
-    "excerpt": "Des techniques simples et éprouvées pour reprendre le contrôle lors d\\",
+    "id": "example",
+    "slug": "exemple-article-anxiete",
+    "title": "Exemple d'article sur l'anxiété",
+    "excerpt": "Ceci est un exemple de fichier MDX montrant la structure des articles dans la nouvelle architecture.",
     "category": "anxiete",
     "categoryLabel": "Anxiété",
     "tags": [
+      "anxiété",
+      "exemple",
+      "documentation"
+    ],
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=630&fit=crop",
+    "imageAlt": "Exemple d'illustration pour un article",
+    "datePublished": "2025-12-14",
+    "dateModified": "2025-12-14",
+    "readingTime": 5,
+    "featured": false
+  },
+  {
+    "id": "example-stress",
+    "slug": "exemple-article-stress",
+    "title": "Exemple d'article sur le stress",
+    "excerpt": "Ceci est un exemple de fichier MDX pour la catégorie stress.",
+    "category": "stress",
+    "categoryLabel": "Stress",
+    "tags": [
+      "stress",
+      "exemple",
+      "documentation"
+    ],
+    "image": "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=630&fit=crop",
+    "imageAlt": "Exemple d'illustration pour un article sur le stress",
+    "datePublished": "2025-12-14",
+    "dateModified": "2025-12-14",
+    "readingTime": 5,
+    "featured": false
+  },
+  {
+    "id": "9",
+    "slug": "boule-dans-la-gorge-causes-solutions",
+    "title": "Boule dans la Gorge : Causes et Solutions",
+    "excerpt": "Sensation de boule dans la gorge ? Découvrez les causes (stress, RGO), les symptômes du globus pharyngé et les solutions efficaces pour soulager cette gêne.",
+    "category": "anxiete",
+    "categoryLabel": "Anxiété",
+    "tags": [
+      "boule-gorge",
+      "globus",
+      "stress",
+      "symptômes-physiques",
       "respiration",
-      "gestion-du-stress",
-      "techniques",
-      "crise"
+      "solutions"
     ],
-    "image": "/images/gerer-crise-anxiete.jpg",
-    "imageAlt": "Personne pratiquant des exercices de respiration pour gérer l\\",
-    "datePublished": "2025-06-01",
-    "dateModified": "2025-06-10",
-    "readingTime": 8,
-    "featured": true
-  },
-  {
-    "id": "2",
-    "slug": "meditation-debutants-stress",
-    "title": "Méditation pour débutants : réduire le stress en 10 minutes par jour",
-    "excerpt": "Découvrez comment intégrer la méditation dans votre quotidien pour diminuer significativement votre niveau de stress, même sans expérience préalable.",
-    "category": "stress",
-    "categoryLabel": "Stress",
-    "tags": [
-      "méditation",
-      "bien-être",
-      "débutants",
-      "quotidien"
-    ],
-    "image": "/images/meditation-debutants.jpg",
-    "imageAlt": "Personne méditant paisiblement dans un environnement calme",
-    "datePublished": "2025-05-20",
-    "dateModified": "2025-06-05",
-    "readingTime": 6,
-    "featured": true
-  },
-  {
-    "id": "3",
-    "slug": "alimentation-anti-stress",
-    "title": "Alimentation anti-stress : 12 aliments pour apaiser naturellement l\\",
-    "excerpt": "Certains aliments peuvent naturellement réduire votre niveau de stress et d\\",
-    "category": "stress",
-    "categoryLabel": "Stress",
-    "tags": [
-      "alimentation",
-      "nutrition",
-      "naturel",
-      "bien-être"
-    ],
-    "image": "/images/alimentation-anti-stress.jpg",
-    "imageAlt": "Assiette colorée d\\",
-    "datePublished": "2025-05-15",
-    "dateModified": "2025-05-28",
-    "readingTime": 7,
-    "featured": false
-  },
-  {
-    "id": "4",
-    "slug": "anxiete-sociale-conseils",
-    "title": "Surmonter l\\",
-    "excerpt": "L\\",
-    "category": "anxiete",
-    "categoryLabel": "Anxiété",
-    "tags": [
-      "anxiété-sociale",
-      "confiance",
-      "TCC",
-      "relations"
-    ],
-    "image": "/images/anxiete-sociale.jpg",
-    "imageAlt": "Personne sereine dans un contexte social",
-    "datePublished": "2025-05-10",
-    "dateModified": "2025-05-25",
-    "readingTime": 9,
-    "featured": false
-  },
-  {
-    "id": "5",
-    "slug": "sommeil-stress-solutions",
-    "title": "Stress et troubles du sommeil : le cercle vicieux et comment en sortir",
-    "excerpt": "Le stress perturbe le sommeil, et le manque de sommeil augmente le stress. Découvrez comment briser ce cycle pour retrouver des nuits réparatrices.",
-    "category": "stress",
-    "categoryLabel": "Stress",
-    "tags": [
-      "sommeil",
-      "insomnie",
-      "relaxation",
-      "rituels"
-    ],
-    "image": "/images/sommeil-stress.jpg",
-    "imageAlt": "Chambre apaisante propice au sommeil réparateur",
-    "datePublished": "2025-05-05",
-    "dateModified": "2025-05-20",
-    "readingTime": 8,
-    "featured": false
-  },
-  {
-    "id": "6",
-    "slug": "exercices-respiration-anxiete",
-    "title": "5 exercices de respiration contre l\\",
-    "excerpt": "La respiration est votre outil anti-anxiété le plus accessible. Apprenez 5 techniques efficaces à utiliser discrètement dans toutes les situations.",
-    "category": "anxiete",
-    "categoryLabel": "Anxiété",
-    "tags": [
-      "respiration",
-      "techniques",
-      "cohérence-cardiaque",
-      "yoga"
-    ],
-    "image": "/images/exercices-respiration.jpg",
-    "imageAlt": "Personne pratiquant un exercice de respiration les yeux fermés",
-    "datePublished": "2025-04-28",
-    "dateModified": "2025-05-15",
-    "readingTime": 6,
+    "image": "/images/sensation-boule-a-la-gorge.png",
+    "imageAlt": "Personne touchant sa gorge, illustrant la sensation de boule dans la gorge liée au stress",
+    "datePublished": "2025-12-11",
+    "dateModified": "2025-12-11",
+    "readingTime": 11,
     "featured": true
   },
   {
@@ -226,28 +101,6 @@
     "featured": true
   },
   {
-    "id": "9",
-    "slug": "boule-dans-la-gorge-causes-solutions",
-    "title": "Boule dans la Gorge : Causes et Solutions",
-    "excerpt": "Sensation de boule dans la gorge ? Découvrez les causes (stress, RGO), les symptômes du globus pharyngé et les solutions efficaces pour soulager cette gêne.",
-    "category": "anxiete",
-    "categoryLabel": "Anxiété",
-    "tags": [
-      "boule-gorge",
-      "globus",
-      "stress",
-      "symptômes-physiques",
-      "respiration",
-      "solutions"
-    ],
-    "image": "/images/sensation-boule-a-la-gorge.png",
-    "imageAlt": "Personne touchant sa gorge, illustrant la sensation de boule dans la gorge liée au stress",
-    "datePublished": "2025-12-11",
-    "dateModified": "2025-12-11",
-    "readingTime": 11,
-    "featured": true
-  },
-  {
     "id": "10",
     "slug": "douleurs-thoraciques-stress",
     "title": "Douleurs Thoraciques et Stress : Différences et Solutions",
@@ -268,5 +121,45 @@
     "dateModified": "2025-12-11",
     "readingTime": 14,
     "featured": true
+  },
+  {
+    "id": "2",
+    "slug": "meditation-debutants-stress",
+    "title": "Méditation pour débutants : réduire le stress en 10 minutes par jour",
+    "excerpt": "Découvrez comment intégrer la méditation dans votre quotidien pour diminuer significativement votre niveau de stress, même sans expérience préalable.",
+    "category": "stress",
+    "categoryLabel": "Stress",
+    "tags": [
+      "méditation",
+      "bien-être",
+      "débutants",
+      "quotidien"
+    ],
+    "image": "/images/meditation-debutants.jpg",
+    "imageAlt": "Personne méditant paisiblement dans un environnement calme",
+    "datePublished": "2025-05-20",
+    "dateModified": "2025-06-05",
+    "readingTime": 6,
+    "featured": true
+  },
+  {
+    "id": "5",
+    "slug": "sommeil-stress-solutions",
+    "title": "Stress et troubles du sommeil : le cercle vicieux et comment en sortir",
+    "excerpt": "Le stress perturbe le sommeil, et le manque de sommeil augmente le stress. Découvrez comment briser ce cycle pour retrouver des nuits réparatrices.",
+    "category": "stress",
+    "categoryLabel": "Stress",
+    "tags": [
+      "sommeil",
+      "insomnie",
+      "relaxation",
+      "rituels"
+    ],
+    "image": "/images/sommeil-stress.jpg",
+    "imageAlt": "Chambre apaisante propice au sommeil réparateur",
+    "datePublished": "2025-05-05",
+    "dateModified": "2025-05-20",
+    "readingTime": 8,
+    "featured": false
   }
 ]
