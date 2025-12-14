@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npm run generate-sitemap",
-    "build:dev": "vite build --mode development && npm run generate-sitemap",
+    "build": "vite build && npm run copy-content && npm run generate-sitemap",
+    "build:dev": "vite build --mode development && npm run copy-content && npm run generate-sitemap",
     "lint": "eslint .",
     "preview": "vite preview",
+    "copy-content": "node scripts/copy-content.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
     "generate-article": "node scripts/generate-article-mdx.js",
     "build-index": "node scripts/build-index.js",
