@@ -1,5 +1,24 @@
 [
   {
+    "id": "14",
+    "slug": "anxiete-anticipatoire-quand-l-inquietude-du-futur-paralyse-le-present",
+    "title": "Anxiété anticipatoire : quand linquiétude du futur paralyse le présent",
+    "excerpt": "Lanxiété anticipatoire touche des millions de personnes dans le monde, créant un cercle vicieux où la peur de ce qui pourrait arriver devient plus handicapante que les événements eux-mêmes. Cette for",
+    "category": "anxiete",
+    "categoryLabel": "Anxiété",
+    "tags": [
+      "anxiété",
+      "bien-être",
+      "santé mentale"
+    ],
+    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop",
+    "imageAlt": "Illustration pour article : Anxiété anticipatoire : quand linquiétude du futur paralyse le présent",
+    "datePublished": "2025-12-14",
+    "dateModified": "2025-12-14",
+    "readingTime": 10,
+    "featured": true
+  },
+  {
     "id": "10",
     "slug": "anxiete-de-performance-comment-surmonter-la-peur-de-l-echec-et-retrouver-confiance-en-soi",
     "title": "Anxiété de performance : Comment surmonter la peur de l'échec et retrouver confiance en soi",
