@@ -1,4 +1,4 @@
-import { Article } from '@/types/Article';
+import { Article } from '../data/articles';
 import { articles as manualArticles } from './articles';
 import { generatedArticles } from './articles-generated';
 
