@@ -45,5 +45,5 @@ jobs:
       - run: |
           git config user.name "Bot"
           git config user.email "bot@calmeclair.com"
-          git add src/data/articles-generated.ts
+          git add src/data/articles.ts
           git diff --staged --quiet || (git commit -m "🤖 Article TS" && git push)
