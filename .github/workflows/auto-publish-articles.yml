@@ -1,57 +1,49 @@
-﻿name: Auto-générer et publier articles avec images
+﻿name: Auto-générer articles TypeScript
 
 on:
   schedule:
-    # Exécution 2 fois par jour : 9h et 15h (heure de Paris)
-    - cron: '0 8 * * *'  # 9h Paris (8h UTC en hiver)
-    - cron: '0 14 * * *' # 15h Paris (14h UTC en hiver)
-  
-  # Permet aussi le déclenchement manuel depuis GitHub
+    - cron: '0 7 * * *'
+    - cron: '0 13 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  generate-and-publish-article:
+  generate:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
       
-      - name: Install dependencies
-        run: npm ci
+      - run: npm install
       
-      - name: Generate new article with image
-        env:
+      - id: category
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 10 ]; then
+            echo "category=stress" >> $GITHUB_OUTPUT
+            echo "topic=stress" >> $GITHUB_OUTPUT
+          else
+            echo "category=anxiete" >> $GITHUB_OUTPUT
+            echo "topic=anxiété" >> $GITHUB_OUTPUT
+          fi
+      
+      - env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          CATEGORY: ${{ steps.category.outputs.category }}
+          TOPIC: ${{ steps.category.outputs.topic }}
         run: npm run generate-article
       
-      - name: Commit and push new article
-        run: |
-          git config user.name "CalmeClair Bot"
+      - run: |
+          git config user.name "Bot"
           git config user.email "bot@calmeclair.com"
-          git add src/data/articles.ts
-          
-          # Vérifier s'il y a des changements
-          if git diff --staged --quiet; then
-            echo "Aucun nouvel article généré"
-            exit 0
-          fi
-          
-          git commit -m "🤖 Publication automatique : nouvel article avec image"
-          git push
-      
-      - name: Summary
-        run: |
-          echo "✅ Article publié avec succès!"
-          echo "🖼️  Image optimisée incluse"
-          echo "💰 Article optimisé pour Google AdSense"
-          echo "📢 Vercel va déployer automatiquement"
+          git add src/data/articles-generated.ts
+          git diff --staged --quiet || (git commit -m "🤖 Article TS" && git push)
