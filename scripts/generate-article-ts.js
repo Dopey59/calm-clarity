@@ -2,7 +2,7 @@
 
 /**
  * Génération d'articles au format TypeScript
- * SIMPLE, FIABLE, SANS COMPLICATIONS
+ * AVEC ROTATION AUTOMATIQUE D'IMAGES UNIQUES
  */
 
 import Anthropic from '@anthropic-ai/sdk';
@@ -23,6 +23,80 @@ const anthropic = new Anthropic({
 });
 
 /**
+ * POOL D'IMAGES PAR CATÉGORIE
+ * Rotation automatique pour éviter les doublons
+ */
+const IMAGE_POOLS = {
+  anxiete: [
+    'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1200&h=630&fit=crop', // Eau calme
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop', // Montagne brumeuse
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop', // Plage zen
+    'https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=1200&h=630&fit=crop', // Lac miroir
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&h=630&fit=crop', // Nature verte
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=630&fit=crop', // Forêt lumineuse
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&h=630&fit=crop', // Lac montagne
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=630&fit=crop', // Montagne neige
+    'https://images.unsplash.com/photo-1511497584788-876760111969?w=1200&h=630&fit=crop', // Fleurs zen
+    'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&h=630&fit=crop', // Ciel paisible
+    'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200&h=630&fit=crop', // Nature calme
+    'https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=1200&h=630&fit=crop', // Feuillage zen
+    'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=1200&h=630&fit=crop', // Chemin nature
+    'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&h=630&fit=crop', // Ciel étoilé
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&h=630&fit=crop', // Montagne calme
+  ],
+  stress: [
+    'https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=630&fit=crop', // Yoga/Équilibre
+    'https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1200&h=630&fit=crop', // Méditation
+    'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&h=630&fit=crop', // Bien-être
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop', // Nature apaisante
+    'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&h=630&fit=crop', // Sérénité
+    'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200&h=630&fit=crop', // Espace zen
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop', // Calme
+    'https://images.unsplash.com/photo-1524863479829-916d8e77f114?w=1200&h=630&fit=crop', // Détente
+    'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1200&h=630&fit=crop', // Paix
+    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1200&h=630&fit=crop', // Nature
+  ]
+};
+
+/**
+ * Lire les images déjà utilisées
+ */
+function getUsedImages() {
+  const articlesFile = path.join(process.cwd(), 'src/data/articles-generated.ts');
+  
+  if (!fs.existsSync(articlesFile)) {
+    return [];
+  }
+  
+  const content = fs.readFileSync(articlesFile, 'utf8');
+  
+  // Extraire toutes les URLs d'images
+  const imageMatches = content.matchAll(/image: ['"](.+?)['"]/g);
+  return Array.from(imageMatches).map(m => m[1]);
+}
+
+/**
+ * Choisir une image non utilisée dans le pool
+ */
+function selectUniqueImage(category) {
+  const pool = IMAGE_POOLS[category] || IMAGE_POOLS.anxiete;
+  const usedImages = getUsedImages();
+  
+  // Filtrer les images non utilisées
+  const availableImages = pool.filter(img => !usedImages.includes(img));
+  
+  // Si toutes les images ont été utilisées, on recommence le cycle
+  const finalPool = availableImages.length > 0 ? availableImages : pool;
+  
+  // Sélection aléatoire pour plus de variété
+  const randomIndex = Math.floor(Math.random() * finalPool.length);
+  
+  console.log(`🎨 Image sélectionnée: ${randomIndex + 1}/${finalPool.length} disponibles`);
+  
+  return finalPool[randomIndex];
+}
+
+/**
  * Lire les articles existants
  */
 function getExistingArticles() {
@@ -35,7 +109,7 @@ function getExistingArticles() {
   const content = fs.readFileSync(articlesFile, 'utf8');
   
   // Extraire les titres existants
-  const titleMatches = content.matchAll(/title: ['"](.+?)['"]/g);
+  const titleMatches = content.matchAll(/title: ['\"](.+?)['\"]/g);
   return Array.from(titleMatches).map(m => m[1].toLowerCase());
 }
 
@@ -50,35 +124,10 @@ function getNextId() {
   }
   
   const content = fs.readFileSync(articlesFile, 'utf8');
-  const idMatches = content.matchAll(/id: ['"](\d+)['"]/g);
+  const idMatches = content.matchAll(/id: ['\"](\\d+)['\"]/g);
   const ids = Array.from(idMatches).map(m => parseInt(m[1]));
   
   return ids.length > 0 ? Math.max(...ids) + 1 : 1;
-}
-
-// Rechercher une image Unsplash
-async function searchUnsplashImage(query) {
-  if (!UNSPLASH_ACCESS_KEY) {
-    return 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop';
-  }
-
-  try {
-    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape`;
-    
-    const response = await fetch(url, {
-      headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` }
-    });
-
-    const data = await response.json();
-    
-    if (data.results && data.results.length > 0) {
-      return `https://images.unsplash.com/photo-${data.results[0].id}?w=1200&h=630&fit=crop`;
-    }
-    
-    return 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop';
-  } catch (error) {
-    return 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop';
-  }
 }
 
 // Générer l'article
@@ -115,7 +164,7 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown. Pas de frontmatter.`;
 
   const content = message.content[0].text;
   
-  const titleMatch = content.match(/^#\s+(.+)$/m);
+  const titleMatch = content.match(/^#\\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1] : 'Article sans titre';
   
   console.log(`✅ Titre: "${title}"`);
@@ -123,12 +172,12 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown. Pas de frontmatter.`;
   const slug = title
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\\u0300-\\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
   
   const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
-  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['"]/g, '') || `Article sur ${TOPIC}`;
+  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['\"]/g, '') || `Article sur ${TOPIC}`;
   
   return { title, slug, excerpt, content };
 }
@@ -138,23 +187,25 @@ async function updateArticlesFile(article) {
   const articlesFile = path.join(process.cwd(), 'src/data/articles-generated.ts');
   const nextId = getNextId();
   const today = new Date().toISOString().split('T')[0];
-  const image = await searchUnsplashImage(`${TOPIC} mental health wellness`);
+  
+  // NOUVELLE LOGIQUE: Rotation d'images uniques
+  const image = selectUniqueImage(CATEGORY);
   
   // Échapper le contenu pour TypeScript
   const contentEscaped = article.content
-    .replace(/\\/g, '\\\\')
-    .replace(/`/g, '\\`')
-    .replace(/\$/g, '\\$');
+    .replace(/\\\\/g, '\\\\\\\\')
+    .replace(/`/g, '\\\\`')
+    .replace(/\\$/g, '\\\\$');
   
-  const titleEscaped = article.title.replace(/'/g, "\\'");
-  const excerptEscaped = article.excerpt.replace(/'/g, "\\'");
+  const titleEscaped = article.title.replace(/'/g, "\\\\'");
+  const excerptEscaped = article.excerpt.replace(/'/g, "\\\\'");
   
   const newArticle = `  {
     id: '${nextId}',
     slug: '${article.slug}',
     title: '${titleEscaped}',
     excerpt: '${excerptEscaped}',
-    content: \`${contentEscaped}\`,
+    content: \\`${contentEscaped}\\`,
     category: '${CATEGORY}' as const,
     categoryLabel: '${CATEGORY === 'anxiete' ? 'Anxiété' : 'Stress'}',
     tags: ['${TOPIC}', 'bien-être', 'santé mentale'],
@@ -186,7 +237,7 @@ async function updateArticlesFile(article) {
 
 /**
  * Articles générés automatiquement
- * NE PAS MODIFIER MANUELLEMENT
+ * Migré depuis MDX le 2025-12-14
  */
 
 export const generatedArticles: Article[] = [
@@ -205,7 +256,7 @@ ${newArticle}
 // Main
 async function main() {
   try {
-    console.log('🚀 Génération article TypeScript\n');
+    console.log('🚀 Génération article TypeScript avec rotation d\'images\n');
     
     const article = await generateArticle();
     const id = await updateArticlesFile(article);
