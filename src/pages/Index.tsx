@@ -6,7 +6,7 @@ import { Newsletter } from '@/components/common/Newsletter';
 import { AdSlot } from '@/components/common/AdSlot';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { getFeaturedArticles, getArticlesByCategory, getRecentArticles } from '@/data/articles';
+import { getFeaturedArticles, getArticlesByCategory, getRecentArticles } from '@/lib/articles';
 import { SEO } from '@/components/seo';
 import { generateWebsiteSchema, generateOrganizationSchema, getHomeBreadcrumb } from '@/lib/seo-helpers';
 

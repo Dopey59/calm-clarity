@@ -5,7 +5,7 @@ import { Breadcrumb } from '@/components/common/Breadcrumb';
 import { ArticleCard } from '@/components/articles/ArticleCard';
 import { Newsletter } from '@/components/common/Newsletter';
 import { AdSlot } from '@/components/common/AdSlot';
-import { getArticlesByCategory } from '@/data/articles';
+import { getArticlesByCategory } from '@/lib/articles';
 import { Button } from '@/components/ui/button';
 import { SEO } from '@/components/seo';
 import { getCategoryBreadcrumb } from '@/lib/seo-helpers';

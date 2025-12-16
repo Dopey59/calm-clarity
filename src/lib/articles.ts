@@ -3,50 +3,50 @@
  * VERSION TYPESCRIPT - Simple et fiable
  */
 
-import { Article } from '@/types/Article';
+import { Article } from '@/data/all-articles';
 import { allArticles } from '@/data/all-articles';
 
 /**
  * Charge tous les articles
  */
-export async function getAllArticles(): Promise<Article[]> {
+export function getAllArticles(): Article[] {
   return allArticles;
 }
 
 /**
  * Récupère un article par son slug
  */
-export async function getArticleBySlug(slug: string): Promise<Article | null> {
+export function getArticleBySlug(slug: string): Article | null {
   return allArticles.find(article => article.slug === slug) || null;
 }
 
 /**
  * Récupère les articles par catégorie
  */
-export async function getArticlesByCategory(
+export function getArticlesByCategory(
   category: 'anxiete' | 'stress'
-): Promise<Article[]> {
+): Article[] {
   return allArticles.filter(article => article.category === category);
 }
 
 /**
  * Récupère les articles en vedette
  */
-export async function getFeaturedArticles(): Promise<Article[]> {
+export function getFeaturedArticles(): Article[] {
   return allArticles.filter(article => article.featured);
 }
 
 /**
  * Récupère les articles récents
  */
-export async function getRecentArticles(count: number = 6): Promise<Article[]> {
+export function getRecentArticles(count: number = 6): Article[] {
   return allArticles.slice(0, count);
 }
 
 /**
  * Récupère tous les tags uniques
  */
-export async function getAllTags(): Promise<string[]> {
+export function getAllTags(): string[] {
   const tags = allArticles.flatMap(article => article.tags);
   return [...new Set(tags)];
 }
@@ -54,7 +54,7 @@ export async function getAllTags(): Promise<string[]> {
 /**
  * Recherche d'articles par terme
  */
-export async function searchArticles(query: string): Promise<Article[]> {
+export function searchArticles(query: string): Article[] {
   const lowerQuery = query.toLowerCase();
   
   return allArticles.filter(article => 
@@ -67,7 +67,7 @@ export async function searchArticles(query: string): Promise<Article[]> {
 /**
  * Charge le contenu complet d'un article
  */
-export async function getArticleContent(slug: string): Promise<string | null> {
-  const article = await getArticleBySlug(slug);
+export function getArticleContent(slug: string): string | null {
+  const article = getArticleBySlug(slug);
   return article?.content || null;
 }

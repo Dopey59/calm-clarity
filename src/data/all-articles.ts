@@ -1,4 +1,4 @@
-import { Article } from '@/types/Article';
+import { Article } from './articles'; // ← Correction ici
 import { articles as manualArticles } from './articles';
 import { generatedArticles } from './articles-generated';
 
@@ -12,4 +12,4 @@ export const allArticles: Article[] = [
   new Date(b.datePublished).getTime() - new Date(a.datePublished).getTime()
 );
 
-export { Article };
+export type { Article };

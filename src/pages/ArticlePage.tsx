@@ -9,10 +9,12 @@ import { TableOfContents } from '@/components/articles/TableOfContents';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { getArticleBySlug, getArticlesByCategory, Article } from '@/data/articles';
 import { cn } from '@/lib/utils';
 import { SEO, useArticleSEO } from '@/components/seo';
 import { getArticleBreadcrumb, generateArticleSchema } from '@/lib/seo-helpers';
+
+import { getArticleBySlug, getArticlesByCategory } from '@/lib/articles';
+import { Article } from '@/data/all-articles';
 
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString('fr-FR', {
