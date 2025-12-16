@@ -369,7 +369,7 @@ L'avenir que vous redoutez tant peut redevenir une source d'espoir et d'opportun
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Anxiété anticipatoire : quand linquiétude du futur paralyse le présent',
     datePublished: '2025-12-14',
     dateModified: '2025-12-14',
@@ -913,7 +913,7 @@ Pascoe, M., et al. (2020). The effectiveness of mindfulness-and acceptance-based
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1511884642898-4c92249e20b6?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour l\'article : Anxiété de Performance : Comment Transformer la Pression en Succès',
     datePublished: '2025-12-14',
     dateModified: '2025-12-14',
@@ -1151,417 +1151,14 @@ Rappelez-vous : votre valeur ne se résume pas à vos performances. Vous avez le
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Anxiété généralisée et perfectionnisme : comprendre le piège de lexcellence toxique',
     datePublished: '2025-12-14',
     dateModified: '2025-12-14',
     readingTime: 10,
     featured: true,
   },
-  {
-    id: '15',
-    slug: 'anxiete-nocturne-comprendre-et-vaincre-les-troubles-du-sommeil-lies-a-l-angoisse',
-    title: 'Anxiété nocturne : comprendre et vaincre les troubles du sommeil liés à langoisse',
-    excerpt: 'Lobscurité sinstalle, le silence se fait, et soudain, votre esprit semballe. Les pensées se bousculent, le cœur saccélère, et le sommeil tant attendu semble séloigner inexorablement. Si cette scè',
-    content: `
-# Anxiété nocturne : comprendre et vaincre les troubles du sommeil liés à l'angoisse
-
-L'obscurité s'installe, le silence se fait, et soudain, votre esprit s'emballe. Les pensées se bousculent, le cœur s'accélère, et le sommeil tant attendu semble s'éloigner inexorablement. Si cette scène vous semble familière, vous souffrez probablement d'anxiété nocturne, un trouble qui touche près de 40% des personnes anxieuses selon l'American Sleep Association.
-
-L'anxiété nocturne ne se contente pas de perturber vos nuits : elle crée un cercle vicieux où le manque de sommeil alimente l'anxiété, qui à son tour aggrave l'insomnie. Cette spirale descendante peut rapidement impacter votre qualité de vie, votre santé mentale et physique, ainsi que vos relations personnelles et professionnelles.
-
-Dans cet article, nous explorerons les mécanismes complexes de l'anxiété nocturne, ses manifestations spécifiques, et surtout, nous vous fournirons des stratégies concrètes et scientifiquement validées pour retrouver des nuits paisibles et réparatrices.
-
-## Qu'est-ce que l'anxiété nocturne ?
-
-### Définition et caractéristiques
-
-L'anxiété nocturne, également appelée anxiété du coucher ou insomnie anxieuse, désigne l'ensemble des symptômes anxieux qui se manifestent spécifiquement au moment du coucher ou durant la nuit. Contrairement à l'anxiété diurne, elle se caractérise par une intensification des préoccupations dans l'obscurité et le silence.
-
-Cette forme d'anxiété se distingue par plusieurs particularités :
-- Elle survient principalement lors de la transition entre l'éveil et le sommeil
-- Les symptômes s'intensifient dans l'environnement calme de la chambre
-- Elle s'accompagne souvent de ruminations incontrôlables
-- Les préoccupations peuvent concerner le sommeil lui-même ou des sujets externes
-
-### Les manifestations physiques et psychologiques
-
-#### Symptômes physiques courants
-
-L'anxiété nocturne se traduit par diverses manifestations corporelles :
-
-**Système cardiovasculaire** :
-- Palpitations ou rythme cardiaque accéléré
-- Sensation d'oppression thoracique
-- Bouffées de chaleur ou frissons
-
-**Système respiratoire** :
-- Respiration rapide ou superficielle
-- Sensation d'essoufflement
-- Hyperventilation
-
-**Système digestif** :
-- Nausées ou maux d'estomac
-- Tension abdominale
-- Besoin fréquent d'uriner
-
-**Système musculaire** :
-- Tension musculaire généralisée
-- Tremblements ou agitation
-- Raideur dans la nuque et les épaules
-
-#### Symptômes psychologiques
-
-Sur le plan mental, l'anxiété nocturne se caractérise par :
-- Ruminations incessantes sur les événements de la journée
-- Anticipation anxieuse du lendemain
-- Peur de ne pas réussir à s'endormir
-- Sentiment d'impuissance face au sommeil
-- Catastrophisme concernant les conséquences du manque de sommeil
-
-## Les causes profondes de l'anxiété nocturne
-
-### Facteurs neurobiologiques
-
-#### Le rôle du cortisol
-
-Le cortisol, hormone du stress, suit normalement un rythme circadien avec des pics matinaux et une diminution progressive en soirée. Chez les personnes souffrant d'anxiété nocturne, ce rythme peut être perturbé, entraînant des niveaux élevés de cortisol au moment du coucher.
-
-Une étude publiée dans le *Journal of Clinical Endocrinology & Metabolism* (2018) a démontré que 65% des personnes souffrant d'insomnie chronique présentaient des dysrégulations du cortisol, particulièrement prononcées en soirée.
-
-#### Les neurotransmetteurs impliqués
-
-Plusieurs neurotransmetteurs jouent un rôle clé dans l'anxiété nocturne :
-
-**GABA (Acide gamma-aminobutyrique)** : Principal neurotransmetteur inhibiteur du cerveau, il favorise la relaxation et le sommeil. Un déficit en GABA peut expliquer l'hyperactivation nocturne.
-
-**Sérotonine** : Impliquée dans la régulation de l'humeur et du sommeil, elle précède la production de mélatonine. Un déséquilibre sérotoninergique peut perturber l'endormissement.
-
-**Mélatonine** : Hormone du sommeil produite par la glande pinéale, elle régule les cycles veille-sommeil. Sa production peut être inhibée par le stress et l'anxiété.
-
-### Facteurs psychologiques
-
-#### Le conditionnement négatif
-
-Le lit et la chambre peuvent devenir associés à l'anxiété par un processus de conditionnement classique. Après plusieurs nuits d'insomnie anxieuse, l'environnement de sommeil déclenche automatiquement une réponse de stress.
-
-#### La métacognition anxieuse
-
-Les pensées sur les pensées ("Je ne devrais pas penser à ça", "Il faut que j'arrête de m'inquiéter") créent un niveau supplémentaire d'anxiété. Cette métacognition anxieuse alimente le cercle vicieux de l'insomnie.
-
-### Facteurs environnementaux et comportementaux
-
-#### L'hypervigilance environnementale
-
-Les personnes anxieuses développent souvent une sensibilité accrue aux stimuli nocturnes : bruits, lumières, variations de température. Cette hypervigilance maintient le système nerveux en état d'alerte.
-
-#### Les habitudes de sommeil dysfonctionnelles
-
-Certains comportements, bien qu'adoptés pour gérer l'anxiété, peuvent l'aggraver :
-- Rester au lit en ruminations
-- Consulter l'heure répétitivement
-- Utiliser des écrans pour "se distraire"
-- Consommer de la caféine tard dans la journée
-
-## Le cercle vicieux anxiété-insomnie
-
-### Mécanismes de perpétuation
-
-L'anxiété nocturne s'auto-entretient par plusieurs mécanismes :
-
-1. **Phase d'anticipation** : La peur de mal dormir génère de l'anxiété dès l'après-midi
-2. **Phase d'activation** : L'anxiété augmente l'éveil physiologique, rendant l'endormissement difficile
-3. **Phase de rumination** : L'insomnie nourrit les pensées catastrophiques sur le sommeil
-4. **Phase de conséquences** : La fatigue du lendemain renforce la peur de mal dormir
-
-### Impact sur la santé globale
-
-#### Conséquences physiologiques
-
-Le manque de sommeil chronique lié à l'anxiété nocturne entraîne :
-- Affaiblissement du système immunitaire
-- Déséquilibres hormonaux
-- Augmentation du risque cardiovasculaire
-- Troubles métaboliques
-
-#### Répercussions psychosociales
-
-L'anxiété nocturne affecte également :
-- La concentration et la mémoire
-- L'humeur et la stabilité émotionnelle
-- Les relations interpersonnelles
-- Les performances professionnelles ou scolaires
-
-## Stratégies cognitives pour apaiser l'esprit
-
-### La restructuration cognitive
-
-#### Identifier et questionner les pensées anxieuses
-
-La première étape consiste à reconnaître les pensées qui alimentent l'anxiété nocturne. Tenez un "journal des pensées" pendant une semaine, en notant :
-- L'heure d'apparition de l'anxiété
-- Les pensées spécifiques qui vous traversent l'esprit
-- L'intensité de l'anxiété (sur une échelle de 1 à 10)
-- La durée avant l'endormissement
-
-#### Technique de questionnement socratique
-
-Pour chaque pensée anxieuse identifiée, posez-vous ces questions :
-- Cette pensée est-elle réaliste ou exagérée ?
-- Quelles sont les preuves pour et contre cette inquiétude ?
-- Que dirais-je à un ami qui aurait cette même pensée ?
-- Quelle serait une pensée plus équilibrée ?
-
-### La technique de l'inquiétude programmée
-
-Développée par le Dr Thomas Borkovec, cette technique consiste à :
-
-1. **Réserver un moment d'inquiétude** : Choisissez 15-20 minutes dans l'après-midi pour vous concentrer sur vos préoccupations
-2. **Reporter les inquiétudes nocturnes** : Quand l'anxiété surgit au coucher, dites-vous : "J'y penserai demain pendant mon moment d'inquiétude"
-3. **Utiliser un carnet de reporter** : Notez brièvement l'inquiétude pour la traiter le lendemain
-
-### La méditation de pleine conscience adaptée au sommeil
-
-#### Exercice de balayage corporel
-
-Allongé dans votre lit, pratiquez cette séquence :
-
-1. Commencez par porter attention à votre respiration sans la modifier
-2. Concentrez-vous progressivement sur chaque partie du corps, des orteils au sommet de la tête
-3. Pour chaque zone, observez les sensations sans jugement
-4. Si des pensées anxieuses surviennent, reconnaissez-les et revenez doucement aux sensations corporelles
-5. Terminez en portant attention aux sensations de détente dans tout le corps
-
-## Techniques de relaxation physique
-
-### La respiration 4-7-8
-
-Développée par le Dr Andrew Weil, cette technique active le système nerveux parasympathique :
-
-1. Expirez complètement par la bouche
-2. Inspirez par le nez en comptant jusqu'à 4
-3. Retenez votre souffle en comptant jusqu'à 7
-4. Expirez par la bouche en comptant jusqu'à 8
-5. Répétez ce cycle 4 fois
-
-### La relaxation musculaire progressive de Jacobson
-
-Cette méthode consiste à contracter puis relâcher chaque groupe musculaire :
-
-1. **Commencez par les pieds** : Contractez les muscles pendant 5-7 secondes, puis relâchez pendant 15-20 secondes
-2. **Remontez progressivement** : Mollets, cuisses, abdomen, mains, bras, épaules, cou, visage
-3. **Observez les sensations** : Notez la différence entre tension et relaxation
-4. **Terminez par une relaxation globale** : Laissez tout votre corps dans un état de détente profonde
-
-### L'utilisation stratégique de la température
-
-#### Le protococolemain-pied froid
-
-Recherches montrent que le refroidissement des extrémités peut favoriser l'endormissement :
-- Trempez vos pieds dans de l'eau fraîche avant le coucher
-- Utilisez un masque de sommeil réfrigérant
-- Maintenez la température de la chambre entre 16-19°C
-
-#### Le bain chaud stratégique
-
-Prenez un bain chaud 1-2 heures avant le coucher. La chute de température corporelle qui suit favorise naturellement l'endormissement.
-
-## Optimisation de l'environnement de sommeil
-
-### L'hygiène de sommeil ciblée
-
-#### Création d'un sanctuaire de détente
-
-Transformez votre chambre en environnement propice au calme :
-
-**Éclairage** :
-- Utilisez des ampoules à température de couleur chaude (2700K-3000K) le soir
-- Installez des rideaux occultants ou un masque de sommeil
-- Éliminez les LED d'appareils électroniques
-
-**Acoustique** :
-- Utilisez un bruit blanc ou des sons de la nature
-- Investissez dans des bouchons d'oreilles de qualité
-- Isolez la chambre des bruits extérieurs
-
-**Confort** :
-- Choisissez une literie de qualité adaptée à vos préférences
-- Maintenez une température fraîche mais confortable
-- Éliminez les sources de distraction visuelle
-
-### La règle des 3-2-1
-
-Pour optimiser l'endormissement :
-- **3 heures avant** : Dernier repas copieux et dernière séance d'exercice intense
-- **2 heures avant** : Dernière consommation d'alcool et fin des activités stimulantes
-- **1 heure avant** : Élimination des écrans et début du rituel de détente
-
-### Le rituel de transition
-
-Développez une séquence d'activités apaisantes de 30-45 minutes avant le coucher :
-
-1. **Phase de déconnexion** (15 min) : Rangement, préparation du lendemain
-2. **Phase d'apaisement** (15 min) : Lecture, écoute musicale douce, tisane
-3. **Phase de relaxation** (15 min) : Respiration, méditation, ou exercices de détente
-
-## Approches complémentaires et alternatives
-
-### L'aromathérapie scientifiquement validée
-
-#### Les huiles essentielles efficaces
-
-Plusieurs études ont démontré l'efficacité de certaines huiles essentielles :
-
-**Lavande vraie** (Lavandula angustifolia) :
-- Réduit l'activation du système nerveux sympathique
-- Améliore la qualité du sommeil profond
-- Utilisation : 2-3 gouttes sur l'oreiller ou en diffusion
-
-**Bergamote** (Citrus bergamia) :
-- Diminue les niveaux de cortisol
-- Possède des propriétés anxiolytiques
-- Utilisation : En mélange avec une huile végétale pour massage des tempes
-
-**Ylang-ylang** (Cananga odorata) :
-- Ralentit le rythme cardiaque
-- Favorise la détente musculaire
-- Utilisation : Quelques gouttes dans un bain tiède
-
-### La phytothérapie pour l'anxiété nocturne
-
-#### Plantes adaptogènes et calmantes
-
-**Passiflore** (Passiflora incarnata) :
-- Augmente les niveaux de GABA dans le cerveau
-- Dosage : 200-400 mg d'extrait standardisé, 30 minutes avant le coucher
-
-**Valériane** (Valeriana officinalis) :
-- Améliore la latence d'endormissement
-- Réduit les réveils nocturnes
-- Dosage : 300-600 mg d'extrait sec, 1-2 heures avant le coucher
-
-**Mélisse** (Melissa officinalis) :
-- Propriétés calmantes et digestives
-- Synergie efficace avec la valériane
-- Utilisation : En tisane ou complément alimentaire
-
-### L'acupression pour l'auto-traitement
-
-#### Points stratégiques pour l'anxiété nocturne
-
-**Shenmen (Porte de l'esprit)** :
-- Localisation : Pli du poignet, côté auriculaire
-- Technique : Pression douce avec le pouce pendant 1-2 minutes de chaque côté
-
-**Baihui (Cent réunions)** :
-- Localisation : Sommet du crâne
-- Technique : Pression légère avec les doigts, mouvements circulaires
-
-**Yintang (Hall de l'impression)** :
-- Localisation : Entre les sourcils
-- Technique : Pression douce avec l'index, respiration profonde
-
-## Quand consulter un professionnel
-
-### Signaux d'alarme
-
-Consultez un professionnel de la santé mentale si :
-- L'anxiété nocturne persiste plus de 3 semaines malgré les techniques d'auto-aide
-- Elle s'accompagne d'attaques de panique nocturnes
-- Vous développez une peur phobique du sommeil
-- L'insomnie affecte significativement votre fonctionnement diurne
-- Vous ressentez des idées suicidaires ou un désespoir profond
-
-### Options thérapeutiques spécialisées
-
-#### Thérapie cognitivo-comportementale pour l'insomnie (TCC-I)
-
-La TCC-I est considérée comme le traitement de première ligne pour l'insomnie chronique. Elle comprend :
-- Restriction du temps de sommeil
-- Contrôle des stimuli
-- Techniques de relaxation
-- Restructuration cognitive spécifique au sommeil
-
-#### EMDR pour les traumas liés au sommeil
-
-L'EMDR (Eye Movement Desensitization and Reprocessing) peut être efficace si l'anxiété nocturne est liée à des événements traumatisants survenus pendant le sommeil ou l'enfance.
-
-### Approche médicamenteuse complémentaire
-
-#### Options non-addictives
-
-En complément de l'approche psychologique :
-- **Mélatonine** : Régulation naturelle du cycle circadien
-- **Magnésium** : Relaxation musculaire et nerveuse
-- **L-théanine** : Acide aminé favorisant la détente sans somnolence
-
-## FAQ - Questions fréquentes sur l'anxiété nocturne
-
-### Pourquoi mon anxiété empire-t-elle la nuit ?
-
-L'anxiété nocturne s'intensifie pour plusieurs raisons physiologiques et psychologiques. Le soir, les distractions diminuent, laissant plus d'espace mental aux préoccupations. De plus, la fatigue réduit nos capacités de régulation émotionnelle, rendant les pensées anxieuses plus envahissantes. Sur le plan biologique, les dysrégulations du cortisol peuvent maintenir un état d'éveil inapproprié au moment du coucher.
-
-### Combien de temps faut-il pour surmonter l'anxiété nocturne ?
-
-La durée varie selon l'intensité du trouble et la régularité de l'application des techniques. En général, les premières améliorations apparaissent après 2-3 semaines de pratique quotidienne des stratégies cognitives et de relaxation. Une résolution significative du problème peut prendre 6-12 semaines. La clé réside dans la patience et la persévérance, car le cerveau a besoin de temps pour créer de nouveaux conditionnements positifs.
-
-### Puis-je utiliser des somnifères pour traiter l'anxiété nocturne ?
-
-Les somnifères peuvent offrir un soulagement temporaire, mais ils ne traitent pas les causes sous-jacentes de l'anxiété nocturne. Leur usage prolongé peut créer une dépendance et aggraver l'anxiété à long terme. Il est préférable de privilégier les approches non-médicamenteuses en première intention, en réservant les traitements pharmacologiques aux cas sévères et sous supervision médicale stricte.
-
-### Comment gérer l'anxiété nocturne pendant les périodes de stress intense ?
-
-Pendant les phases de stress aigu, renforcez vos stratégies habituelles : augmentez la fréquence des exercices de relaxation, pratiquez l'inquiétude programmée plusieurs fois par jour, et n'hésitez pas à vous lever si vous ne dormez pas après 20 minutes au lit. Maintenez une routine de sommeil stricte même si la situation externe est chaotique. Considérez également un soutien professionnel temporaire si le stress perdure.
-
-### L'anxiété nocturne peut-elle affecter ma santé physique ?
-
-Absolument. L'anxiété nocturne chronique peut entraîner des conséquences physiques significatives : affaiblissement immunitaire, troubles cardiovasculaires, déséquilibres hormonaux, et troubles métaboliques. Elle augmente également les niveaux d'inflammation chronique dans l'organisme. C'est pourquoi il est crucial de traiter ce trouble rapidement plutôt que de le subir passivement.
-
-### Mes enfants peuvent-ils développer une anxiété nocturne ?
-
-Oui, l'anxiété nocturne touche aussi les enfants et adolescents. Elle se manifeste souvent par des peurs du noir, des monstres, ou des inquiétudes sur l'école. Les techniques doivent être adaptées à l'âge : histoires apaisantes, objets transitionnels, routines sécurisantes. Si l'anxiété nocturne d'un enfant persiste ou s'intensifie, une consultation avec un psychologue spécialisé en pédopsychologie est recommandée.
-
-### Puis-je pratiquer du sport le soir malgré l'anxiété nocturne ?
-
-L'exercice physique intense moins de 3 heures avant le coucher peut aggraver l'anxiété nocturne en maintenant l'activation physiologique. Préférez des activités douces le soir : yoga, étirements, ou marche tranquille. L'exercice régulier dans la journée reste bénéfique pour réduire l'anxiété globale et améliorer la qualité du sommeil, à condition de le pratiquer au bon moment.
-
-### Comment savoir si mon anxiété nocturne nécessite un traitement médical ?
-
-Consultez un professionnel si l'anxiété nocturne persiste plus d'un mois, s'accompagne d'attaques de panique, impacte significativement votre vie quotidienne, ou si vous développez des pensées catastrophiques sur votre santé. De même, si vous consommez régulièrement de l'alcool ou des substances pour gérer l'anxiété, une aide professionnelle devient nécessaire pour éviter les complications.
-
-## Conclusion : Vers des nuits sereines et réparatrices
-
-L'anxiété nocturne n'est pas une fatalité. Bien qu'elle puisse sembler insurmontable dans l'obscurité de vos nuits agitées, les recherches scientifiques et l'expérience clinique démontrent qu'elle peut être efficacement traitée avec les bonnes stratégies et une approche patiente et bienveillante envers soi-même.
-
-Rappelez-vous que surmonter l'anxiété nocturne est un processus progressif qui demande de la persévérance. Chaque petit pas compte : une respiration consciente de plus, une pensée restructurée, un moment de relaxation pratiqué. Ces efforts s'accumulent pour créer de nouveaux patterns neurologiques plus apaisants.
-
-L'investissement dans votre sommeil est un investissement dans votre santé globale, votre bonheur et votre capacité à profiter pleinement de la vie. Vous méritez des nuits paisibles et des réveils rafraîchissants. Commencez dès ce soir par choisir une ou deux techniques présentées dans cet article, et donnez-vous le temps de les intégrer à votre routine.
-
-Si malgré vos efforts l'anxiété nocturne persiste, n'hésitez pas à chercher l'aide d'un professionnel. Demander de l'aide n'est pas un signe de faiblesse, mais un acte de courage et d'auto-compassion qui vous rapprochera de la sérénité nocturne que vous recherchez.
-
-Vos nuits peuvent redevenir un havre de paix. Le chemin existe, et vous avez maintenant la carte pour le parcourir.
-
----
-
-**Sources scientifiques :**
-
-1. American Sleep Association. (2019). *Sleep Anxiety Statistics and Treatment Options*. 
-2. Baglioni, C., et al. (2018). Sleep and mental disorders: A meta-analysis of polysomnographic research. *Journal of Psychiatric Research*, 116, 56-82.
-3. Borkovec, T. D., & Newman, M. G. (2018). Worry and generalized anxiety disorder. *Clinical Psychology Review*, 28(2), 345-367.
-4. Harvey, A. G. (2017). Cognitive behavioral therapy for insomnia: A systematic review. *Sleep Medicine Reviews*, 32, 85-97.
-5. Meoño, A., et al. (2019). Cortisol rhythm alterations in chronic insomnia. *Journal of Clinical Endocrinology & Metabolism*, 104(4), 1187-1195.
-6. Walker, M. (2017). *Why We Sleep: Unlocking the Power of Sleep and Dreams*. Scribner.
-`,
-    category: 'anxiete' as const,
-    categoryLabel: 'Anxiété',
-    tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
-    imageAlt: 'Illustration pour article : Anxiété nocturne : comprendre et vaincre les troubles du sommeil liés à langoisse',
-    datePublished: '2025-12-14',
-    dateModified: '2025-12-14',
-    readingTime: 10,
-    featured: true,
-  },
+  
   {
     id: '11',
     slug: 'anxiete-sociale-comment-surmonter-la-peur-du-jugement-et-retrouver-confiance-en-soi',
@@ -1964,99 +1561,13 @@ Votre vie sociale peut devenir une source de joie et d'enrichissement plutôt qu
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour l\'article : Anxiété sociale : Comment surmonter la peur du jugement et retrouver confiance en soi',
     datePublished: '2025-12-14',
     dateModified: '2025-12-14',
     readingTime: 10,
     featured: true,
   },
-  {
-    id: 'example',
-    slug: 'exemple-article-anxiete',
-    title: 'Exemple d\'article sur l\'anxiété',
-    excerpt: 'Ceci est un exemple de fichier MDX montrant la structure des articles dans la nouvelle architecture.',
-    content: `
-# Exemple d'article sur l'anxiété
-
-Ceci est un **exemple** de fichier MDX montrant la nouvelle structure des articles.
-
-## Structure du frontmatter
-
-Chaque article contient des métadonnées en YAML au début du fichier (frontmatter).
-
-## Contenu en Markdown
-
-Le contenu est écrit en Markdown standard avec support de :
-
-- **Listes**
-- *Italique*
-- **Gras**
-- [Liens](https://example.com)
-
-### Sections H3
-
-Et des sous-sections...
-
-## FAQ
-
-**Question 1 : Pourquoi cette structure ?**
-
-Réponse : Pour une meilleure maintenabilité et scalabilité.
-
-**Question 2 : Comment migrer ?**
-
-Réponse : Utilisez le script \`migrate-to-mdx.js\`.
-
-## Conclusion
-
-Cette structure permet de gérer facilement des centaines d'articles.
-`,
-    category: 'anxiete' as const,
-    categoryLabel: 'Anxiété',
-    tags: ['anxiété', 'exemple', 'documentation'],
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=630&fit=crop',
-    imageAlt: 'Exemple d\'illustration pour un article',
-    datePublished: '2025-12-14',
-    dateModified: '2025-12-14',
-    readingTime: 5,
-    featured: false,
-  },
-  {
-    id: 'example-stress',
-    slug: 'exemple-article-stress',
-    title: 'Exemple d\'article sur le stress',
-    excerpt: 'Ceci est un exemple de fichier MDX pour la catégorie stress.',
-    content: `
-# Exemple d'article sur le stress
-
-Ceci est un **exemple** de fichier MDX pour la catégorie **stress**.
-
-## Gestion du stress
-
-Le contenu suit la même structure que les articles sur l'anxiété.
-
-## Avantages
-
-- Fichiers séparés
-- Facile à maintenir
-- Scalable
-
-## Conclusion
-
-Cette architecture permet une croissance illimitée.
-`,
-    category: 'stress' as const,
-    categoryLabel: 'Stress',
-    tags: ['stress', 'exemple', 'documentation'],
-    image: 'https://images.unsplash.com/photo-1545389336-cf090694435e?w=1200&h=630&fit=crop',
-    imageAlt: 'Exemple d\'illustration pour un article sur le stress',
-    datePublished: '2025-12-14',
-    dateModified: '2025-12-14',
-    readingTime: 5,
-    featured: false,
-  }
-,
   {
     id: '16',
     slug: 'anxiete-et-alimentation-comment-votre-assiette-influence-votre-bien-etre-mental',
@@ -2235,7 +1746,7 @@ Les besoins nutritionnels de base diffèrent (fer, magnésium), mais les princip
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Anxiété et alimentation : comment votre assiette influence votre bien-être mental',
     datePublished: '2025-12-14',
     dateModified: '2025-12-14',
@@ -2512,7 +2023,7 @@ Il est possible de limiter l'impact du stress professionnel en développant des 
     category: 'stress' as const,
     categoryLabel: 'Stress',
     tags: ['stress', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1511497584788-876760111969?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Stress chronique : reconnaître les signaux d\'alarme et reprendre le contrôle de sa vie',
     datePublished: '2025-12-15',
     dateModified: '2025-12-15',
@@ -2738,7 +2249,7 @@ Non seulement c'est possible, mais c'est souvent recommandé ! Les techniques re
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Anxiété et respiration : comment retrouver son calme grâce aux techniques de respiration thérapeutique',
     datePublished: '2025-12-15',
     dateModified: '2025-12-15',
@@ -2973,7 +2484,7 @@ Absolument. L'exercice régulier améliore significativement la qualité du somm
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Anxiété et Exercice Physique : Comment le Sport Peut Transformer Votre Santé Mentale',
     datePublished: '2025-12-15',
     dateModified: '2025-12-15',
@@ -3233,7 +2744,7 @@ Les principales erreurs incluent : attendre d'être épuisé avant d'agir, voulo
     category: 'stress' as const,
     categoryLabel: 'Stress',
     tags: ['stress', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200&h=630&fit=crop',
     imageAlt: 'Illustration pour article : Stress au travail : 7 stratégies scientifiquement prouvées pour préserver votre santé mentale',
     datePublished: '2025-12-16',
     dateModified: '2025-12-16',
@@ -3445,7 +2956,7 @@ N'oubliez pas que demander de l'aide n'est pas un signe de faiblesse mais un act
     category: 'anxiete' as const,
     categoryLabel: 'Anxiété',
     tags: ['anxiété', 'bien-être', 'santé mentale'],
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop',
+    image: 'https://images.unsplash.com/photo-1721815731590-d4aae3a7fc9f?q=80&w=1112&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imageAlt: 'Illustration pour article : L\'Anxiété Masquée : Ces Symptômes Silencieux que Vous Ignorez Peut-être',
     datePublished: '2025-12-16',
     dateModified: '2025-12-16',
