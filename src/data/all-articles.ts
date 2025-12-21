@@ -1,9 +1,10 @@
-import { Article } from './articles'; // ← Correction ici
+import { Article } from './articles';
 import { articles as manualArticles } from './articles';
-import { generatedArticles } from './articles-generated';
+import { generatedArticles } from '@/content/articles';
 
 /**
  * Tous les articles (manuels + générés)
+ * Architecture SEO-optimale : 1 fichier par article
  */
 export const allArticles: Article[] = [
   ...generatedArticles,
