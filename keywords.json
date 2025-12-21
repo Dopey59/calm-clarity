@@ -1,0 +1,953 @@
+{
+  "metadata": {
+    "totalPiliers": 30,
+    "totalSatellites": 60,
+    "totalArticles": 90,
+    "dureeEstimee": "30 semaines (7 mois)",
+    "rythme": "3 articles/semaine",
+    "objectif": "50,000 visites/mois",
+    "lastUpdated": "2025-12-21"
+  },
+  "stress": {
+    "piliers": [
+      {
+        "id": "stress-001",
+        "keyword": "stress au travail",
+        "searchVolume": "8100/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["stress-sat-001", "stress-sat-002", "stress-sat-003"]
+      },
+      {
+        "id": "stress-002",
+        "keyword": "stress chronique",
+        "searchVolume": "5400/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["stress-sat-004", "stress-sat-005"]
+      },
+      {
+        "id": "stress-003",
+        "keyword": "stress post-traumatique",
+        "searchVolume": "4400/mois",
+        "difficulty": "high",
+        "wordCount": "4000-5000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["stress-sat-006", "stress-sat-007"]
+      },
+      {
+        "id": "stress-004",
+        "keyword": "gestion du stress",
+        "searchVolume": "12100/mois",
+        "difficulty": "high",
+        "wordCount": "4000-5000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["stress-sat-008", "stress-sat-009", "stress-sat-010"]
+      },
+      {
+        "id": "stress-005",
+        "keyword": "stress parental",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-011", "stress-sat-012"]
+      },
+      {
+        "id": "stress-006",
+        "keyword": "stress étudiant",
+        "searchVolume": "2900/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-013", "stress-sat-014"]
+      },
+      {
+        "id": "stress-007",
+        "keyword": "stress financier",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-015", "stress-sat-016"]
+      },
+      {
+        "id": "stress-008",
+        "keyword": "stress et sommeil",
+        "searchVolume": "3200/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-017", "stress-sat-018"]
+      },
+      {
+        "id": "stress-009",
+        "keyword": "stress et alimentation",
+        "searchVolume": "2100/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 3,
+        "relatedSatellites": ["stress-sat-019", "stress-sat-020"]
+      },
+      {
+        "id": "stress-010",
+        "keyword": "stress relationnel",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 3,
+        "relatedSatellites": ["stress-sat-021", "stress-sat-022"]
+      },
+      {
+        "id": "stress-011",
+        "keyword": "stress de la rentrée",
+        "searchVolume": "4900/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-023"]
+      },
+      {
+        "id": "stress-012",
+        "keyword": "stress du déménagement",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2500-3500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 3,
+        "relatedSatellites": ["stress-sat-024"]
+      },
+      {
+        "id": "stress-013",
+        "keyword": "stress et sport",
+        "searchVolume": "1800/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 3,
+        "relatedSatellites": ["stress-sat-025"]
+      },
+      {
+        "id": "stress-014",
+        "keyword": "stress et hypertension",
+        "searchVolume": "2400/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-026"]
+      },
+      {
+        "id": "stress-015",
+        "keyword": "stress professionnel",
+        "searchVolume": "3600/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["stress-sat-027", "stress-sat-028"]
+      }
+    ],
+    "satellites": [
+      {
+        "id": "stress-sat-001",
+        "keyword": "burnout professionnel",
+        "pilierParent": "stress-001",
+        "searchVolume": "3600/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-002",
+        "keyword": "syndrome du dimanche soir",
+        "pilierParent": "stress-001",
+        "searchVolume": "1300/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-003",
+        "keyword": "charge mentale au travail",
+        "pilierParent": "stress-001",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-004",
+        "keyword": "symptômes stress chronique",
+        "pilierParent": "stress-002",
+        "searchVolume": "2200/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-005",
+        "keyword": "conséquences stress chronique",
+        "pilierParent": "stress-002",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-006",
+        "keyword": "ESPT symptômes",
+        "pilierParent": "stress-003",
+        "searchVolume": "1800/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-007",
+        "keyword": "trauma psychologique",
+        "pilierParent": "stress-003",
+        "searchVolume": "2100/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-008",
+        "keyword": "techniques anti-stress",
+        "pilierParent": "stress-004",
+        "searchVolume": "4800/mois",
+        "difficulty": "medium",
+        "wordCount": "2500-3000",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-009",
+        "keyword": "exercices de respiration anti-stress",
+        "pilierParent": "stress-004",
+        "searchVolume": "2900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-010",
+        "keyword": "cohérence cardiaque",
+        "pilierParent": "stress-004",
+        "searchVolume": "8100/mois",
+        "difficulty": "medium",
+        "wordCount": "2500-3000",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-011",
+        "keyword": "stress grossesse",
+        "pilierParent": "stress-005",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-012",
+        "keyword": "stress éducation enfants",
+        "pilierParent": "stress-005",
+        "searchVolume": "900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-013",
+        "keyword": "stress des examens",
+        "pilierParent": "stress-006",
+        "searchVolume": "3300/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-014",
+        "keyword": "stress orientation scolaire",
+        "pilierParent": "stress-006",
+        "searchVolume": "720/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-015",
+        "keyword": "stress dettes",
+        "pilierParent": "stress-007",
+        "searchVolume": "880/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-016",
+        "keyword": "anxiété financière",
+        "pilierParent": "stress-007",
+        "searchVolume": "1200/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-017",
+        "keyword": "insomnie stress",
+        "pilierParent": "stress-008",
+        "searchVolume": "2600/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-018",
+        "keyword": "cauchemars stress",
+        "pilierParent": "stress-008",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-019",
+        "keyword": "stress et prise de poids",
+        "pilierParent": "stress-009",
+        "searchVolume": "1800/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-020",
+        "keyword": "alimentation anti-stress",
+        "pilierParent": "stress-009",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-021",
+        "keyword": "stress couple",
+        "pilierParent": "stress-010",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-022",
+        "keyword": "conflits familiaux stress",
+        "pilierParent": "stress-010",
+        "searchVolume": "820/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-023",
+        "keyword": "stress rentrée scolaire",
+        "pilierParent": "stress-011",
+        "searchVolume": "2900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-024",
+        "keyword": "anxiété déménagement",
+        "pilierParent": "stress-012",
+        "searchVolume": "720/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-025",
+        "keyword": "sport réduction stress",
+        "pilierParent": "stress-013",
+        "searchVolume": "1300/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-026",
+        "keyword": "stress tension artérielle",
+        "pilierParent": "stress-014",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-027",
+        "keyword": "harcèlement travail",
+        "pilierParent": "stress-015",
+        "searchVolume": "2700/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-028",
+        "keyword": "surcharge travail",
+        "pilierParent": "stress-015",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-029",
+        "keyword": "stress et migraine",
+        "pilierParent": "stress-002",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "stress-sat-030",
+        "keyword": "stress et douleurs musculaires",
+        "pilierParent": "stress-002",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      }
+    ]
+  },
+  "anxiete": {
+    "piliers": [
+      {
+        "id": "anxiete-001",
+        "keyword": "anxiété sociale",
+        "searchVolume": "9900/mois",
+        "difficulty": "high",
+        "wordCount": "4000-5000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-001", "anxiete-sat-002", "anxiete-sat-003"]
+      },
+      {
+        "id": "anxiete-002",
+        "keyword": "crise d'angoisse",
+        "searchVolume": "14800/mois",
+        "difficulty": "high",
+        "wordCount": "4000-5000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-004", "anxiete-sat-005"]
+      },
+      {
+        "id": "anxiete-003",
+        "keyword": "trouble anxieux généralisé",
+        "searchVolume": "6600/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-006", "anxiete-sat-007"]
+      },
+      {
+        "id": "anxiete-004",
+        "keyword": "anxiété de performance",
+        "searchVolume": "2400/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-008", "anxiete-sat-009"]
+      },
+      {
+        "id": "anxiete-005",
+        "keyword": "anxiété nocturne",
+        "searchVolume": "3300/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-010", "anxiete-sat-011"]
+      },
+      {
+        "id": "anxiete-006",
+        "keyword": "anxiété séparation",
+        "searchVolume": "2900/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-012"]
+      },
+      {
+        "id": "anxiete-007",
+        "keyword": "phobie",
+        "searchVolume": "18100/mois",
+        "difficulty": "high",
+        "wordCount": "4000-5000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-013", "anxiete-sat-014", "anxiete-sat-015"]
+      },
+      {
+        "id": "anxiete-008",
+        "keyword": "anxiété généralisée",
+        "searchVolume": "8100/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-016"]
+      },
+      {
+        "id": "anxiete-009",
+        "keyword": "anxiété santé",
+        "searchVolume": "2700/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-017", "anxiete-sat-018"]
+      },
+      {
+        "id": "anxiete-010",
+        "keyword": "anxiété matinale",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-019"]
+      },
+      {
+        "id": "anxiete-011",
+        "keyword": "anxiété anticipatoire",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-020"]
+      },
+      {
+        "id": "anxiete-012",
+        "keyword": "anxiété et dépression",
+        "searchVolume": "3600/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-021"]
+      },
+      {
+        "id": "anxiete-013",
+        "keyword": "gestion anxiété",
+        "searchVolume": "4400/mois",
+        "difficulty": "medium",
+        "wordCount": "3500-4500",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 1,
+        "relatedSatellites": ["anxiete-sat-022", "anxiete-sat-023"]
+      },
+      {
+        "id": "anxiete-014",
+        "keyword": "anxiété chez l'enfant",
+        "searchVolume": "2200/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-024"]
+      },
+      {
+        "id": "anxiete-015",
+        "keyword": "anxiété adolescent",
+        "searchVolume": "1800/mois",
+        "difficulty": "medium",
+        "wordCount": "3000-4000",
+        "type": "pilier",
+        "status": "todo",
+        "priority": 2,
+        "relatedSatellites": ["anxiete-sat-025"]
+      }
+    ],
+    "satellites": [
+      {
+        "id": "anxiete-sat-001",
+        "keyword": "peur de parler en public",
+        "pilierParent": "anxiete-001",
+        "searchVolume": "2400/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-002",
+        "keyword": "timidité excessive",
+        "pilierParent": "anxiete-001",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-003",
+        "keyword": "phobie sociale",
+        "pilierParent": "anxiete-001",
+        "searchVolume": "4400/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-004",
+        "keyword": "attaque de panique symptômes",
+        "pilierParent": "anxiete-002",
+        "searchVolume": "3600/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-005",
+        "keyword": "calmer crise angoisse",
+        "pilierParent": "anxiete-002",
+        "searchVolume": "2900/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-006",
+        "keyword": "symptômes anxiété généralisée",
+        "pilierParent": "anxiete-003",
+        "searchVolume": "2200/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-007",
+        "keyword": "TAG traitement",
+        "pilierParent": "anxiete-003",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-008",
+        "keyword": "trac scène",
+        "pilierParent": "anxiete-004",
+        "searchVolume": "1300/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-009",
+        "keyword": "anxiété compétition",
+        "pilierParent": "anxiete-004",
+        "searchVolume": "880/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-010",
+        "keyword": "angoisse nocturne",
+        "pilierParent": "anxiete-005",
+        "searchVolume": "2700/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-011",
+        "keyword": "réveil anxieux",
+        "pilierParent": "anxiete-005",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-012",
+        "keyword": "anxiété abandon",
+        "pilierParent": "anxiete-006",
+        "searchVolume": "1800/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-013",
+        "keyword": "agoraphobie",
+        "pilierParent": "anxiete-007",
+        "searchVolume": "8100/mois",
+        "difficulty": "medium",
+        "wordCount": "2500-3000",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-014",
+        "keyword": "phobie avion",
+        "pilierParent": "anxiete-007",
+        "searchVolume": "4400/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-015",
+        "keyword": "claustrophobie",
+        "pilierParent": "anxiete-007",
+        "searchVolume": "9900/mois",
+        "difficulty": "medium",
+        "wordCount": "2500-3000",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-016",
+        "keyword": "ruminations anxieuses",
+        "pilierParent": "anxiete-008",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-017",
+        "keyword": "hypocondrie",
+        "pilierParent": "anxiete-009",
+        "searchVolume": "6600/mois",
+        "difficulty": "medium",
+        "wordCount": "2500-3000",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-018",
+        "keyword": "anxiété maladie",
+        "pilierParent": "anxiete-009",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-019",
+        "keyword": "anxiété réveil",
+        "pilierParent": "anxiete-010",
+        "searchVolume": "1300/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-020",
+        "keyword": "anxiété anticipation",
+        "pilierParent": "anxiete-011",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-021",
+        "keyword": "anxiété et tristesse",
+        "pilierParent": "anxiete-012",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-022",
+        "keyword": "méditation anxiété",
+        "pilierParent": "anxiete-013",
+        "searchVolume": "2900/mois",
+        "difficulty": "medium",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-023",
+        "keyword": "sophrologie anxiété",
+        "pilierParent": "anxiete-013",
+        "searchVolume": "1800/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-024",
+        "keyword": "anxiété enfant école",
+        "pilierParent": "anxiete-014",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-025",
+        "keyword": "anxiété ado réseaux sociaux",
+        "pilierParent": "anxiete-015",
+        "searchVolume": "1100/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-026",
+        "keyword": "crise de panique signes",
+        "pilierParent": "anxiete-002",
+        "searchVolume": "1900/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-027",
+        "keyword": "anxiété digestive",
+        "pilierParent": "anxiete-003",
+        "searchVolume": "1600/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-028",
+        "keyword": "boule au ventre anxiété",
+        "pilierParent": "anxiete-003",
+        "searchVolume": "2200/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-029",
+        "keyword": "tremblements anxiété",
+        "pilierParent": "anxiete-002",
+        "searchVolume": "1300/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      },
+      {
+        "id": "anxiete-sat-030",
+        "keyword": "anxiété oppression thoracique",
+        "pilierParent": "anxiete-002",
+        "searchVolume": "1400/mois",
+        "difficulty": "low",
+        "wordCount": "2000-2500",
+        "type": "satellite",
+        "status": "todo"
+      }
+    ]
+  }
+}
