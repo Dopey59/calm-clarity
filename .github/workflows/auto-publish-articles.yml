@@ -1,9 +1,9 @@
-name: Auto-générer articles (Architecture SEO)
+﻿name: Auto-générer articles (Architecture SEO)
 
 on:
   schedule:
     - cron: '0 7 * * *'   # 9h Paris → Stress
-    - cron: '0 13 * * *'  # 15h Paris → Anxiété
+    - cron: '0 16 * * *'  # 15h Paris → Anxiété
   workflow_dispatch:
 
 permissions:

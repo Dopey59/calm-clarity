@@ -12,7 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { SEO, useArticleSEO } from '@/components/seo';
 import { getArticleBreadcrumb, generateArticleSchema } from '@/lib/seo-helpers';
-
+import { CriticalDisclaimer } from '@/components/common/CriticalDisclaimer';
 import { getArticleBySlug, getArticlesByCategory } from '@/lib/articles';
 import { Article } from '@/data/all-articles';
 
@@ -222,6 +222,7 @@ export default function ArticlePage() {
                   <strong>Note de transparence :</strong> Cet article a été rédigé avec l'aide de l'intelligence artificielle puis révisé et validé par l'équipe éditoriale de CalmeClair. Les informations présentées sont basées sur des sources scientifiques citées et ne remplacent pas un avis médical professionnel.
                 </p>
               </div>
+              <CriticalDisclaimer />
 
               {/* Author Block */}
               <Separator className="my-8" />
