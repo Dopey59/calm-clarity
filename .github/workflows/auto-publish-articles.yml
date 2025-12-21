@@ -1,4 +1,4 @@
-name: 📝 Publication Intelligente 3x/Semaine
+﻿name: 📝 Publication Intelligente 3x/Semaine
 
 on:
   schedule:
@@ -67,7 +67,7 @@ jobs:
           if (available.length === 0) {
             console.log('❌ Plus de keywords disponibles !');
             console.log('✅ LES 90 ARTICLES SONT PUBLIÉS ! 🎉');
-            process.exit(0); // Exit proprement (pas d'erreur)
+            process.exit(0);
           }
           
           // Sélection ALÉATOIRE
@@ -87,7 +87,7 @@ jobs:
           const pilierParent = selected.pilierParent || '';
           const selectedId = selected.id;
           
-          // Créer les outputs pour GitHub Actions
+          // Créer les outputs
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `category=${category}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `topic=${topic}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `type=${type}\n`);
@@ -95,7 +95,7 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `pilierParent=${pilierParent}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `selectedId=${selectedId}\n`);
           
-          // Fonction pour marquer comme "done"
+          // Marquer comme "done"
           const updateKeywords = (data, id) => {
             ['stress', 'anxiete'].forEach(cat => {
               ['piliers', 'satellites'].forEach(arr => {
@@ -110,14 +110,12 @@ jobs:
             return data;
           };
           
-          // Mettre à jour keywords.json
           const updated = updateKeywords(keywords, selected.id);
           fs.writeFileSync('keywords.json', JSON.stringify(updated, null, 2));
-          
           console.log(`\n📝 keywords.json mis à jour`);
           EOFSCRIPT
       
-      # Générer l'article avec les paramètres extraits
+      # Générer l'article
       - name: 🤖 Générer article
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -128,15 +126,19 @@ jobs:
           PILIER_PARENT: ${{ steps.select.outputs.pilierParent }}
         run: npm run generate-article
       
-      # Commit des changements
-      - name: 💾 Commit article + keywords.json
+      # Build pour générer le sitemap
+      - name: 🏗️ Build projet (génère sitemap)
+        run: npm run build
+      
+      # Commit
+      - name: 💾 Commit article + keywords.json + sitemap
         run: |
           git config user.name "Bot CalmeClair"
           git config user.email "bot@calmeclair.com"
           git add src/content/articles/
           git add keywords.json
+          git add dist/sitemap.xml 2>/dev/null || echo "Sitemap non trouvé dans dist/"
           
-          # Vérifier s'il y a des changements
           if git diff --staged --quiet; then
             echo "Aucun changement à commiter"
           else
@@ -144,3 +146,24 @@ jobs:
             git push
             echo "✅ Article publié avec succès !"
           fi
+      
+      # 🆕 SOUMISSION AUTOMATIQUE SITEMAP
+      - name: 📤 Soumettre sitemap à Google
+        env:
+          GOOGLE_SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS }}
+        run: |
+          if [ -z "$GOOGLE_SEARCH_CONSOLE_CREDENTIALS" ]; then
+            echo "⚠️ GOOGLE_SEARCH_CONSOLE_CREDENTIALS non configuré"
+            echo "ℹ️ Le sitemap ne sera pas soumis automatiquement"
+            echo "📚 Configuration : GitHub Settings > Secrets > GOOGLE_SEARCH_CONSOLE_CREDENTIALS"
+          else
+            echo "📤 Soumission du sitemap à Google Search Console..."
+            npm run submit-sitemap || echo "⚠️ Erreur soumission sitemap (article publié quand même)"
+          fi
+      
+      # Ping Google manuellement (fallback si credentials manquants)
+      - name: 🔔 Ping Google (fallback)
+        if: env.GOOGLE_SEARCH_CONSOLE_CREDENTIALS == ''
+        run: |
+          echo "📡 Ping Google pour indexation rapide..."
+          curl -s "https://www.google.com/ping?sitemap=https://calmeclair.com/sitemap.xml" || echo "Ping envoyé"
