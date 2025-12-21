@@ -1,70 +1,146 @@
-﻿name: Auto-générer articles (Architecture SEO)
+name: 📝 Publication Intelligente 3x/Semaine
 
 on:
   schedule:
-    - cron: '0 7 * * *'   # 9h Paris → Stress
-    - cron: '0 16 * * *'  # 18h Paris → Anxiété
+    # LUNDI matin - 3 horaires possibles (7h-10h Paris)
+    - cron: '0 5 * * 1'    # 7h Paris
+    - cron: '30 6 * * 1'   # 8h30 Paris
+    - cron: '0 8 * * 1'    # 10h Paris
+    
+    # MERCREDI après-midi - 3 horaires possibles (17h-20h Paris)
+    - cron: '0 15 * * 3'   # 17h Paris
+    - cron: '30 16 * * 3'  # 18h30 Paris
+    - cron: '0 18 * * 3'   # 20h Paris
+    
+    # VENDREDI matin - 3 horaires possibles (7h-10h Paris)
+    - cron: '0 5 * * 5'    # 7h Paris
+    - cron: '30 7 * * 5'   # 9h30 Paris
+    - cron: '0 8 * * 5'    # 10h Paris
+    
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  generate:
+  generate-intelligent:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       
-      - uses: actions/setup-node@v4
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
       
-      - run: npm ci
+      - name: 📦 Install dependencies
+        run: npm ci
       
-      # Migration unique (s'exécute seulement si le fichier existe)
-      - name: Migration vers structure SEO (une seule fois)
+      # ÉTAPE CRITIQUE : Sélection intelligente du keyword
+      - name: 🎯 Sélection intelligente keyword
+        id: select
         run: |
-          if [ -f "src/data/articles-generated.ts" ]; then
-            echo "📦 Migration des articles existants..."
-            node scripts/migrate-monolith-to-seo.js
-            git config user.name "Bot"
-            git config user.email "bot@calmeclair.com"
-            git add src/content/articles/
-            git add src/data/articles-generated.ts.migrated
-            git commit -m "🔄 chore: migrate articles to SEO structure" || true
-            git push || true
-          else
-            echo "✓ Migration déjà effectuée"
-          fi
+          node << 'EOFSCRIPT'
+          const fs = require('fs');
+          
+          // Charger keywords.json
+          const keywords = JSON.parse(fs.readFileSync('keywords.json', 'utf8'));
+          
+          // Combiner tous les articles (piliers + satellites)
+          const allArticles = [
+            ...keywords.stress.piliers,
+            ...keywords.stress.satellites,
+            ...keywords.anxiete.piliers,
+            ...keywords.anxiete.satellites
+          ];
+          
+          // Filtrer uniquement les "todo"
+          const available = allArticles.filter(a => a.status === 'todo');
+          
+          console.log(`📊 Articles disponibles : ${available.length}/90`);
+          
+          if (available.length === 0) {
+            console.log('❌ Plus de keywords disponibles !');
+            console.log('✅ LES 90 ARTICLES SONT PUBLIÉS ! 🎉');
+            process.exit(0); // Exit proprement (pas d'erreur)
+          }
+          
+          // Sélection ALÉATOIRE
+          const randomIndex = Math.floor(Math.random() * available.length);
+          const selected = available[randomIndex];
+          
+          console.log(`\n🎲 Keyword sélectionné : "${selected.keyword}"`);
+          console.log(`   Type : ${selected.type}`);
+          console.log(`   Catégorie : ${selected.id.startsWith('stress') ? 'stress' : 'anxiete'}`);
+          console.log(`   Longueur : ${selected.wordCount} mots`);
+          
+          // Extraire les infos
+          const category = selected.id.startsWith('stress') ? 'stress' : 'anxiete';
+          const topic = selected.keyword;
+          const type = selected.type;
+          const wordCount = selected.wordCount;
+          const pilierParent = selected.pilierParent || '';
+          const selectedId = selected.id;
+          
+          // Créer les outputs pour GitHub Actions
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `category=${category}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `topic=${topic}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `type=${type}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `wordCount=${wordCount}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `pilierParent=${pilierParent}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `selectedId=${selectedId}\n`);
+          
+          // Fonction pour marquer comme "done"
+          const updateKeywords = (data, id) => {
+            ['stress', 'anxiete'].forEach(cat => {
+              ['piliers', 'satellites'].forEach(arr => {
+                const idx = data[cat][arr].findIndex(a => a.id === id);
+                if (idx !== -1) {
+                  data[cat][arr][idx].status = 'done';
+                  data[cat][arr][idx].publishedAt = new Date().toISOString();
+                  console.log(`✅ Marqué comme "done" : ${id}`);
+                }
+              });
+            });
+            return data;
+          };
+          
+          // Mettre à jour keywords.json
+          const updated = updateKeywords(keywords, selected.id);
+          fs.writeFileSync('keywords.json', JSON.stringify(updated, null, 2));
+          
+          console.log(`\n📝 keywords.json mis à jour`);
+          EOFSCRIPT
       
-      # Déterminer la catégorie selon l'heure
-      - id: category
-        run: |
-          HOUR=$(date -u +%H)
-          if [ "$HOUR" -ge 6 ] && [ "$HOUR" -lt 10 ]; then
-            echo "category=stress" >> $GITHUB_OUTPUT
-            echo "topic=stress" >> $GITHUB_OUTPUT
-          else
-            echo "category=anxiete" >> $GITHUB_OUTPUT
-            echo "topic=anxiété" >> $GITHUB_OUTPUT
-          fi
-      
-      # Générer le nouvel article
-      - name: Générer article
+      # Générer l'article avec les paramètres extraits
+      - name: 🤖 Générer article
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-          CATEGORY: ${{ steps.category.outputs.category }}
-          TOPIC: ${{ steps.category.outputs.topic }}
+          CATEGORY: ${{ steps.select.outputs.category }}
+          TOPIC: ${{ steps.select.outputs.topic }}
+          ARTICLE_TYPE: ${{ steps.select.outputs.type }}
+          WORD_COUNT: ${{ steps.select.outputs.wordCount }}
+          PILIER_PARENT: ${{ steps.select.outputs.pilierParent }}
         run: npm run generate-article
       
-      # Commit et push
-      - name: Commit nouvel article
+      # Commit des changements
+      - name: 💾 Commit article + keywords.json
         run: |
-          git config user.name "Bot"
+          git config user.name "Bot CalmeClair"
           git config user.email "bot@calmeclair.com"
           git add src/content/articles/
-          git diff --staged --quiet || (git commit -m "🤖 article: ${{ steps.category.outputs.category }}" && git push)
+          git add keywords.json
+          
+          # Vérifier s'il y a des changements
+          if git diff --staged --quiet; then
+            echo "Aucun changement à commiter"
+          else
+            git commit -m "📝 [${{ steps.select.outputs.type }}] ${{ steps.select.outputs.topic }}"
+            git push
+            echo "✅ Article publié avec succès !"
+          fi
