@@ -90,17 +90,20 @@ function scanAllArticles() {
       slugs.push(file.replace('.ts', ''));
       
       // Extraire titre
-      const titleMatch = content.match(/title: ['\"](.+?)['\"]/);\n      if (titleMatch) {
+      const titleMatch = content.match(/title: ['\"](.+?)['\"]/);
+      if (titleMatch) {
         titles.push(titleMatch[1].toLowerCase());
       }
       
       // Extraire image
-      const imageMatch = content.match(/image: ['\"](.+?)['\"]/);\n      if (imageMatch) {
+      const imageMatch = content.match(/image: ['\"](.+?)['\"]/);
+      if (imageMatch) {
         images.push(imageMatch[1]);
       }
       
       // Extraire ID
-      const idMatch = content.match(/id: ['\"](\d+)['\"]/);\n      if (idMatch) {
+      const idMatch = content.match(/id: ['\"](\d+)['\"]/);
+      if (idMatch) {
         maxId = Math.max(maxId, parseInt(idMatch[1]));
       }
     });
@@ -156,7 +159,7 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown. Pas de frontmatter.`;
   });
 
   const content = message.content[0].text;
-  const titleMatch = content.match(/^#\\s+(.+)$/m);
+  const titleMatch = content.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1] : 'Article sans titre';
   
   console.log(`✅ Titre: "${title}"`);
@@ -165,12 +168,12 @@ IMPORTANT: Génère UNIQUEMENT le contenu Markdown. Pas de frontmatter.`;
   const slug = title
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\\u0300-\\u036f]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
   
   const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
-  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['\"]/g, '') || `Article sur ${TOPIC}`;
+  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['\"\"]/g, '') || `Article sur ${TOPIC}`;
   
   return { title, slug, excerpt, content };
 }
@@ -207,12 +210,12 @@ function createArticleFile(article, nextId, image, existingSlugs) {
   
   // Échapper le contenu
   const contentEscaped = article.content
-    .replace(/\\\\/g, '\\\\\\\\')
-    .replace(/`/g, '\\\\`')
-    .replace(/\\$/g, '\\\\$');
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$/g, '\\$');
   
-  const titleEscaped = article.title.replace(/'/g, "\\\\'");
-  const excerptEscaped = article.excerpt.replace(/'/g, "\\\\'");
+  const titleEscaped = article.title.replace(/'/g, "\\'");
+  const excerptEscaped = article.excerpt.replace(/'/g, "\\'");
   
   // Contenu du fichier
   const fileContent = `import { Article } from '@/types/Article';
