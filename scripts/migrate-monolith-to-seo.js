@@ -74,4 +74,51 @@ async function migrate() {
   console.log('📝 Création des fichiers individuels:\n');
   
   articleBlocks.forEach((block, index) => {
-    const slugMatch = block.match(/slug: ['\"](.+?)['\"]/);\n    const categoryMatch = block.match(/category: ['\"](.+?)['\"]/);\n    \n    if (!slugMatch) {\n      console.warn(`⚠️  Article ${index + 1}: pas de slug, ignoré`);\n      return;\n    }\n    \n    const slug = slugMatch[1];\n    const category = categoryMatch ? categoryMatch[1] : 'anxiete';\n    \n    // Créer le dossier de catégorie si nécessaire\n    const categoryDir = path.join(newDir, category);\n    if (!fs.existsSync(categoryDir)) {\n      fs.mkdirSync(categoryDir, { recursive: true });\n    }\n    \n    // Créer le fichier\n    const filepath = path.join(categoryDir, `${slug}.ts`);\n    const fileContent = `import { Article } from '@/types/Article';\n\n/**\n * Article: ${slug}\n */\n\nexport const article: Article = ${block};\n`;\n    \n    fs.writeFileSync(filepath, fileContent, 'utf8');\n    stats[category]++;\n    console.log(`  ✓ ${category}/${slug}.ts`);\n  });\n  \n  console.log(`\n✅ Migration terminée:`);\n  console.log(`   - Anxiété: ${stats.anxiete} articles`);\n  console.log(`   - Stress: ${stats.stress} articles`);\n  console.log(`   - Total: ${stats.anxiete + stats.stress} fichiers créés`);\n  \n  // Renommer l'ancien fichier en backup\n  const backupFile = oldFile + '.migrated';\n  fs.renameSync(oldFile, backupFile);\n  console.log(`\n💾 Ancien fichier sauvegardé: ${backupFile}`);\n}\n\nmigrate().catch(err => {\n  console.error('❌ Erreur:', err);\n  process.exit(1);\n});\n
+    const slugMatch = block.match(/slug: ['\"](.+?)['\"]/);
+    const categoryMatch = block.match(/category: ['\"](.+?)['\"]/);
+    
+    if (!slugMatch) {
+      console.warn(`⚠️  Article ${index + 1}: pas de slug, ignoré`);
+      return;
+    }
+    
+    const slug = slugMatch[1];
+    const category = categoryMatch ? categoryMatch[1] : 'anxiete';
+    
+    // Créer le dossier de catégorie si nécessaire
+    const categoryDir = path.join(newDir, category);
+    if (!fs.existsSync(categoryDir)) {
+      fs.mkdirSync(categoryDir, { recursive: true });
+    }
+    
+    // Créer le fichier
+    const filepath = path.join(categoryDir, `${slug}.ts`);
+    const fileContent = `import { Article } from '@/types/Article';
+
+/**
+ * Article: ${slug}
+ */
+
+export const article: Article = ${block};
+`;
+    
+    fs.writeFileSync(filepath, fileContent, 'utf8');
+    stats[category]++;
+    console.log(`  ✓ ${category}/${slug}.ts`);
+  });
+  
+  console.log(`\n✅ Migration terminée:`);
+  console.log(`   - Anxiété: ${stats.anxiete} articles`);
+  console.log(`   - Stress: ${stats.stress} articles`);
+  console.log(`   - Total: ${stats.anxiete + stats.stress} fichiers créés`);
+  
+  // Renommer l'ancien fichier en backup
+  const backupFile = oldFile + '.migrated';
+  fs.renameSync(oldFile, backupFile);
+  console.log(`\n💾 Ancien fichier sauvegardé: ${backupFile}`);
+}
+
+migrate().catch(err => {
+  console.error('❌ Erreur:', err);
+  process.exit(1);
+});
