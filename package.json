@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "copy-content": "node scripts/copy-content.js",
     "generate-sitemap": "node scripts/generate-sitemap.js",
-    "generate-article": "node scripts/generate-article-ts.js",
+    "generate-article": "node scripts/generate-article-seo.js",
     "submit-sitemap": "node scripts/submit-sitemap.js"
   },
   "dependencies": {
