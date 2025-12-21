@@ -8,13 +8,13 @@ import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import Index from "./pages/Index";
 import ArticlePage from "./pages/ArticlePage";
 import CategoryPage from "./pages/CategoryPage";
+import AllArticlesPage from "./pages/AllArticlesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import MentionsLegalesPage from "./pages/MentionsLegalesPage";
 import ConfidentialitePage from "./pages/ConfidentialitePage";
 import DMCAPage from "./pages/DMCAPage";
 import NotFound from "./pages/NotFound";
-import AllArticlesPage from "./pages/AllArticlesPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +29,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/categorie/:slug" element={<CategoryPage />} />
+              <Route path="/articles" element={<AllArticlesPage />} />
               <Route path="/article/:year/:month/:slug" element={<ArticlePage />} />
               <Route path="/a-propos" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
@@ -36,7 +37,6 @@ const App = () => (
               <Route path="/confidentialite" element={<ConfidentialitePage />} />
               <Route path="/dmca" element={<DMCAPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="/articles" element={<AllArticlesPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
