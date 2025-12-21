@@ -19,7 +19,11 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["stress-sat-001", "stress-sat-002", "stress-sat-003"]
+        "relatedSatellites": [
+          "stress-sat-001",
+          "stress-sat-002",
+          "stress-sat-003"
+        ]
       },
       {
         "id": "stress-002",
@@ -30,7 +34,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["stress-sat-004", "stress-sat-005"]
+        "relatedSatellites": [
+          "stress-sat-004",
+          "stress-sat-005"
+        ]
       },
       {
         "id": "stress-003",
@@ -39,9 +46,13 @@
         "difficulty": "high",
         "wordCount": "4000-5000",
         "type": "pilier",
-        "status": "todo",
+        "status": "done",
         "priority": 1,
-        "relatedSatellites": ["stress-sat-006", "stress-sat-007"]
+        "relatedSatellites": [
+          "stress-sat-006",
+          "stress-sat-007"
+        ],
+        "publishedAt": "2025-12-21T20:58:33.542Z"
       },
       {
         "id": "stress-004",
@@ -52,7 +63,11 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["stress-sat-008", "stress-sat-009", "stress-sat-010"]
+        "relatedSatellites": [
+          "stress-sat-008",
+          "stress-sat-009",
+          "stress-sat-010"
+        ]
       },
       {
         "id": "stress-005",
@@ -63,7 +78,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-011", "stress-sat-012"]
+        "relatedSatellites": [
+          "stress-sat-011",
+          "stress-sat-012"
+        ]
       },
       {
         "id": "stress-006",
@@ -74,7 +92,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-013", "stress-sat-014"]
+        "relatedSatellites": [
+          "stress-sat-013",
+          "stress-sat-014"
+        ]
       },
       {
         "id": "stress-007",
@@ -85,7 +106,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-015", "stress-sat-016"]
+        "relatedSatellites": [
+          "stress-sat-015",
+          "stress-sat-016"
+        ]
       },
       {
         "id": "stress-008",
@@ -96,7 +120,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-017", "stress-sat-018"]
+        "relatedSatellites": [
+          "stress-sat-017",
+          "stress-sat-018"
+        ]
       },
       {
         "id": "stress-009",
@@ -107,7 +134,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 3,
-        "relatedSatellites": ["stress-sat-019", "stress-sat-020"]
+        "relatedSatellites": [
+          "stress-sat-019",
+          "stress-sat-020"
+        ]
       },
       {
         "id": "stress-010",
@@ -118,7 +148,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 3,
-        "relatedSatellites": ["stress-sat-021", "stress-sat-022"]
+        "relatedSatellites": [
+          "stress-sat-021",
+          "stress-sat-022"
+        ]
       },
       {
         "id": "stress-011",
@@ -129,7 +162,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-023"]
+        "relatedSatellites": [
+          "stress-sat-023"
+        ]
       },
       {
         "id": "stress-012",
@@ -140,7 +175,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 3,
-        "relatedSatellites": ["stress-sat-024"]
+        "relatedSatellites": [
+          "stress-sat-024"
+        ]
       },
       {
         "id": "stress-013",
@@ -151,7 +188,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 3,
-        "relatedSatellites": ["stress-sat-025"]
+        "relatedSatellites": [
+          "stress-sat-025"
+        ]
       },
       {
         "id": "stress-014",
@@ -162,7 +201,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-026"]
+        "relatedSatellites": [
+          "stress-sat-026"
+        ]
       },
       {
         "id": "stress-015",
@@ -173,7 +214,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["stress-sat-027", "stress-sat-028"]
+        "relatedSatellites": [
+          "stress-sat-027",
+          "stress-sat-028"
+        ]
       }
     ],
     "satellites": [
@@ -490,7 +534,11 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-001", "anxiete-sat-002", "anxiete-sat-003"]
+        "relatedSatellites": [
+          "anxiete-sat-001",
+          "anxiete-sat-002",
+          "anxiete-sat-003"
+        ]
       },
       {
         "id": "anxiete-002",
@@ -501,7 +549,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-004", "anxiete-sat-005"]
+        "relatedSatellites": [
+          "anxiete-sat-004",
+          "anxiete-sat-005"
+        ]
       },
       {
         "id": "anxiete-003",
@@ -512,7 +563,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-006", "anxiete-sat-007"]
+        "relatedSatellites": [
+          "anxiete-sat-006",
+          "anxiete-sat-007"
+        ]
       },
       {
         "id": "anxiete-004",
@@ -523,7 +577,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-008", "anxiete-sat-009"]
+        "relatedSatellites": [
+          "anxiete-sat-008",
+          "anxiete-sat-009"
+        ]
       },
       {
         "id": "anxiete-005",
@@ -534,7 +591,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-010", "anxiete-sat-011"]
+        "relatedSatellites": [
+          "anxiete-sat-010",
+          "anxiete-sat-011"
+        ]
       },
       {
         "id": "anxiete-006",
@@ -545,7 +605,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-012"]
+        "relatedSatellites": [
+          "anxiete-sat-012"
+        ]
       },
       {
         "id": "anxiete-007",
@@ -556,7 +618,11 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-013", "anxiete-sat-014", "anxiete-sat-015"]
+        "relatedSatellites": [
+          "anxiete-sat-013",
+          "anxiete-sat-014",
+          "anxiete-sat-015"
+        ]
       },
       {
         "id": "anxiete-008",
@@ -567,7 +633,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-016"]
+        "relatedSatellites": [
+          "anxiete-sat-016"
+        ]
       },
       {
         "id": "anxiete-009",
@@ -578,7 +646,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-017", "anxiete-sat-018"]
+        "relatedSatellites": [
+          "anxiete-sat-017",
+          "anxiete-sat-018"
+        ]
       },
       {
         "id": "anxiete-010",
@@ -589,7 +660,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-019"]
+        "relatedSatellites": [
+          "anxiete-sat-019"
+        ]
       },
       {
         "id": "anxiete-011",
@@ -600,7 +673,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-020"]
+        "relatedSatellites": [
+          "anxiete-sat-020"
+        ]
       },
       {
         "id": "anxiete-012",
@@ -611,7 +686,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-021"]
+        "relatedSatellites": [
+          "anxiete-sat-021"
+        ]
       },
       {
         "id": "anxiete-013",
@@ -622,7 +699,10 @@
         "type": "pilier",
         "status": "todo",
         "priority": 1,
-        "relatedSatellites": ["anxiete-sat-022", "anxiete-sat-023"]
+        "relatedSatellites": [
+          "anxiete-sat-022",
+          "anxiete-sat-023"
+        ]
       },
       {
         "id": "anxiete-014",
@@ -633,7 +713,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-024"]
+        "relatedSatellites": [
+          "anxiete-sat-024"
+        ]
       },
       {
         "id": "anxiete-015",
@@ -644,7 +726,9 @@
         "type": "pilier",
         "status": "todo",
         "priority": 2,
-        "relatedSatellites": ["anxiete-sat-025"]
+        "relatedSatellites": [
+          "anxiete-sat-025"
+        ]
       }
     ],
     "satellites": [
