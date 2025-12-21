@@ -1,9 +1,9 @@
-﻿name: Auto-générer articles TypeScript
+name: Auto-générer articles (Architecture SEO)
 
 on:
   schedule:
-    - cron: '0 7 * * *'
-    - cron: '0 13 * * *'
+    - cron: '0 7 * * *'   # 9h Paris → Stress
+    - cron: '0 13 * * *'  # 15h Paris → Anxiété
   workflow_dispatch:
 
 permissions:
@@ -22,8 +22,25 @@ jobs:
           node-version: '20'
           cache: 'npm'
       
-      - run: npm install
+      - run: npm ci
       
+      # Migration unique (s'exécute seulement si le fichier existe)
+      - name: Migration vers structure SEO (une seule fois)
+        run: |
+          if [ -f "src/data/articles-generated.ts" ]; then
+            echo "📦 Migration des articles existants..."
+            node scripts/migrate-monolith-to-seo.js
+            git config user.name "Bot"
+            git config user.email "bot@calmeclair.com"
+            git add src/content/articles/
+            git add src/data/articles-generated.ts.migrated
+            git commit -m "🔄 chore: migrate articles to SEO structure" || true
+            git push || true
+          else
+            echo "✓ Migration déjà effectuée"
+          fi
+      
+      # Déterminer la catégorie selon l'heure
       - id: category
         run: |
           HOUR=$(date -u +%H)
@@ -35,15 +52,19 @@ jobs:
             echo "topic=anxiété" >> $GITHUB_OUTPUT
           fi
       
-      - env:
+      # Générer le nouvel article
+      - name: Générer article
+        env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           CATEGORY: ${{ steps.category.outputs.category }}
           TOPIC: ${{ steps.category.outputs.topic }}
         run: npm run generate-article
       
-      - run: |
+      # Commit et push
+      - name: Commit nouvel article
+        run: |
           git config user.name "Bot"
           git config user.email "bot@calmeclair.com"
-          git add src/data/articles-generated.ts
-          git diff --staged --quiet || (git commit -m "🤖 Article TS" && git push)
+          git add src/content/articles/
+          git diff --staged --quiet || (git commit -m "🤖 article: ${{ steps.category.outputs.category }}" && git push)
