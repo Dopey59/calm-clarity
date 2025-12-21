@@ -1,13 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Génération d'articles - Architecture SEO-optimale
+ * Génération d'articles - Architecture SEO Pilier/Satellite
  * 
- * Crée automatiquement :
- * - 1 fichier par article
- * - Dans le bon dossier de catégorie
- * - Nom de fichier = slug
- * - Rotation d'images uniques
+ * V2 - Gestion intelligente :
+ * - Articles PILIERS (3000-5000 mots)
+ * - Articles SATELLITES (2000-2500 mots)
+ * - Évite cannibalisation keywords
  */
 
 import Anthropic from '@anthropic-ai/sdk';
@@ -21,10 +20,20 @@ const __dirname = dirname(__filename);
 
 const CATEGORY = process.env.CATEGORY || 'stress';
 const TOPIC = process.env.TOPIC || 'stress';
+const ARTICLE_TYPE = process.env.ARTICLE_TYPE || 'satellite';
+const WORD_COUNT = process.env.WORD_COUNT || '2000-2500';
+const PILIER_PARENT = process.env.PILIER_PARENT || '';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
+
+console.log(`📋 Configuration:`);
+console.log(`   Type: ${ARTICLE_TYPE}`);
+console.log(`   Longueur: ${WORD_COUNT} mots`);
+if (PILIER_PARENT) {
+  console.log(`   Pilier parent: ${PILIER_PARENT}`);
+}
 
 /**
  * POOL D'IMAGES PAR CATÉGORIE
@@ -61,9 +70,6 @@ const IMAGE_POOLS = {
   ]
 };
 
-/**
- * Scanner tous les articles existants
- */
 function scanAllArticles() {
   const articlesDir = path.join(process.cwd(), 'src/content/articles');
   const categories = ['anxiete', 'stress'];
@@ -85,36 +91,22 @@ function scanAllArticles() {
     
     files.forEach(file => {
       const content = fs.readFileSync(path.join(categoryDir, file), 'utf8');
-      
-      // Extraire slug depuis le nom de fichier
       slugs.push(file.replace('.ts', ''));
       
-      // Extraire titre
       const titleMatch = content.match(/title: ['"](.+?)['"]/);
-      if (titleMatch) {
-        titles.push(titleMatch[1].toLowerCase());
-      }
+      if (titleMatch) titles.push(titleMatch[1].toLowerCase());
       
-      // Extraire image
       const imageMatch = content.match(/image: ['"](.+?)['"]/);
-      if (imageMatch) {
-        images.push(imageMatch[1]);
-      }
+      if (imageMatch) images.push(imageMatch[1]);
       
-      // Extraire ID
       const idMatch = content.match(/id: ['"](\\d+)['"]/);
-      if (idMatch) {
-        maxId = Math.max(maxId, parseInt(idMatch[1]));
-      }
+      if (idMatch) maxId = Math.max(maxId, parseInt(idMatch[1]));
     });
   });
   
   return { titles, images, slugs, nextId: maxId + 1 };
 }
 
-/**
- * Sélectionner une image unique
- */
 function selectUniqueImage(category, usedImages) {
   const pool = IMAGE_POOLS[category] || IMAGE_POOLS.anxiete;
   const availableImages = pool.filter(img => !usedImages.includes(img));
@@ -126,25 +118,25 @@ function selectUniqueImage(category, usedImages) {
   return finalPool[randomIndex];
 }
 
-/**
- * Générer l'article via Claude
- */
 async function generateArticle(existingTitles) {
-  console.log(`📝 Génération article: ${TOPIC}`);
+  console.log(`📝 Génération article ${ARTICLE_TYPE}: ${TOPIC}`);
   console.log(`🔍 ${existingTitles.length} articles existants\n`);
   
   const existingList = existingTitles.slice(0, 50).map(t => `- ${t}`).join('\n');
   
-  const prompt = `Tu es un RÉDACTEUR MÉDICAL SEO SENIOR spécialisé en santé mentale.
+  // Prompt de base anti-hallucination (inchangé)
+  const baseRules = `Tu es un RÉDACTEUR MÉDICAL SEO SENIOR spécialisé en santé mentale.
 
 Tu respectes STRICTEMENT :
 - Les standards médicaux français (HAS, INSERM)
 - Les critères E-E-A-T de Google (Expertise, Experience, Authoritativeness, Trustworthiness)
 - Les exigences YMYL (Your Money Your Life) pour contenus santé
 
-SUJET: "${TOPIC}"
+SUJET PRÉCIS: "${TOPIC}"
+TYPE D'ARTICLE: ${ARTICLE_TYPE}
+LONGUEUR CIBLE: ${WORD_COUNT} mots
 
-SUJETS DÉJÀ TRAITÉS :
+SUJETS DÉJÀ TRAITÉS (à différencier) :
 ${existingList}
 
 ═══════════════════════════════════════════════════════════════
@@ -198,245 +190,276 @@ Formulation PRUDENTE requise :
 - "peut contribuer à..." (pas "cause")
 - "est associé à..." (pas "provoque")
 - "selon certaines études..." (pas "il est prouvé")
-- "pourrait aider à..." (pas "guérit")
+- "pourrait aider à..." (pas "guérit")`;
 
+  // Structure spécifique selon le type
+  const pilierStructure = `
 ═══════════════════════════════════════════════════════════════
-🎯 STRUCTURE ARTICLE (2000-2500 mots)
+🏛️ ARTICLE PILIER - ${WORD_COUNT} MOTS
 ═══════════════════════════════════════════════════════════════
 
-# [Titre H1 - Accrocheur + SEO + Question utilisateur]
+OBJECTIF : Article de RÉFÉRENCE exhaustif sur "${TOPIC}"
 
-[Introduction 150-200 mots]
-- Contexte empathique
-- Prévalence (SI source disponible avec URL)
-- Annonce du contenu
-- AUCUNE stat sans source
+STRUCTURE DÉTAILLÉE OBLIGATOIRE :
 
-## Comprendre ${TOPIC} : Définition Médicale
+# [Titre H1 - Accrocheur + Keyword exact + Promesse]
 
-[Basé UNIQUEMENT sur définition HAS/Inserm avec URL]
+[Introduction 250-350 mots]
+- Contexte large et empathique
+- Prévalence (avec URL Inserm/SPF)
+- Impact vie quotidienne
+- Promesse de valeur (ce que le lecteur va apprendre)
+- Annonce du plan détaillé
 
-Exemple :
-"Selon la Haute Autorité de Santé (HAS, 
-https://www.has-sante.fr/..., 2022), le trouble anxieux 
-généralisé se caractérise par..."
+## Comprendre ${TOPIC} : Définition Complète
 
-## Reconnaître les Manifestations
+[400-600 mots - Définition HAS/Inserm avec URL]
+- Définition médicale officielle (HAS, URL)
+- Critères diagnostiques
+- Différences avec concepts proches
+- Données épidémiologiques (Inserm, URL)
+
+## Manifestations et Symptômes Détaillés
+
+[500-700 mots]
 
 ### Symptômes Physiques
-[Liste factuelle - sources médicales]
-- [Symptôme] (Inserm, URL, année)
+[Liste complète avec sources]
 
 ### Symptômes Psychologiques
-[Idem - pas d'invention]
+[Liste complète avec sources]
 
-### ⚠️ Quand S'Inquiéter (Signaux d'Alerte)
-[Critères basés sur recommandations HAS]
+### Symptômes Comportementaux
+[Impact concret]
 
-## Comprendre les Causes (Facteurs de Risque)
+### ⚠️ Signaux d'Alerte
+[Quand s'inquiéter - critères HAS]
 
-[UNIQUEMENT facteurs validés scientifiquement]
+## Causes et Facteurs de Risque
 
-**LANGAGE PRUDENT obligatoire :**
-- "Les facteurs de risque incluent..." ✅
-- "Peut être lié à..." ✅
-- "Le stress CAUSE l'anxiété" ❌
+[500-700 mots]
+
+### Facteurs Biologiques
+[Mécanismes avec sources Inserm]
+
+### Facteurs Psychologiques
+[Validés scientifiquement]
+
+### Facteurs Environnementaux
+[Contexte social/professionnel]
+
+### Interactions Multifactorielles
+[Approche holistique]
 
 ## Solutions et Accompagnement
 
-### Approches Validées Scientifiquement
+[700-900 mots]
 
+### Approches Médicales Validées
 **Psychothérapies :**
-[UNIQUEMENT celles recommandées par HAS]
-"La HAS (URL, année) recommande en première intention..."
+- TCC (HAS, URL)
+- Autres approches recommandées
+- Niveau de preuve pour chaque
 
-**Attention :** Ne JAMAIS promettre de guérison.
-Formulation : "peut contribuer à améliorer..." ✅
+**Traitements :**
+- Approches reconnues HAS
+- Jamais de promesse guérison
 
 ### Stratégies de Gestion au Quotidien
-
 [Techniques avec niveau de preuve]
-- Respiration : (niveau de preuve faible à modéré)
-- Exercice physique : (niveau de preuve élevé, Inserm, URL)
+- Respiration (niveau preuve)
+- Activité physique (Inserm, URL)
+- Sommeil
+- Alimentation
+- Gestion stress
 
-### 🏥 Quand Consulter un Professionnel (OBLIGATOIRE)
+### 🏥 Quand Consulter un Professionnel
 
 **Section NON-NÉGOCIABLE :**
 
-"Il est recommandé de consulter un professionnel de santé si :
-- Les symptômes persistent plus de [X semaines] (selon HAS)
-- Ils perturbent significativement votre vie quotidienne
-- Vous ressentez une détresse importante
+"Il est recommandé de consulter si :
+- Symptômes persistent >X semaines
+- Impact significatif vie quotidienne
+- Détresse importante
 
-**Professionnels consultables :**
-- Médecin traitant (premier recours)
-- Psychiatre (diagnostic et traitement médicamenteux si nécessaire)
+**Professionnels :**
+- Médecin traitant (1er recours)
+- Psychiatre (diagnostic/médication)
 - Psychologue (psychothérapie)
 
-**En cas de crise ou d'urgence :**
-- **3114** : Numéro national de prévention du suicide (gratuit, 24h/24)
-- **15** : SAMU (urgences médicales)
-- **114** : Numéro d'urgence pour personnes sourdes/malentendantes (par SMS)"
+**Urgences :**
+- **3114** : Prévention suicide (24h/24)
+- **15** : SAMU
+- **114** : Sourds/malentendants (SMS)"
 
-## Ce Qui Ne Fonctionne PAS (Transparence)
+## Évolution et Pronostic
 
-[Mentionner approches non validées scientifiquement]
-"À ce jour, aucune étude scientifique robuste ne valide..."
+[300-400 mots]
+- Évolution typique
+- Facteurs bon/mauvais pronostic
+- Transparence variabilité individuelle
 
-Cela renforce la crédibilité E-E-A-T.
+## Ce Qui Ne Fonctionne PAS
 
-## Questions Fréquemment Posées (FAQ)
+[200-300 mots - Transparence]
+"À ce jour, aucune étude robuste ne valide..."
 
-[5-8 questions]
+## Questions Fréquentes (FAQ)
 
-**Format :**
-### [Question exacte que les gens se posent]
+[800-1200 mots - 8-12 questions]
 
-[Réponse factuelle avec sources]
-- Commence par répondre directement
-- Ajoute contexte si nécessaire
-- Source avec URL
-- Langage prudent
+### [Question 1 précise]
+[Réponse directe + contexte + source URL]
 
-Exemple :
-### Le stress peut-il causer des maladies physiques ?
+[Répéter pour 8-12 questions]
 
-Le stress chronique est associé à divers troubles de santé. 
-Selon l'Inserm (...URL..., 2023), il peut contribuer à 
-l'hypertension et aux troubles cardiovasculaires. Cependant, 
-la relation de causalité directe reste complexe et nécessite 
-davantage de recherches.
+## Ressources et Soutien
 
-## Limites de l'Article (Transparence Éditoriale)
+[200-300 mots]
+- Associations reconnues
+- Lignes d'écoute
+- Sites fiables
 
-**Section RECOMMANDÉE pour E-E-A-T :**
+## Limites de l'Article
 
-"Cet article a été rédigé à des fins d'information générale. 
-Il ne remplace pas un avis médical personnalisé. Chaque 
-situation est unique et nécessite une évaluation individuelle 
-par un professionnel de santé."
+[150-200 mots]
+"Article à visée informative. Ne remplace pas avis médical personnalisé..."
 
 ## Sources Scientifiques
 
-**LISTE OBLIGATOIRE en fin d'article :**
+[200-300 mots]
+### Institutions
+1. [Titre] - Inserm - URL - Année
+2. [Titre] - HAS - URL - Année
+[...]
 
-### Institutions de Santé
-1. [Titre exact de la page] - Inserm - https://... - Année
-2. [Titre exact] - HAS - https://... - Année
-3. [Titre exact] - Santé publique France - https://... - Année
+*Dernière mise à jour : [Date]*
 
-### Études Scientifiques (si applicable)
-1. [Auteurs]. [Titre]. [Journal]. Année. PMID: [numéro]. https://pubmed.ncbi.nlm.nih.gov/...
+**TOTAL REQUIS : ${WORD_COUNT} mots**`;
 
-*Dernière mise à jour des sources : [Date du jour]*
-
+  const satelliteStructure = `
 ═══════════════════════════════════════════════════════════════
-⛔ INTERDICTIONS ABSOLUES E-E-A-T
-═══════════════════════════════════════════════════════════════
-
-PROMESSES THÉRAPEUTIQUES :
-❌ "Ce traitement guérit..."
-❌ "Élimine définitivement..."
-❌ "Permet de se débarrasser de..."
-✅ "Peut contribuer à améliorer..."
-✅ "Est reconnu comme efficace pour..."
-
-DIAGNOSTICS IMPLICITES :
-❌ "Si vous avez ces symptômes, vous souffrez de..."
-✅ "Ces symptômes peuvent indiquer... Consultez un professionnel."
-
-CAUSALITÉ SIMPLISTE :
-❌ "Le stress cause l'anxiété"
-❌ "X provoque Y"
-✅ "Le stress est associé à..."
-✅ "Peut contribuer au développement de..."
-
-AFFIRMATIONS CATÉGORIQUES :
-❌ "Toutes les études montrent..."
-❌ "Il est scientifiquement prouvé..."
-❌ "Les experts sont unanimes..."
-✅ "Selon le consensus actuel..."
-✅ "Les données disponibles suggèrent..."
-
-SOURCES VAGUES :
-❌ "Une étude montre..."
-❌ "Des recherches récentes..."
-❌ "Selon les experts..."
-❌ "D'après le Dr. X..." (nom de personne)
-
-CHIFFRES SANS SOURCE :
-❌ Tout pourcentage sans URL institutionnelle
-❌ Toute statistique sans référence précise
-
-═══════════════════════════════════════════════════════════════
-🎯 MÉTHODE DE VÉRIFICATION INTERNE
+🔗 ARTICLE SATELLITE - ${WORD_COUNT} MOTS
 ═══════════════════════════════════════════════════════════════
 
-Avant de finaliser l'article, vérifie :
+OBJECTIF : Approfondir UN aspect spécifique lié à "${PILIER_PARENT}"
 
-□ Chaque stat a une URL institutionnelle
-□ Chaque "selon X" a une URL
-□ AUCUN "une étude montre"
-□ AUCUN nom de chercheur/médecin
-□ AUCUNE promesse de guérison
-□ Langage prudent utilisé ("peut", "associé à")
-□ Section "Quand consulter" présente
-□ Numéros urgence (3114, 15, 114) présents
-□ Liste sources complète en fin
-□ Limites de l'article mentionnées
+STRUCTURE CIBLÉE OBLIGATOIRE :
 
-Si UNE SEULE case non cochée → RECOMMENCE.
+# [Titre H1 Spécifique - Keyword exact + Angle unique]
+
+[Introduction 150-200 mots]
+- Contexte de cet aspect particulier
+- Lien avec concept général "${PILIER_PARENT}"
+- Promesse spécifique
+- Valeur ajoutée de cet article
+
+## Comprendre ${TOPIC} en Détail
+
+[300-400 mots]
+- Définition précise de CET aspect
+- Lien avec "${PILIER_PARENT}"
+- Particularités et spécificités
+- Prévalence si données disponibles (URL)
+
+## Manifestations Spécifiques
+
+[300-400 mots]
+Focus UNIQUEMENT sur les manifestations propres à cet aspect
+- Signes distinctifs
+- Comment les reconnaître
+- Différences avec forme générale
+
+## Facteurs Spécifiques
+
+[200-300 mots]
+Causes/déclencheurs propres à cet aspect
+- Facteurs de risque particuliers
+- Situations typiques
+- Populations concernées
+
+## Solutions Adaptées
+
+[400-600 mots]
+Approches spécifiques pour CET aspect
+
+### Adaptations Thérapeutiques
+[Approches HAS adaptées]
+
+### Stratégies Ciblées
+[Techniques spécifiques avec niveau preuve]
+
+### 🏥 Quand Consulter
+
+**Section NON-NÉGOCIABLE :**
+[Critères spécifiques + numéros 3114/15/114]
+
+## Questions Fréquentes
+
+[300-500 mots - 5-7 questions ciblées]
+
+### [Question spécifique 1]
+[Réponse directe + source]
+
+[Répéter pour 5-7 questions]
+
+## Aller Plus Loin
+
+[100-150 mots]
+"Pour une vue d'ensemble de ${PILIER_PARENT}, consultez notre article complet [lien interne si existe]"
+
+## Limites de l'Article
+
+[100-150 mots]
+Disclaimer standard
+
+## Sources Scientifiques
+
+[150-200 mots]
+Liste URLs + dates
+
+**TOTAL REQUIS : ${WORD_COUNT} mots**`;
+
+  const structurePrompt = ARTICLE_TYPE === 'pilier' ? pilierStructure : satelliteStructure;
+
+  const endRules = `
+═══════════════════════════════════════════════════════════════
+⛔ INTERDICTIONS ABSOLUES (Rappel)
+═══════════════════════════════════════════════════════════════
+
+PROMESSES : ❌ "guérit" ❌ "élimine" ✅ "peut contribuer"
+CAUSALITÉ : ❌ "cause" ❌ "provoque" ✅ "est associé à"
+SOURCES : ❌ "une étude" ❌ "Dr. X" ✅ "Inserm (URL, année)"
+STATS : ❌ "42% des" sans URL ✅ Toute stat a URL
 
 ═══════════════════════════════════════════════════════════════
-✅ ENRICHISSEMENTS SEO E-E-A-T
+⚠️ AVERTISSEMENT ÉTHIQUE
 ═══════════════════════════════════════════════════════════════
 
-VOCABULAIRE MÉDICAL PRÉCIS :
-- "Trouble anxieux généralisé" > "anxiété"
-- "Psychothérapie cognitivo-comportementale" > "TCC"
-- "Professionnel de santé" > "médecin"
+Personnes en SOUFFRANCE RÉELLE liront cet article.
 
-SIGNAUX DE CONFIANCE :
-- Dates de sources récentes (< 3 ans idéalement)
-- Mentions d'institutions reconnues
-- Transparence sur limites
-- Appel à consultation professionnelle
+Information FAUSSE = Risque réel :
+- Retard prise en charge
+- Aggravation symptômes
+- Faux espoirs
+- Comportements à risque
 
-MOTS-CLÉS SECONDAIRES (à intégrer naturellement) :
-- [Insère 5-8 variations du mot-clé principal]
-- Questions longue traîne
-- Termes médicaux associés
+RIGUEUR SCIENTIFIQUE = NON-NÉGOCIABLE
+PRUDENCE MÉDICALE = OBLIGATION ÉTHIQUE
 
-═══════════════════════════════════════════════════════════════
-⚠️ AVERTISSEMENT ÉTHIQUE FINAL
-═══════════════════════════════════════════════════════════════
-
-Cet article sera lu par des personnes en SOUFFRANCE RÉELLE.
-
-Une information FAUSSE ou TROMPEUSE peut :
-- Retarder une prise en charge médicale nécessaire
-- Aggraver des symptômes
-- Créer de faux espoirs
-- Induire des comportements à risque
-
-LA RIGUEUR SCIENTIFIQUE N'EST PAS NÉGOCIABLE.
-LA PRUDENCE MÉDICALE EST UNE OBLIGATION ÉTHIQUE.
-
-Si tu n'as PAS de source institutionnelle vérifiable :
-→ NE L'ÉCRIS PAS.
-
-Si une affirmation ne fait PAS consensus médical :
-→ Reformule avec prudence explicite OU supprime.
+Pas de source vérifiable → NE L'ÉCRIS PAS.
 
 ═══════════════════════════════════════════════════════════════
 
 IMPORTANT: Génère UNIQUEMENT le contenu Markdown final.
-Pas de frontmatter, pas de méta-commentaires sur ton processus.`;
+Pas de frontmatter, pas de méta-commentaires.`;
+
+  const fullPrompt = baseRules + structurePrompt + endRules;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-20250514',
     max_tokens: 16000,
-    messages: [{ role: 'user', content: prompt }]
+    messages: [{ role: 'user', content: fullPrompt }]
   });
 
   const content = message.content[0].text;
@@ -445,7 +468,6 @@ Pas de frontmatter, pas de méta-commentaires sur ton processus.`;
   
   console.log(`✅ Titre: "${title}"`);
   
-  // Générer le slug
   const slug = title
     .toLowerCase()
     .normalize('NFD')
@@ -459,21 +481,16 @@ Pas de frontmatter, pas de méta-commentaires sur ton processus.`;
   return { title, slug, excerpt, content };
 }
 
-/**
- * Créer le fichier de l'article
- */
 function createArticleFile(article, nextId, image, existingSlugs) {
   const articlesDir = path.join(process.cwd(), 'src/content/articles');
   const categoryDir = path.join(articlesDir, CATEGORY);
   const today = new Date().toISOString().split('T')[0];
   
-  // Vérifier que le dossier existe
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
     console.log(`📁 Dossier créé: ${categoryDir}`);
   }
   
-  // Gérer les slugs en double
   let finalSlug = article.slug;
   let counter = 1;
   while (existingSlugs.includes(finalSlug)) {
@@ -485,11 +502,9 @@ function createArticleFile(article, nextId, image, existingSlugs) {
     console.log(`⚠️  Slug dupliqué, renommé: ${finalSlug}`);
   }
   
-  // Chemin du fichier
   const filename = `${finalSlug}.ts`;
   const filepath = path.join(categoryDir, filename);
   
-  // Échapper le contenu
   const contentEscaped = article.content
     .replace(/\\/g, '\\\\')
     .replace(/`/g, '\\`')
@@ -498,11 +513,11 @@ function createArticleFile(article, nextId, image, existingSlugs) {
   const titleEscaped = article.title.replace(/'/g, "\\'");
   const excerptEscaped = article.excerpt.replace(/'/g, "\\'");
   
-  // Contenu du fichier
   const fileContent = `import { Article } from '@/types/Article';
 
 /**
  * ${article.title}
+ * Type: ${ARTICLE_TYPE}
  * Catégorie: ${CATEGORY}
  * Généré le: ${today}
  */
@@ -520,48 +535,38 @@ export const article: Article = {
   imageAlt: 'Illustration pour article : ${titleEscaped}',
   datePublished: '${today}',
   dateModified: '${today}',
-  readingTime: 10,
-  featured: true,
+  readingTime: ${ARTICLE_TYPE === 'pilier' ? 15 : 10},
+  featured: ${ARTICLE_TYPE === 'pilier' ? 'true' : 'false'},
 };
 `;
   
-  // Écrire le fichier
   fs.writeFileSync(filepath, fileContent, 'utf8');
   
   console.log(`✅ Fichier créé: ${CATEGORY}/${filename}`);
   console.log(`   ID: ${nextId}`);
+  console.log(`   Type: ${ARTICLE_TYPE}`);
   console.log(`   Slug: ${finalSlug}`);
   
   return { filepath, finalSlug };
 }
 
-/**
- * Main
- */
 async function main() {
   try {
-    console.log('🚀 GÉNÉRATION ARTICLE (Architecture SEO)\n');
+    console.log('🚀 GÉNÉRATION ARTICLE INTELLIGENTE\n');
     
-    // 1. Scanner les articles existants
     console.log('📊 Scan des articles existants...');
     const { titles, images, slugs, nextId } = scanAllArticles();
     console.log(`   - ${titles.length} articles trouvés`);
     console.log(`   - Prochain ID: ${nextId}\n`);
     
-    // 2. Générer l'article
     const article = await generateArticle(titles);
-    
-    // 3. Sélectionner une image unique
     const image = selectUniqueImage(CATEGORY, images);
-    
-    // 4. Créer le fichier
     const { filepath, finalSlug } = createArticleFile(article, nextId, image, slugs);
     
     console.log('\n🎉 ARTICLE GÉNÉRÉ AVEC SUCCÈS !');
     console.log(`\n📄 Fichier: ${filepath}`);
     console.log(`🔗 URL: /articles/${CATEGORY}/${finalSlug}`);
-    console.log('\n✨ Aucune action supplémentaire requise !');
-    console.log('   L\'index détecte automatiquement le nouveau fichier.');
+    console.log(`📏 Type: ${ARTICLE_TYPE} (${WORD_COUNT} mots)`);
     
   } catch (error) {
     console.error('\n❌ ERREUR:', error.message);
