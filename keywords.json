@@ -1036,5 +1036,14 @@
         "status": "todo"
       }
     ]
+  },
+  "_publishingBlocked": {
+    "until": "2024-12-30",
+    "reason": "3 articles publies le 2025-12-22 - pause jusqu au 2024-12-30",
+    "articlesPublished": [
+      "stress-sat-019",
+      "stress-sat-020",
+      "anxiete-sat-016"
+    ]
   }
 }
