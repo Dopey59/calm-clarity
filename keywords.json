@@ -892,7 +892,8 @@
         "difficulty": "low",
         "wordCount": "2000-2500",
         "type": "satellite",
-        "status": "todo"
+        "status": "done",
+        "publishedAt": "2025-12-22T08:19:23.828Z"
       },
       {
         "id": "anxiete-sat-017",
