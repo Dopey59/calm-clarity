@@ -1,21 +1,57 @@
-﻿name: 📝 Publication Intelligente 3x/Semaine
+name: 📝 Publication Intelligente 3x/Semaine
 
 on:
   schedule:
-    # LUNDI matin - 3 horaires possibles (7h-10h Paris)
-    - cron: '0 5 * * 1'    # 7h Paris
-    - cron: '30 6 * * 1'   # 8h30 Paris
-    - cron: '0 8 * * 1'    # 10h Paris
+    # LUNDI matin 7h-10h - ALÉATOIRE via multiple triggers
+    - cron: '0 5 * * 1'     # 7h00 Paris
+    - cron: '12 5 * * 1'    # 7h12 Paris
+    - cron: '23 5 * * 1'    # 7h23 Paris
+    - cron: '37 5 * * 1'    # 7h37 Paris
+    - cron: '46 5 * * 1'    # 7h46 Paris
+    - cron: '1 6 * * 1'     # 8h01 Paris
+    - cron: '14 6 * * 1'    # 8h14 Paris
+    - cron: '28 6 * * 1'    # 8h28 Paris
+    - cron: '39 6 * * 1'    # 8h39 Paris
+    - cron: '52 6 * * 1'    # 8h52 Paris
+    - cron: '4 7 * * 1'     # 9h04 Paris
+    - cron: '17 7 * * 1'    # 9h17 Paris
+    - cron: '31 7 * * 1'    # 9h31 Paris
+    - cron: '43 7 * * 1'    # 9h43 Paris
+    - cron: '56 7 * * 1'    # 9h56 Paris
     
-    # MERCREDI après-midi - 3 horaires possibles (17h-20h Paris)
-    - cron: '0 15 * * 3'   # 17h Paris
-    - cron: '30 16 * * 3'  # 18h30 Paris
-    - cron: '0 18 * * 3'   # 20h Paris
+    # MERCREDI après-midi 17h-20h - ALÉATOIRE
+    - cron: '8 15 * * 3'    # 17h08 Paris
+    - cron: '19 15 * * 3'   # 17h19 Paris
+    - cron: '27 15 * * 3'   # 17h27 Paris
+    - cron: '34 15 * * 3'   # 17h34 Paris
+    - cron: '48 15 * * 3'   # 17h48 Paris
+    - cron: '2 16 * * 3'    # 18h02 Paris
+    - cron: '15 16 * * 3'   # 18h15 Paris
+    - cron: '26 16 * * 3'   # 18h26 Paris
+    - cron: '41 16 * * 3'   # 18h41 Paris
+    - cron: '53 16 * * 3'   # 18h53 Paris
+    - cron: '7 17 * * 3'    # 19h07 Paris
+    - cron: '21 17 * * 3'   # 19h21 Paris
+    - cron: '38 17 * * 3'   # 19h38 Paris
+    - cron: '49 17 * * 3'   # 19h49 Paris
+    - cron: '58 17 * * 3'   # 19h58 Paris
     
-    # VENDREDI matin - 3 horaires possibles (7h-10h Paris)
-    - cron: '0 5 * * 5'    # 7h Paris
-    - cron: '30 7 * * 5'   # 9h30 Paris
-    - cron: '0 8 * * 5'    # 10h Paris
+    # VENDREDI matin 7h-10h - ALÉATOIRE
+    - cron: '6 5 * * 5'     # 7h06 Paris
+    - cron: '18 5 * * 5'    # 7h18 Paris
+    - cron: '29 5 * * 5'    # 7h29 Paris
+    - cron: '43 5 * * 5'    # 7h43 Paris
+    - cron: '54 5 * * 5'    # 7h54 Paris
+    - cron: '9 6 * * 5'     # 8h09 Paris
+    - cron: '22 6 * * 5'    # 8h22 Paris
+    - cron: '36 6 * * 5'    # 8h36 Paris
+    - cron: '47 6 * * 5'    # 8h47 Paris
+    - cron: '59 6 * * 5'    # 8h59 Paris
+    - cron: '11 7 * * 5'    # 9h11 Paris
+    - cron: '24 7 * * 5'    # 9h24 Paris
+    - cron: '35 7 * * 5'    # 9h35 Paris
+    - cron: '48 7 * * 5'    # 9h48 Paris
+    - cron: '57 7 * * 5'    # 9h57 Paris
     
   workflow_dispatch:
 
@@ -23,7 +59,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-intelligent:
+  check-and-publish:
     runs-on: ubuntu-latest
     
     steps:
@@ -41,17 +77,22 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
       
-      # ÉTAPE CRITIQUE : Sélection intelligente du keyword
-      - name: 🎯 Sélection intelligente keyword
-        id: select
+      # 🆕 VÉRIFICATION : Déjà publié aujourd'hui ?
+      - name: 🔍 Vérifier publications du jour
+        id: check
         run: |
           node << 'EOFSCRIPT'
           const fs = require('fs');
+          const path = require('path');
           
           // Charger keywords.json
           const keywords = JSON.parse(fs.readFileSync('keywords.json', 'utf8'));
           
-          // Combiner tous les articles (piliers + satellites)
+          // Date aujourd'hui
+          const today = new Date().toISOString().split('T')[0];
+          console.log(`📅 Vérification pour : ${today}`);
+          
+          // Compter articles publiés aujourd'hui
           const allArticles = [
             ...keywords.stress.piliers,
             ...keywords.stress.satellites,
@@ -59,18 +100,52 @@ jobs:
             ...keywords.anxiete.satellites
           ];
           
-          // Filtrer uniquement les "todo"
+          const todayPublished = allArticles.filter(a => 
+            a.status === 'done' && 
+            a.publishedAt && 
+            a.publishedAt.startsWith(today)
+          );
+          
+          console.log(`📊 Articles publiés aujourd'hui : ${todayPublished.length}`);
+          
+          // LIMITE : 1 article par jour maximum
+          if (todayPublished.length >= 1) {
+            console.log('⚠️ Article déjà publié aujourd'hui !');
+            console.log('🛑 Annulation du workflow (limite 1/jour)');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'should_skip=true\n');
+          } else {
+            console.log('✅ Aucun article publié aujourd'hui');
+            console.log('🚀 Lancement de la génération');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'should_skip=false\n');
+          }
+          EOFSCRIPT
+      
+      # Sélection intelligente keyword
+      - name: 🎯 Sélection intelligente keyword
+        if: steps.check.outputs.should_skip == 'false'
+        id: select
+        run: |
+          node << 'EOFSCRIPT'
+          const fs = require('fs');
+          
+          const keywords = JSON.parse(fs.readFileSync('keywords.json', 'utf8'));
+          
+          const allArticles = [
+            ...keywords.stress.piliers,
+            ...keywords.stress.satellites,
+            ...keywords.anxiete.piliers,
+            ...keywords.anxiete.satellites
+          ];
+          
           const available = allArticles.filter(a => a.status === 'todo');
           
           console.log(`📊 Articles disponibles : ${available.length}/90`);
           
           if (available.length === 0) {
-            console.log('❌ Plus de keywords disponibles !');
             console.log('✅ LES 90 ARTICLES SONT PUBLIÉS ! 🎉');
             process.exit(0);
           }
           
-          // Sélection ALÉATOIRE
           const randomIndex = Math.floor(Math.random() * available.length);
           const selected = available[randomIndex];
           
@@ -79,7 +154,6 @@ jobs:
           console.log(`   Catégorie : ${selected.id.startsWith('stress') ? 'stress' : 'anxiete'}`);
           console.log(`   Longueur : ${selected.wordCount} mots`);
           
-          // Extraire les infos
           const category = selected.id.startsWith('stress') ? 'stress' : 'anxiete';
           const topic = selected.keyword;
           const type = selected.type;
@@ -87,7 +161,6 @@ jobs:
           const pilierParent = selected.pilierParent || '';
           const selectedId = selected.id;
           
-          // Créer les outputs
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `category=${category}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `topic=${topic}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `type=${type}\n`);
@@ -95,7 +168,6 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `pilierParent=${pilierParent}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `selectedId=${selectedId}\n`);
           
-          // Marquer comme "done"
           const updateKeywords = (data, id) => {
             ['stress', 'anxiete'].forEach(cat => {
               ['piliers', 'satellites'].forEach(arr => {
@@ -112,11 +184,13 @@ jobs:
           
           const updated = updateKeywords(keywords, selected.id);
           fs.writeFileSync('keywords.json', JSON.stringify(updated, null, 2));
+          
           console.log(`\n📝 keywords.json mis à jour`);
           EOFSCRIPT
       
       # Générer l'article
       - name: 🤖 Générer article
+        if: steps.check.outputs.should_skip == 'false'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CATEGORY: ${{ steps.select.outputs.category }}
@@ -126,18 +200,20 @@ jobs:
           PILIER_PARENT: ${{ steps.select.outputs.pilierParent }}
         run: npm run generate-article
       
-      # Build pour générer le sitemap
+      # Build pour générer sitemap
       - name: 🏗️ Build projet (génère sitemap)
+        if: steps.check.outputs.should_skip == 'false'
         run: npm run build
       
       # Commit
       - name: 💾 Commit article + keywords.json + sitemap
+        if: steps.check.outputs.should_skip == 'false'
         run: |
           git config user.name "Bot CalmeClair"
           git config user.email "bot@calmeclair.com"
           git add src/content/articles/
           git add keywords.json
-          git add dist/sitemap.xml 2>/dev/null || echo "Sitemap non trouvé dans dist/"
+          git add dist/sitemap.xml 2>/dev/null || echo "Sitemap non trouvé"
           
           if git diff --staged --quiet; then
             echo "Aucun changement à commiter"
@@ -147,23 +223,17 @@ jobs:
             echo "✅ Article publié avec succès !"
           fi
       
-      # 🆕 SOUMISSION AUTOMATIQUE SITEMAP
+      # Soumission sitemap
       - name: 📤 Soumettre sitemap à Google
+        if: steps.check.outputs.should_skip == 'false'
         env:
           GOOGLE_SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS }}
         run: |
           if [ -z "$GOOGLE_SEARCH_CONSOLE_CREDENTIALS" ]; then
-            echo "⚠️ GOOGLE_SEARCH_CONSOLE_CREDENTIALS non configuré"
-            echo "ℹ️ Le sitemap ne sera pas soumis automatiquement"
-            echo "📚 Configuration : GitHub Settings > Secrets > GOOGLE_SEARCH_CONSOLE_CREDENTIALS"
+            echo "⚠️ Credentials non configurés"
+            echo "📡 Ping Google..."
+            curl -s "https://www.google.com/ping?sitemap=https://calmeclair.com/sitemap.xml" || echo "Ping envoyé"
           else
-            echo "📤 Soumission du sitemap à Google Search Console..."
-            npm run submit-sitemap || echo "⚠️ Erreur soumission sitemap (article publié quand même)"
+            echo "📤 Soumission API Google..."
+            npm run submit-sitemap || echo "⚠️ Erreur soumission"
           fi
-      
-      # Ping Google manuellement (fallback si credentials manquants)
-      - name: 🔔 Ping Google (fallback)
-        if: env.GOOGLE_SEARCH_CONSOLE_CREDENTIALS == ''
-        run: |
-          echo "📡 Ping Google pour indexation rapide..."
-          curl -s "https://www.google.com/ping?sitemap=https://calmeclair.com/sitemap.xml" || echo "Ping envoyé"
