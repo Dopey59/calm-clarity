@@ -2,7 +2,7 @@
 
 /**
  * Script de génération automatique du sitemap.xml
- * Inclut TOUS les articles depuis le fichier articles.ts
+ * VERSION CORRIGEE - Scanne les fichiers MDX dans content/articles/
  * Usage: node scripts/generate-sitemap.js
  */
 
@@ -15,8 +15,8 @@ const __dirname = path.dirname(__filename);
 
 // Configuration
 const SITE_URL = 'https://calmeclair.com';
-const OUTPUT_PATH = path.join(__dirname, '../public/sitemap.xml');
-const ARTICLES_PATH = path.join(__dirname, '../src/data/articles.ts');
+const OUTPUT_PATH = path.join(__dirname, '../dist/sitemap.xml'); // 🆕 dist/ au lieu de public/
+const ARTICLES_DIR = path.join(__dirname, '../src/content/articles'); // 🆕 Nouveau chemin
 
 // Catégories du site
 const categories = [
@@ -38,33 +38,51 @@ const pages = [
 ];
 
 /**
- * Extrait les articles depuis le fichier articles.ts
+ * 🆕 Scanne TOUS les fichiers .ts dans content/articles/
  */
-function extractArticles() {
-  try {
-    const content = fs.readFileSync(ARTICLES_PATH, 'utf8');
+function scanAllArticles() {
+  const articles = [];
+  const categoriesDir = ['anxiete', 'stress']; // 🆕 Catégories à scanner
+  
+  categoriesDir.forEach(category => {
+    const categoryPath = path.join(ARTICLES_DIR, category);
     
-    // Regex pour extraire les articles
-    const articles = [];
-    const articleRegex = /\{\s*id:\s*['"](\d+)['"]\s*,\s*slug:\s*['"]([^'"]+)['"]\s*,[^}]*datePublished:\s*['"]([^'"]+)['"]\s*,[^}]*featured:\s*(true|false)?/g;
-    
-    let match;
-    while ((match = articleRegex.exec(content)) !== null) {
-      const [, id, slug, datePublished, featured] = match;
-      articles.push({
-        id,
-        slug,
-        datePublished,
-        featured: featured === 'true'
-      });
+    if (!fs.existsSync(categoryPath)) {
+      console.log(`⚠️  Dossier manquant: ${categoryPath}`);
+      return;
     }
     
-    console.log(`✅ ${articles.length} articles extraits`);
-    return articles;
-  } catch (error) {
-    console.error('❌ Erreur lors de l\'extraction des articles:', error);
-    return [];
-  }
+    const files = fs.readdirSync(categoryPath)
+      .filter(f => f.endsWith('.ts') && f !== 'index.ts');
+    
+    console.log(`📂 ${category}: ${files.length} fichiers`);
+    
+    files.forEach(file => {
+      try {
+        const filePath = path.join(categoryPath, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        
+        // Extraire métadonnées
+        const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+        const dateMatch = content.match(/datePublished:\s*['"]([^'"]+)['"]/);
+        const featuredMatch = content.match(/featured:\s*(true|false)/);
+        
+        if (slugMatch && dateMatch) {
+          articles.push({
+            slug: slugMatch[1],
+            datePublished: dateMatch[1],
+            featured: featuredMatch ? featuredMatch[1] === 'true' : false,
+            category
+          });
+        }
+      } catch (error) {
+        console.error(`❌ Erreur fichier ${file}:`, error.message);
+      }
+    });
+  });
+  
+  console.log(`\n✅ Total articles scannés: ${articles.length}`);
+  return articles;
 }
 
 /**
@@ -113,15 +131,15 @@ function generateSitemap() {
     ));
   });
 
-  // Articles dynamiques
-  const articles = extractArticles();
+  // 🆕 Articles depuis les fichiers MDX
+  const articles = scanAllArticles();
   articles.forEach(article => {
     const date = new Date(article.datePublished);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     
     // Articles featured ont une priorité plus élevée
-    const priority = article.featured ? '0.9' : '0.8';
+    const priority = article.featured ? '0.9' : '0.9'; // 🆕 Tous à 0.9 pour santé
     
     urls.push(generateUrlEntry(
       `${SITE_URL}/article/${year}/${month}/${article.slug}`,
@@ -163,10 +181,10 @@ function writeSitemap() {
   try {
     const sitemap = generateSitemap();
     
-    // Créer le dossier public s'il n'existe pas
-    const publicDir = path.dirname(OUTPUT_PATH);
-    if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true });
+    // 🆕 Créer le dossier dist/ s'il n'existe pas
+    const distDir = path.dirname(OUTPUT_PATH);
+    if (!fs.existsSync(distDir)) {
+      fs.mkdirSync(distDir, { recursive: true });
     }
     
     fs.writeFileSync(OUTPUT_PATH, sitemap, 'utf8');
@@ -174,9 +192,11 @@ function writeSitemap() {
     // Compter le nombre d'URLs
     const urlCount = (sitemap.match(/<url>/g) || []).length;
     
-    console.log('✅ Sitemap généré avec succès:', OUTPUT_PATH);
-    console.log(`📍 ${SITE_URL}/sitemap.xml`);
-    console.log(`📊 ${urlCount} URLs indexées`);
+    console.log('\n=== SITEMAP GENERE ===');
+    console.log('Fichier:', OUTPUT_PATH);
+    console.log('URL publique:', `${SITE_URL}/sitemap.xml`);
+    console.log('URLs indexees:', urlCount);
+    console.log('======================\n');
   } catch (error) {
     console.error('❌ Erreur lors de la génération du sitemap:', error);
     process.exit(1);
