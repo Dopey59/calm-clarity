@@ -37,6 +37,17 @@ function parseMarkdownToHtml(content: string): string {
     return `<h2 id="${id}">${text}</h2>`;
   });
   
+  // 🆕 LIENS MARKDOWN : [texte](url)
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-medium">${text}</a>`;
+  });
+  
+  // 🆕 URLS NUES : https://... ou http://...
+  // Attention : Ne pas matcher si déjà dans un lien HTML ou Markdown
+  html = html.replace(/(?<!href=["'])(https?:\/\/[^\s<>"]+)/g, (url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline font-medium break-all">${url}</a>`;
+  });
+  
   // Bold and italic
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
