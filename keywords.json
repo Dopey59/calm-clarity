@@ -409,7 +409,8 @@
         "difficulty": "low",
         "wordCount": "2000-2500",
         "type": "satellite",
-        "status": "todo"
+        "status": "done",
+        "publishedAt": "2025-12-22T05:29:33.464Z"
       },
       {
         "id": "stress-sat-020",
