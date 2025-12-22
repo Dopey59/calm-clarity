@@ -2,7 +2,11 @@
 
 /**
  * Script de génération automatique du sitemap.xml
- * VERSION CORRIGEE - Scanne les fichiers MDX dans content/articles/
+ * VERSION HYBRIDE - Scanne ANCIEN + NOUVEAU système
+ * 
+ * Ancien: src/data/articles.ts (16 articles)
+ * Nouveau: src/content/articles/ (20 articles MDX)
+ * 
  * Usage: node scripts/generate-sitemap.js
  */
 
@@ -15,8 +19,9 @@ const __dirname = path.dirname(__filename);
 
 // Configuration
 const SITE_URL = 'https://calmeclair.com';
-const OUTPUT_PATH = path.join(__dirname, '../dist/sitemap.xml'); // 🆕 dist/ au lieu de public/
-const ARTICLES_DIR = path.join(__dirname, '../src/content/articles'); // 🆕 Nouveau chemin
+const OUTPUT_PATH = path.join(__dirname, '../dist/sitemap.xml');
+const OLD_ARTICLES_PATH = path.join(__dirname, '../src/data/articles.ts'); // Ancien système
+const NEW_ARTICLES_DIR = path.join(__dirname, '../src/content/articles'); // Nouveau système
 
 // Catégories du site
 const categories = [
@@ -38,24 +43,60 @@ const pages = [
 ];
 
 /**
- * 🆕 Scanne TOUS les fichiers .ts dans content/articles/
+ * Scanne l'ANCIEN système (src/data/articles.ts)
  */
-function scanAllArticles() {
+function scanOldArticles() {
   const articles = [];
-  const categoriesDir = ['anxiete', 'stress']; // 🆕 Catégories à scanner
+  
+  if (!fs.existsSync(OLD_ARTICLES_PATH)) {
+    console.log('Ancien systeme: Fichier non trouve');
+    return articles;
+  }
+  
+  try {
+    const content = fs.readFileSync(OLD_ARTICLES_PATH, 'utf8');
+    
+    // Regex pour extraire les articles de l'ancien format
+    const articleRegex = /\{\s*id:\s*['"](\d+)['"],\s*slug:\s*['"]([^'"]+)['"],\s*[^}]*datePublished:\s*['"]([^'"]+)['"],\s*[^}]*featured:\s*(true|false)?/g;
+    
+    let match;
+    while ((match = articleRegex.exec(content)) !== null) {
+      const [, id, slug, datePublished, featured] = match;
+      articles.push({
+        slug,
+        datePublished,
+        featured: featured === 'true',
+        source: 'old'
+      });
+    }
+    
+    console.log('Ancien systeme: ' + articles.length + ' articles');
+  } catch (error) {
+    console.error('Erreur ancien systeme:', error.message);
+  }
+  
+  return articles;
+}
+
+/**
+ * Scanne le NOUVEAU système (src/content/articles/)
+ */
+function scanNewArticles() {
+  const articles = [];
+  const categoriesDir = ['anxiete', 'stress'];
   
   categoriesDir.forEach(category => {
-    const categoryPath = path.join(ARTICLES_DIR, category);
+    const categoryPath = path.join(NEW_ARTICLES_DIR, category);
     
     if (!fs.existsSync(categoryPath)) {
-      console.log(`⚠️  Dossier manquant: ${categoryPath}`);
+      console.log('Nouveau systeme (' + category + '): Dossier non trouve');
       return;
     }
     
     const files = fs.readdirSync(categoryPath)
       .filter(f => f.endsWith('.ts') && f !== 'index.ts');
     
-    console.log(`📂 ${category}: ${files.length} fichiers`);
+    console.log('Nouveau systeme (' + category + '): ' + files.length + ' fichiers');
     
     files.forEach(file => {
       try {
@@ -72,29 +113,52 @@ function scanAllArticles() {
             slug: slugMatch[1],
             datePublished: dateMatch[1],
             featured: featuredMatch ? featuredMatch[1] === 'true' : false,
-            category
+            source: 'new'
           });
         }
       } catch (error) {
-        console.error(`❌ Erreur fichier ${file}:`, error.message);
+        console.error('Erreur fichier ' + file + ':', error.message);
       }
     });
   });
   
-  console.log(`\n✅ Total articles scannés: ${articles.length}`);
   return articles;
+}
+
+/**
+ * Fusionne et déduplique les articles
+ */
+function mergeArticles(oldArticles, newArticles) {
+  const allArticles = [...oldArticles, ...newArticles];
+  
+  // Dédupliquer par slug (garder nouveau si doublon)
+  const seen = new Set();
+  const unique = [];
+  
+  // Parcourir à l'envers pour garder les nouveaux en priorité
+  for (let i = allArticles.length - 1; i >= 0; i--) {
+    const article = allArticles[i];
+    if (!seen.has(article.slug)) {
+      seen.add(article.slug);
+      unique.unshift(article);
+    }
+  }
+  
+  console.log('\nTotal apres fusion: ' + unique.length + ' articles uniques');
+  
+  return unique;
 }
 
 /**
  * Génère une entrée URL pour le sitemap
  */
 function generateUrlEntry(loc, lastmod, changefreq, priority) {
-  return `  <url>
-    <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
+  return '  <url>\n' +
+    '    <loc>' + loc + '</loc>\n' +
+    '    <lastmod>' + lastmod + '</lastmod>\n' +
+    '    <changefreq>' + changefreq + '</changefreq>\n' +
+    '    <priority>' + priority + '</priority>\n' +
+    '  </url>';
 }
 
 /**
@@ -113,9 +177,11 @@ function generateSitemap() {
   const now = formatDate();
   let urls = [];
 
+  console.log('\n=== GENERATION SITEMAP ===\n');
+
   // Page d'accueil
   urls.push(generateUrlEntry(
-    `${SITE_URL}/`,
+    SITE_URL + '/',
     now,
     'daily',
     '1.0'
@@ -124,25 +190,28 @@ function generateSitemap() {
   // Pages catégories
   categories.forEach(cat => {
     urls.push(generateUrlEntry(
-      `${SITE_URL}/categorie/${cat.slug}`,
+      SITE_URL + '/categorie/' + cat.slug,
       now,
       'weekly',
       cat.priority
     ));
   });
 
-  // 🆕 Articles depuis les fichiers MDX
-  const articles = scanAllArticles();
-  articles.forEach(article => {
+  // Articles (ancien + nouveau systèmes)
+  const oldArticles = scanOldArticles();
+  const newArticles = scanNewArticles();
+  const allArticles = mergeArticles(oldArticles, newArticles);
+  
+  allArticles.forEach(article => {
     const date = new Date(article.datePublished);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     
     // Articles featured ont une priorité plus élevée
-    const priority = article.featured ? '0.9' : '0.9'; // 🆕 Tous à 0.9 pour santé
+    const priority = article.featured ? '0.9' : '0.9';
     
     urls.push(generateUrlEntry(
-      `${SITE_URL}/article/${year}/${month}/${article.slug}`,
+      SITE_URL + '/article/' + year + '/' + month + '/' + article.slug,
       formatDate(article.datePublished),
       'monthly',
       priority
@@ -152,7 +221,7 @@ function generateSitemap() {
   // Pages du site
   pages.forEach(page => {
     urls.push(generateUrlEntry(
-      `${SITE_URL}/${page.slug}`,
+      SITE_URL + '/' + page.slug,
       now,
       'yearly',
       page.priority
@@ -160,16 +229,14 @@ function generateSitemap() {
   });
 
   // Génération du XML final
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-
-${urls.join('\n\n')}
-
-</urlset>`;
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"\n' +
+    '        xmlns:xhtml="http://www.w3.org/1999/xhtml"\n' +
+    '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n' +
+    '        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n\n' +
+    urls.join('\n\n') + '\n\n' +
+    '</urlset>';
 
   return xml;
 }
@@ -181,7 +248,7 @@ function writeSitemap() {
   try {
     const sitemap = generateSitemap();
     
-    // 🆕 Créer le dossier dist/ s'il n'existe pas
+    // Créer le dossier dist/ s'il n'existe pas
     const distDir = path.dirname(OUTPUT_PATH);
     if (!fs.existsSync(distDir)) {
       fs.mkdirSync(distDir, { recursive: true });
@@ -193,12 +260,12 @@ function writeSitemap() {
     const urlCount = (sitemap.match(/<url>/g) || []).length;
     
     console.log('\n=== SITEMAP GENERE ===');
-    console.log('Fichier:', OUTPUT_PATH);
-    console.log('URL publique:', `${SITE_URL}/sitemap.xml`);
-    console.log('URLs indexees:', urlCount);
+    console.log('Fichier: ' + OUTPUT_PATH);
+    console.log('URL publique: ' + SITE_URL + '/sitemap.xml');
+    console.log('URLs indexees: ' + urlCount);
     console.log('======================\n');
   } catch (error) {
-    console.error('❌ Erreur lors de la génération du sitemap:', error);
+    console.error('Erreur lors de la generation du sitemap:', error);
     process.exit(1);
   }
 }
