@@ -19,6 +19,7 @@ export function AdSlot({ size, className }: AdSlotProps) {
         sizeClasses[size],
         className
       )}
+      style={{ display: 'none' }}  // ← mute l'encart publicitaire
       aria-label="Espace publicitaire"
     >
       <span className="text-xs uppercase tracking-wider">Publicité</span>
