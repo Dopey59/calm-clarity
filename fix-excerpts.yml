@@ -1,0 +1,206 @@
+name: Reparer excerpts tronques
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-excerpts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Creer script de reparation
+        run: |
+          cat > fix-excerpts.js << 'EOFSCRIPT'
+          #!/usr/bin/env node
+          
+          import fs from 'fs';
+          import path from 'path';
+          import { fileURLToPath } from 'url';
+          import { dirname } from 'path';
+          
+          const __filename = fileURLToPath(import.meta.url);
+          const __dirname = dirname(__filename);
+          
+          function smartTruncate(text, maxLength = 300) {
+            if (!text || text.length <= maxLength) return text;
+            
+            const truncated = text.substring(0, maxLength);
+            const lastPeriod = Math.max(
+              truncated.lastIndexOf('. '),
+              truncated.lastIndexOf('! '),
+              truncated.lastIndexOf('? ')
+            );
+            
+            if (lastPeriod > maxLength * 0.6) {
+              return text.substring(0, lastPeriod + 1).trim();
+            }
+            
+            const lastSpace = truncated.lastIndexOf(' ');
+            return lastSpace > 0 ? text.substring(0, lastSpace) + '...' : truncated + '...';
+          }
+          
+          function extractContent(fileContent) {
+            const contentMatch = fileContent.match(/content:\s*`([^`]*)`/s);
+            if (!contentMatch) return null;
+            
+            const content = contentMatch[1]
+              .replace(/\\`/g, '`')
+              .replace(/\\\$/g, '$')
+              .replace(/\\\\/g, '\\');
+            
+            return content;
+          }
+          
+          function generateNewExcerpt(content) {
+            if (!content) return null;
+            
+            const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
+            const firstParagraph = paragraphs[0];
+            
+            if (!firstParagraph) return null;
+            
+            const cleaned = firstParagraph.replace(/['"''"]/g, '');
+            return smartTruncate(cleaned, 300);
+          }
+          
+          function replaceExcerpt(fileContent, newExcerpt) {
+            const escapedExcerpt = newExcerpt.replace(/'/g, "\\'");
+            
+            const updated = fileContent.replace(
+              /excerpt:\s*'([^']*(?:\\'[^']*)*)'/,
+              `excerpt: '${escapedExcerpt}'`
+            );
+            
+            return updated;
+          }
+          
+          function processArticle(filePath) {
+            try {
+              const fileContent = fs.readFileSync(filePath, 'utf8');
+              
+              const content = extractContent(fileContent);
+              if (!content) {
+                console.log(`  Contenu non trouve dans ${path.basename(filePath)}`);
+                return false;
+              }
+              
+              const newExcerpt = generateNewExcerpt(content);
+              if (!newExcerpt) {
+                console.log(`  Impossible de generer excerpt pour ${path.basename(filePath)}`);
+                return false;
+              }
+              
+              const oldExcerptMatch = fileContent.match(/excerpt:\s*'([^']*(?:\\'[^']*)*)'/);
+              const oldExcerpt = oldExcerptMatch ? oldExcerptMatch[1].replace(/\\'/g, "'") : '';
+              
+              if (oldExcerpt === newExcerpt) {
+                console.log(`  OK: ${path.basename(filePath)}`);
+                return false;
+              }
+              
+              const updatedContent = replaceExcerpt(fileContent, newExcerpt);
+              
+              fs.writeFileSync(filePath, updatedContent, 'utf8');
+              
+              console.log(`  REPARE: ${path.basename(filePath)}`);
+              console.log(`    Ancien: ${oldExcerpt.substring(0, 60)}...`);
+              console.log(`    Nouveau: ${newExcerpt.substring(0, 60)}...`);
+              
+              return true;
+            } catch (error) {
+              console.error(`  ERREUR ${path.basename(filePath)}: ${error.message}`);
+              return false;
+            }
+          }
+          
+          function processCategory(categoryPath, categoryName) {
+            console.log(`\nTraitement categorie: ${categoryName}`);
+            
+            if (!fs.existsSync(categoryPath)) {
+              console.log(`  Categorie non trouvee`);
+              return { processed: 0, fixed: 0 };
+            }
+            
+            const files = fs.readdirSync(categoryPath)
+              .filter(f => f.endsWith('.ts') && f !== 'index.ts')
+              .map(f => path.join(categoryPath, f));
+            
+            console.log(`  ${files.length} articles trouves`);
+            
+            let fixed = 0;
+            files.forEach(filePath => {
+              if (processArticle(filePath)) {
+                fixed++;
+              }
+            });
+            
+            return { processed: files.length, fixed };
+          }
+          
+          function main() {
+            console.log('=================================================');
+            console.log('REPARATION DES EXCERPTS TRONQUES');
+            console.log('=================================================\n');
+            
+            const articlesDir = path.join(process.cwd(), 'src/content/articles');
+            
+            const categories = [
+              { name: 'anxiete', path: path.join(articlesDir, 'anxiete') },
+              { name: 'stress', path: path.join(articlesDir, 'stress') }
+            ];
+            
+            let totalProcessed = 0;
+            let totalFixed = 0;
+            
+            categories.forEach(({ name, path: categoryPath }) => {
+              const { processed, fixed } = processCategory(categoryPath, name);
+              totalProcessed += processed;
+              totalFixed += fixed;
+            });
+            
+            console.log('\n=================================================');
+            console.log('RESULTAT');
+            console.log('=================================================');
+            console.log(`Articles traites: ${totalProcessed}`);
+            console.log(`Articles repares: ${totalFixed}`);
+            console.log(`Articles OK: ${totalProcessed - totalFixed}`);
+            
+            if (totalFixed > 0) {
+              console.log('\nLes excerpts ont ete repares avec succes !');
+            } else {
+              console.log('\nAucun article a reparer.');
+            }
+          }
+          
+          main();
+          EOFSCRIPT
+      
+      - name: Executer reparation
+        run: node fix-excerpts.js
+      
+      - name: Commit changements
+        run: |
+          git config user.name "Bot CalmeClair"
+          git config user.email "bot@calmeclair.com"
+          git add src/content/articles/
+          
+          if git diff --staged --quiet; then
+            echo "Aucun changement a commiter"
+          else
+            git commit -m "Fix: Reparation excerpts tronques sur tous les articles"
+            git push
+            echo "Excerpts repares et pousses avec succes"
+          fi
