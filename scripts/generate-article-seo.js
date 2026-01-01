@@ -28,7 +28,7 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-console.log(`📋 Configuration:`);
+console.log(`Configuration:`);
 console.log(`   Type: ${ARTICLE_TYPE}`);
 console.log(`   Longueur: ${WORD_COUNT} mots`);
 if (PILIER_PARENT) {
@@ -93,13 +93,13 @@ function scanAllArticles() {
       const content = fs.readFileSync(path.join(categoryDir, file), 'utf8');
       slugs.push(file.replace('.ts', ''));
       
-      const titleMatch = content.match(/title: ['"](.+?)['"]/);
+      const titleMatch = content.match(/title: ['\"](.+?)['\"]/)
       if (titleMatch) titles.push(titleMatch[1].toLowerCase());
       
-      const imageMatch = content.match(/image: ['"](.+?)['"]/);
+      const imageMatch = content.match(/image: ['\"](.+?)['\"]/)
       if (imageMatch) images.push(imageMatch[1]);
       
-      const idMatch = content.match(/id: ['"](\\d+)['"]/);
+      const idMatch = content.match(/id: ['\"](\\d+)['\"]/)
       if (idMatch) maxId = Math.max(maxId, parseInt(idMatch[1]));
     });
   });
@@ -113,14 +113,38 @@ function selectUniqueImage(category, usedImages) {
   const finalPool = availableImages.length > 0 ? availableImages : pool;
   const randomIndex = Math.floor(Math.random() * finalPool.length);
   
-  console.log(`🎨 Image: ${randomIndex + 1}/${finalPool.length} disponibles`);
+  console.log(`Image: ${randomIndex + 1}/${finalPool.length} disponibles`);
   
   return finalPool[randomIndex];
 }
 
+/**
+ * Tronque intelligemment un texte à la fin d'une phrase complète
+ */
+function smartTruncate(text, maxLength = 300) {
+  if (!text || text.length <= maxLength) return text;
+  
+  // Trouver la dernière phrase complète avant maxLength
+  const truncated = text.substring(0, maxLength);
+  const lastPeriod = Math.max(
+    truncated.lastIndexOf('. '),
+    truncated.lastIndexOf('! '),
+    truncated.lastIndexOf('? ')
+  );
+  
+  // Si on trouve un point avant maxLength, tronquer là
+  if (lastPeriod > maxLength * 0.6) {  // Au moins 60% du texte
+    return text.substring(0, lastPeriod + 1).trim();
+  }
+  
+  // Sinon, trouver le dernier espace pour ne pas couper un mot
+  const lastSpace = truncated.lastIndexOf(' ');
+  return lastSpace > 0 ? text.substring(0, lastSpace) + '...' : truncated + '...';
+}
+
 async function generateArticle(existingTitles) {
-  console.log(`📝 Génération article ${ARTICLE_TYPE}: ${TOPIC}`);
-  console.log(`🔍 ${existingTitles.length} articles existants\n`);
+  console.log(`Generation article ${ARTICLE_TYPE}: ${TOPIC}`);
+  console.log(`Recherche ${existingTitles.length} articles existants\n`);
   
   const existingList = existingTitles.slice(0, 50).map(t => `- ${t}`).join('\n');
   
@@ -139,23 +163,23 @@ LONGUEUR CIBLE: ${WORD_COUNT} mots
 SUJETS DÉJÀ TRAITÉS (à différencier) :
 ${existingList}
 
-═══════════════════════════════════════════════════════════════
-🚨 RÈGLES ANTI-HALLUCINATION (NON-NÉGOCIABLES)
-═══════════════════════════════════════════════════════════════
+===============================================================
+RÈGLES ANTI-HALLUCINATION (NON-NÉGOCIABLES)
+===============================================================
 
-1. ❌ ZÉRO affirmation médicale non vérifiable
-2. ❌ ZÉRO statistique sans URL institutionnelle
-3. ❌ ZÉRO "Selon l'Inserm" sans https://inserm.fr/...
-4. ❌ ZÉRO "Une étude montre" (trop vague = INTERDIT)
-5. ❌ ZÉRO nom de chercheur, médecin, ou expert
-6. ❌ ZÉRO promesse thérapeutique ("guérir", "éliminer")
-7. ❌ ZÉRO diagnostic implicite
+1. ZÉRO affirmation médicale non vérifiable
+2. ZÉRO statistique sans URL institutionnelle
+3. ZÉRO "Selon l'Inserm" sans https://inserm.fr/...
+4. ZÉRO "Une étude montre" (trop vague = INTERDIT)
+5. ZÉRO nom de chercheur, médecin, ou expert
+6. ZÉRO promesse thérapeutique ("guérir", "éliminer")
+7. ZÉRO diagnostic implicite
 
 Si tu ne peux PAS vérifier une information → NE L'ÉCRIS PAS.
 
-═══════════════════════════════════════════════════════════════
-✅ SOURCES AUTORISÉES UNIQUEMENT (avec URL complète)
-═══════════════════════════════════════════════════════════════
+===============================================================
+SOURCES AUTORISÉES UNIQUEMENT (avec URL complète)
+===============================================================
 
 FRANCE :
 - Inserm: https://www.inserm.fr/dossier/[sujet]/
@@ -170,18 +194,18 @@ INTERNATIONAL (si français non disponible) :
 
 AUCUNE autre source acceptée.
 
-═══════════════════════════════════════════════════════════════
-📋 FORMAT OBLIGATOIRE - STANDARD E-E-A-T
-═══════════════════════════════════════════════════════════════
+===============================================================
+FORMAT OBLIGATOIRE - STANDARD E-E-A-T
+===============================================================
 
 Pour CHAQUE affirmation médicale :
 
-❌ MAUVAIS :
+MAUVAIS :
 "Le stress chronique augmente de 30% le risque cardiovasculaire."
 "Selon l'Inserm, les TCC sont efficaces."
 "Une étude de 2024 montre que..."
 
-✅ BON :
+BON :
 "Selon l'Inserm (https://www.inserm.fr/dossier/stress/, 2023), 
 le stress chronique est associé à un risque cardiovasculaire accru. 
 Les mécanismes exacts restent à l'étude."
@@ -194,9 +218,9 @@ Formulation PRUDENTE requise :
 
   // Structure spécifique selon le type
   const pilierStructure = `
-═══════════════════════════════════════════════════════════════
-🏛️ ARTICLE PILIER - ${WORD_COUNT} MOTS
-═══════════════════════════════════════════════════════════════
+===============================================================
+ARTICLE PILIER - ${WORD_COUNT} MOTS
+===============================================================
 
 OBJECTIF : Article de RÉFÉRENCE exhaustif sur "${TOPIC}"
 
@@ -232,7 +256,7 @@ STRUCTURE DÉTAILLÉE OBLIGATOIRE :
 ### Symptômes Comportementaux
 [Impact concret]
 
-### ⚠️ Signaux d'Alerte
+### Signaux d'Alerte
 [Quand s'inquiéter - critères HAS]
 
 ## Causes et Facteurs de Risque
@@ -273,7 +297,7 @@ STRUCTURE DÉTAILLÉE OBLIGATOIRE :
 - Alimentation
 - Gestion stress
 
-### 🏥 Quand Consulter un Professionnel
+### Quand Consulter un Professionnel
 
 **Section NON-NÉGOCIABLE :**
 
@@ -338,9 +362,9 @@ STRUCTURE DÉTAILLÉE OBLIGATOIRE :
 **TOTAL REQUIS : ${WORD_COUNT} mots**`;
 
   const satelliteStructure = `
-═══════════════════════════════════════════════════════════════
-🔗 ARTICLE SATELLITE - ${WORD_COUNT} MOTS
-═══════════════════════════════════════════════════════════════
+===============================================================
+ARTICLE SATELLITE - ${WORD_COUNT} MOTS
+===============================================================
 
 OBJECTIF : Approfondir UN aspect spécifique lié à "${PILIER_PARENT}"
 
@@ -389,7 +413,7 @@ Approches spécifiques pour CET aspect
 ### Stratégies Ciblées
 [Techniques spécifiques avec niveau preuve]
 
-### 🏥 Quand Consulter
+### Quand Consulter
 
 **Section NON-NÉGOCIABLE :**
 [Critères spécifiques + numéros 3114/15/114]
@@ -423,18 +447,18 @@ Liste URLs + dates
   const structurePrompt = ARTICLE_TYPE === 'pilier' ? pilierStructure : satelliteStructure;
 
   const endRules = `
-═══════════════════════════════════════════════════════════════
-⛔ INTERDICTIONS ABSOLUES (Rappel)
-═══════════════════════════════════════════════════════════════
+===============================================================
+INTERDICTIONS ABSOLUES (Rappel)
+===============================================================
 
-PROMESSES : ❌ "guérit" ❌ "élimine" ✅ "peut contribuer"
-CAUSALITÉ : ❌ "cause" ❌ "provoque" ✅ "est associé à"
-SOURCES : ❌ "une étude" ❌ "Dr. X" ✅ "Inserm (URL, année)"
-STATS : ❌ "42% des" sans URL ✅ Toute stat a URL
+PROMESSES : "guérit" "élimine" ✅ "peut contribuer"
+CAUSALITÉ : "cause" "provoque" ✅ "est associé à"
+SOURCES : "une étude" "Dr. X" ✅ "Inserm (URL, année)"
+STATS : "42% des" sans URL ✅ Toute stat a URL
 
-═══════════════════════════════════════════════════════════════
-⚠️ AVERTISSEMENT ÉTHIQUE
-═══════════════════════════════════════════════════════════════
+===============================================================
+AVERTISSEMENT ÉTHIQUE
+===============================================================
 
 Personnes en SOUFFRANCE RÉELLE liront cet article.
 
@@ -449,7 +473,7 @@ PRUDENCE MÉDICALE = OBLIGATION ÉTHIQUE
 
 Pas de source vérifiable → NE L'ÉCRIS PAS.
 
-═══════════════════════════════════════════════════════════════
+===============================================================
 
 IMPORTANT: Génère UNIQUEMENT le contenu Markdown final.
 Pas de frontmatter, pas de méta-commentaires.`;
@@ -466,7 +490,7 @@ Pas de frontmatter, pas de méta-commentaires.`;
   const titleMatch = content.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1] : 'Article sans titre';
   
-  console.log(`✅ Titre: "${title}"`);
+  console.log(`Titre: "${title}"`);
   
   const slug = title
     .toLowerCase()
@@ -476,7 +500,8 @@ Pas de frontmatter, pas de méta-commentaires.`;
     .replace(/^-|-$/g, '');
   
   const paragraphs = content.split('\n\n').filter(p => !p.startsWith('#'));
-  const excerpt = paragraphs[0]?.substring(0, 200).replace(/['"'"]/g, '') || `Article sur ${TOPIC}`;
+  const firstParagraph = paragraphs[0] || `Article sur ${TOPIC}`;
+  const excerpt = smartTruncate(firstParagraph, 300).replace(/['"''"]/g, '');
   
   return { title, slug, excerpt, content };
 }
@@ -488,7 +513,7 @@ function createArticleFile(article, nextId, image, existingSlugs) {
   
   if (!fs.existsSync(categoryDir)) {
     fs.mkdirSync(categoryDir, { recursive: true });
-    console.log(`📁 Dossier créé: ${categoryDir}`);
+    console.log(`Dossier cree: ${categoryDir}`);
   }
   
   let finalSlug = article.slug;
@@ -499,7 +524,7 @@ function createArticleFile(article, nextId, image, existingSlugs) {
   }
   
   if (finalSlug !== article.slug) {
-    console.log(`⚠️  Slug dupliqué, renommé: ${finalSlug}`);
+    console.log(`Slug duplique, renomme: ${finalSlug}`);
   }
   
   const filename = `${finalSlug}.ts`;
@@ -542,7 +567,7 @@ export const article: Article = {
   
   fs.writeFileSync(filepath, fileContent, 'utf8');
   
-  console.log(`✅ Fichier créé: ${CATEGORY}/${filename}`);
+  console.log(`Fichier cree: ${CATEGORY}/${filename}`);
   console.log(`   ID: ${nextId}`);
   console.log(`   Type: ${ARTICLE_TYPE}`);
   console.log(`   Slug: ${finalSlug}`);
@@ -552,24 +577,24 @@ export const article: Article = {
 
 async function main() {
   try {
-    console.log('🚀 GÉNÉRATION ARTICLE INTELLIGENTE\n');
+    console.log('GENERATION ARTICLE INTELLIGENTE\n');
     
-    console.log('📊 Scan des articles existants...');
+    console.log('Scan des articles existants...');
     const { titles, images, slugs, nextId } = scanAllArticles();
-    console.log(`   - ${titles.length} articles trouvés`);
+    console.log(`   - ${titles.length} articles trouves`);
     console.log(`   - Prochain ID: ${nextId}\n`);
     
     const article = await generateArticle(titles);
     const image = selectUniqueImage(CATEGORY, images);
     const { filepath, finalSlug } = createArticleFile(article, nextId, image, slugs);
     
-    console.log('\n🎉 ARTICLE GÉNÉRÉ AVEC SUCCÈS !');
-    console.log(`\n📄 Fichier: ${filepath}`);
-    console.log(`🔗 URL: /articles/${CATEGORY}/${finalSlug}`);
-    console.log(`📏 Type: ${ARTICLE_TYPE} (${WORD_COUNT} mots)`);
+    console.log('\nARTICLE GENERE AVEC SUCCES !');
+    console.log(`\nFichier: ${filepath}`);
+    console.log(`URL: /articles/${CATEGORY}/${finalSlug}`);
+    console.log(`Type: ${ARTICLE_TYPE} (${WORD_COUNT} mots)`);
     
   } catch (error) {
-    console.error('\n❌ ERREUR:', error.message);
+    console.error('\nERREUR:', error.message);
     console.error(error.stack);
     process.exit(1);
   }
