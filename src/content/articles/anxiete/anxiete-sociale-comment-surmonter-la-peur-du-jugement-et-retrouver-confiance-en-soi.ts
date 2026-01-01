@@ -8,8 +8,7 @@ export const article: Article = {
     id: '11',
     slug: 'anxiete-sociale-comment-surmonter-la-peur-du-jugement-et-retrouver-confiance-en-soi',
     title: 'Anxiété sociale : Comment surmonter la peur du jugement et retrouver confiance en soi',
-    excerpt: '
-# Anxiété sociale : Comment surmonter la peur du jugement et retrouver confiance en soi'emballe à l\'idée de prendre la parole en public ou de rencontrer de nouvelles personnes ? Cette transpiration exce',
+    excerpt: 'Vous ressentez cette boule au ventre avant une présentation importante ? Votre cœur s\'emballe à l\'idée de prendre la parole en public ou de rencontrer de nouvelles personnes ? Vous n\'êtes pas seul. L\'anxiété sociale touche environ 12% de la population mondiale.',
     content: `
 # Anxiété sociale : Comment surmonter la peur du jugement et retrouver confiance en soi
 
