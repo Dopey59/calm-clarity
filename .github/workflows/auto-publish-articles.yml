@@ -90,7 +90,7 @@ jobs:
           
           // Date aujourd'hui
           const today = new Date().toISOString().split('T')[0];
-          console.log(`📅 Vérification pour : ${today}`);
+          console.log(`Verification pour: ${today}`);
           
           // Compter articles publiés aujourd'hui
           const allArticles = [
@@ -106,16 +106,16 @@ jobs:
             a.publishedAt.startsWith(today)
           );
           
-          console.log(`📊 Articles publiés aujourd'hui : ${todayPublished.length}`);
+          console.log(`Articles publies aujourd hui: ${todayPublished.length}`);
           
           // LIMITE : 1 article par jour maximum
           if (todayPublished.length >= 1) {
-            console.log('⚠️ Article déjà publié aujourd'hui !');
-            console.log('🛑 Annulation du workflow (limite 1/jour)');
+            console.log('Article deja publie aujourd hui');
+            console.log('Annulation du workflow (limite 1/jour)');
             fs.appendFileSync(process.env.GITHUB_OUTPUT, 'should_skip=true\n');
           } else {
-            console.log('✅ Aucun article publié aujourd'hui');
-            console.log('🚀 Lancement de la génération');
+            console.log('Aucun article publie aujourd hui');
+            console.log('Lancement de la generation');
             fs.appendFileSync(process.env.GITHUB_OUTPUT, 'should_skip=false\n');
           }
           EOFSCRIPT
@@ -139,20 +139,20 @@ jobs:
           
           const available = allArticles.filter(a => a.status === 'todo');
           
-          console.log(`📊 Articles disponibles : ${available.length}/90`);
+          console.log(`Articles disponibles: ${available.length}/90`);
           
           if (available.length === 0) {
-            console.log('✅ LES 90 ARTICLES SONT PUBLIÉS ! 🎉');
+            console.log('LES 90 ARTICLES SONT PUBLIES !');
             process.exit(0);
           }
           
           const randomIndex = Math.floor(Math.random() * available.length);
           const selected = available[randomIndex];
           
-          console.log(`\n🎲 Keyword sélectionné : "${selected.keyword}"`);
-          console.log(`   Type : ${selected.type}`);
-          console.log(`   Catégorie : ${selected.id.startsWith('stress') ? 'stress' : 'anxiete'}`);
-          console.log(`   Longueur : ${selected.wordCount} mots`);
+          console.log(`\nKeyword selectionne: "${selected.keyword}"`);
+          console.log(`   Type: ${selected.type}`);
+          console.log(`   Categorie: ${selected.id.startsWith('stress') ? 'stress' : 'anxiete'}`);
+          console.log(`   Longueur: ${selected.wordCount} mots`);
           
           const category = selected.id.startsWith('stress') ? 'stress' : 'anxiete';
           const topic = selected.keyword;
@@ -175,7 +175,7 @@ jobs:
                 if (idx !== -1) {
                   data[cat][arr][idx].status = 'done';
                   data[cat][arr][idx].publishedAt = new Date().toISOString();
-                  console.log(`✅ Marqué comme "done" : ${id}`);
+                  console.log(`Marque comme done: ${id}`);
                 }
               });
             });
@@ -185,7 +185,7 @@ jobs:
           const updated = updateKeywords(keywords, selected.id);
           fs.writeFileSync('keywords.json', JSON.stringify(updated, null, 2));
           
-          console.log(`\n📝 keywords.json mis à jour`);
+          console.log(`\nkeywords.json mis a jour`);
           EOFSCRIPT
       
       # Générer l'article
@@ -213,14 +213,14 @@ jobs:
           git config user.email "bot@calmeclair.com"
           git add src/content/articles/
           git add keywords.json
-          git add dist/sitemap.xml 2>/dev/null || echo "Sitemap non trouvé"
+          git add dist/sitemap.xml 2>/dev/null || echo "Sitemap non trouve"
           
           if git diff --staged --quiet; then
-            echo "Aucun changement à commiter"
+            echo "Aucun changement a commiter"
           else
             git commit -m "📝 [${{ steps.select.outputs.type }}] ${{ steps.select.outputs.topic }}"
             git push
-            echo "✅ Article publié avec succès !"
+            echo "Article publie avec succes"
           fi
       
       # Soumission sitemap
@@ -230,10 +230,10 @@ jobs:
           GOOGLE_SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.GOOGLE_SEARCH_CONSOLE_CREDENTIALS }}
         run: |
           if [ -z "$GOOGLE_SEARCH_CONSOLE_CREDENTIALS" ]; then
-            echo "⚠️ Credentials non configurés"
-            echo "📡 Ping Google..."
-            curl -s "https://www.google.com/ping?sitemap=https://calmeclair.com/sitemap.xml" || echo "Ping envoyé"
+            echo "Credentials non configures"
+            echo "Ping Google..."
+            curl -s "https://www.google.com/ping?sitemap=https://calmeclair.com/sitemap.xml" || echo "Ping envoye"
           else
-            echo "📤 Soumission API Google..."
-            npm run submit-sitemap || echo "⚠️ Erreur soumission"
+            echo "Soumission API Google..."
+            npm run submit-sitemap || echo "Erreur soumission"
           fi
