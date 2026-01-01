@@ -10,7 +10,7 @@ export const article: Article = {
   id: '24',
   slug: 'anxiete-nocturne-pourquoi-nos-inquietudes-s-intensifient-la-nuit-et-comment-retrouver-un-sommeil-paisible',
   title: 'Anxiété nocturne : pourquoi nos inquiétudes s\'intensifient la nuit et comment retrouver un sommeil paisible',
-  excerpt: 'La nuit tombe, et avec elle, une vague familière dinquiétudes déferle dans votre esprit. Votre cœur saccélère, vos pensées tournent en boucle, et le sommeil réparateur semble soudain inaccessible. S',
+  excerpt: 'La nuit tombe, et avec elle, une vague familière dinquiétudes déferle dans votre esprit. Votre cœur saccélère, vos pensées tournent en boucle, et le sommeil réparateur semble soudain inaccessible.',
   content: `# Anxiété nocturne : pourquoi nos inquiétudes s'intensifient la nuit et comment retrouver un sommeil paisible
 
 La nuit tombe, et avec elle, une vague familière d'inquiétudes déferle dans votre esprit. Votre cœur s'accélère, vos pensées tournent en boucle, et le sommeil réparateur semble soudain inaccessible. Si cette situation vous est familière, vous n'êtes pas seul : l'anxiété nocturne touche près de 40% de la population française, transformant les heures qui devraient être consacrées au repos en véritables marathons mentaux.

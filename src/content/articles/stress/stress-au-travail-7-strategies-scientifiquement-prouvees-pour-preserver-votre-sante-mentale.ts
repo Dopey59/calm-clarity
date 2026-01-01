@@ -8,7 +8,7 @@ export const article: Article = {
     id: '20',
     slug: 'stress-au-travail-7-strategies-scientifiquement-prouvees-pour-preserver-votre-sante-mentale',
     title: 'Stress au travail : 7 stratégies scientifiquement prouvées pour préserver votre santé mentale',
-    excerpt: 'Le stress au travail touche aujourdhui plus de 60% des salariés français selon lINRS (Institut National de Recherche et de Sécurité). Loin dêtre une simple fatigue passagère, il peut avoir des répe',
+    excerpt: 'Le stress au travail touche aujourdhui plus de 60% des salariés français selon lINRS (Institut National de Recherche et de Sécurité). Loin dêtre une simple fatigue passagère, il peut avoir des répercussions durables sur votre santé physique et mentale.',
     content: `# Stress au travail : 7 stratégies scientifiquement prouvées pour préserver votre santé mentale
 
 Le stress au travail touche aujourd'hui plus de 60% des salariés français selon l'INRS (Institut National de Recherche et de Sécurité). Loin d'être une simple fatigue passagère, il peut avoir des répercussions durables sur votre santé physique et mentale. Entre les deadlines serrées, la pression hiérarchique, les conflits interpersonnels et l'hyperconnectivité, l'environnement professionnel moderne génère des défis inédits pour notre équilibre psychologique.

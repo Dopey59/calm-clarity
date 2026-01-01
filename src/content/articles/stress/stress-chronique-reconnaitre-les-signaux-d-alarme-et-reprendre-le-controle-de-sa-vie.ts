@@ -8,7 +8,7 @@ export const article: Article = {
     id: '17',
     slug: 'stress-chronique-reconnaitre-les-signaux-d-alarme-et-reprendre-le-controle-de-sa-vie',
     title: 'Stress chronique : reconnaître les signaux d\'alarme et reprendre le contrôle de sa vie',
-    excerpt: 'Le stress fait partie intégrante de notre existence moderne. Toutefois, lorsquil devient chronique, il peut transformer notre quotidien en véritable parcours du combattant, affectant notre santé phys',
+    excerpt: 'Le stress fait partie intégrante de notre existence moderne. Toutefois, lorsquil devient chronique, il peut transformer notre quotidien en véritable parcours du combattant, affectant notre santé physique, mentale et nos relations.',
     content: `# Stress chronique : reconnaître les signaux d'alarme et reprendre le contrôle de sa vie
 
 Le stress fait partie intégrante de notre existence moderne. Toutefois, lorsqu'il devient chronique, il peut transformer notre quotidien en véritable parcours du combattant, affectant notre santé physique, mentale et nos relations. Contrairement au stress aigu qui peut être bénéfique dans certaines situations, le stress chronique s'installe insidieusement et peut avoir des conséquences dramatiques sur notre bien-être global.

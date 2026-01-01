@@ -8,7 +8,7 @@ export const article: Article = {
     id: '18',
     slug: 'anxiete-et-respiration-comment-retrouver-son-calme-grace-aux-techniques-de-respiration-therapeutique',
     title: 'Anxiété et respiration : comment retrouver son calme grâce aux techniques de respiration thérapeutique',
-    excerpt: 'Lanxiété touche aujourdhui plus de 264 millions de personnes dans le monde selon lOrganisation mondiale de la santé. Face à cette réalité, de nombreuses approches thérapeutiques ont vu le jour, mai',
+    excerpt: 'Lanxiété touche aujourdhui plus de 264 millions de personnes dans le monde selon lOrganisation mondiale de la santé. Face à cette réalité, de nombreuses approches thérapeutiques ont vu le jour, mais lune des plus accessibles et efficaces reste souvent négligée : la respiration consciente.',
     content: `# Anxiété et respiration : comment retrouver son calme grâce aux techniques de respiration thérapeutique
 
 L'anxiété touche aujourd'hui plus de 264 millions de personnes dans le monde selon l'Organisation mondiale de la santé. Face à cette réalité, de nombreuses approches thérapeutiques ont vu le jour, mais l'une des plus accessibles et efficaces reste souvent négligée : la respiration consciente. Cette fonction vitale automatique recèle en effet un potentiel thérapeutique extraordinaire pour apaiser l'esprit et retrouver un équilibre émotionnel durable.

@@ -8,7 +8,8 @@ export const article: Article = {
     id: '12',
     slug: 'anxiete-de-performance-comment-transformer-la-pression-en-succes',
     title: 'Anxiété de Performance : Comment Transformer la Pression en Succès',
-    excerpt: 'L\'anxiété de performance touche plus de personnes qu\'on ne le pense. Que vous soyez étudiant face à un examen important, professionnel devant présenter un projet, artiste sur scène ou athlète en compé',
+    excerpt: '
+# Anxiété de Performance : Comment Transformer la Pression en Succès'anxiété de performance touche plus de personnes qu\'on ne le pense. Que vous soyez étudiant face à un examen important, professionnel devant présenter un projet, artiste sur scène ou athlète en compé',
     content: `
 # Anxiété de Performance : Comment Transformer la Pression en Succès
 

@@ -11,7 +11,7 @@ export const article: Article = {
   id: '1',
   slug: 'stress-et-prise-de-poids-comprendre-le-cercle-vicieux-pour-mieux-le-briser',
   title: 'Stress et prise de poids : comprendre le cercle vicieux pour mieux le briser',
-  excerpt: 'La relation entre stress et prise de poids constitue lune des préoccupations de santé publique les plus répandues de notre époque. Selon lInserm (https://www.inserm.fr/dossier/obesite/, 2023), lobé',
+  excerpt: 'La relation entre stress et prise de poids constitue lune des préoccupations de santé publique les plus répandues de notre époque. Selon lInserm (https://www.inserm.fr/dossier/obesite/, 2023), lobésité et le surpoids touchent une proportion croissante de la population française, avec des mécanismes...',
   content: `# Stress et prise de poids : comprendre le cercle vicieux pour mieux le briser
 
 La relation entre stress et prise de poids constitue l'une des préoccupations de santé publique les plus répandues de notre époque. Selon l'Inserm (https://www.inserm.fr/dossier/obesite/, 2023), l'obésité et le surpoids touchent une proportion croissante de la population française, avec des mécanismes complexes impliquant notamment les facteurs psychologiques. Le stress chronique peut contribuer à des modifications du comportement alimentaire et du métabolisme, créant un cercle vicieux difficile à rompre. Cette problématique dépasse largement la simple question esthétique : elle engage notre santé physique et mentale de manière profonde. Comprendre ces mécanismes permet d'adopter des stratégies adaptées pour préserver son équilibre pondéral tout en gérant efficacement les tensions du quotidien.

@@ -8,7 +8,7 @@ export const article: Article = {
     id: '19',
     slug: 'anxiete-et-exercice-physique-comment-le-sport-peut-transformer-votre-sante-mentale',
     title: 'Anxiété et Exercice Physique : Comment le Sport Peut Transformer Votre Santé Mentale',
-    excerpt: 'Lanxiété touche aujourdhui plus de 264 millions de personnes dans le monde selon lOMS, et cette prévalence ne cesse daugmenter. Face à cette réalité, de nombreuses personnes cherchent des solution',
+    excerpt: 'Lanxiété touche aujourdhui plus de 264 millions de personnes dans le monde selon lOMS, et cette prévalence ne cesse daugmenter. Face à cette réalité, de nombreuses personnes cherchent des solutions naturelles et accessibles pour gérer leur stress et leurs angoisses.',
     content: `# Anxiété et Exercice Physique : Comment le Sport Peut Transformer Votre Santé Mentale
 
 L'anxiété touche aujourd'hui plus de 264 millions de personnes dans le monde selon l'OMS, et cette prévalence ne cesse d'augmenter. Face à cette réalité, de nombreuses personnes cherchent des solutions naturelles et accessibles pour gérer leur stress et leurs angoisses. Parmi ces solutions, l'exercice physique émerge comme l'un des outils les plus puissants et scientifiquement prouvés pour combattre l'anxiété.

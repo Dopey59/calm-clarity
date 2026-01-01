@@ -10,7 +10,7 @@ export const article: Article = {
   id: '22',
   slug: 'anxiete-et-creativite-quand-l-angoisse-devient-un-tremplin-vers-l-innovation',
   title: 'Anxiété et créativité : quand l\'angoisse devient un tremplin vers l\'innovation',
-  excerpt: 'Lanxiété est souvent perçue comme un obstacle à la créativité, un frein qui nous empêche de penser librement et dinnover. Pourtant, de nombreux artistes, écrivains, inventeurs et créateurs témoignen',
+  excerpt: 'Lanxiété est souvent perçue comme un obstacle à la créativité, un frein qui nous empêche de penser librement et dinnover. Pourtant, de nombreux artistes, écrivains, inventeurs et créateurs témoignent dune relation complexe mais fructueuse avec leurs angoisses.',
   content: `# Anxiété et créativité : quand l'angoisse devient un tremplin vers l'innovation
 
 L'anxiété est souvent perçue comme un obstacle à la créativité, un frein qui nous empêche de penser librement et d'innover. Pourtant, de nombreux artistes, écrivains, inventeurs et créateurs témoignent d'une relation complexe mais fructueuse avec leurs angoisses. Cette réalité soulève une question fascinante : l'anxiété peut-elle réellement devenir un catalyseur de créativité ?

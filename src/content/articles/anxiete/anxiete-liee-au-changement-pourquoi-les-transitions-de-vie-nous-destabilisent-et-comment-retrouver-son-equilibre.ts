@@ -10,7 +10,7 @@ export const article: Article = {
   id: '1',
   slug: 'anxiete-liee-au-changement-pourquoi-les-transitions-de-vie-nous-destabilisent-et-comment-retrouver-son-equilibre',
   title: 'Anxiété liée au changement : pourquoi les transitions de vie nous déstabilisent et comment retrouver son équilibre',
-  excerpt: 'Les grands changements de vie – déménagement, nouvelle profession, rupture, naissance dun enfant – peuvent déclencher une anxiété intense même lorsquils sont désirés. Cette réaction, parfaitement no',
+  excerpt: 'Les grands changements de vie – déménagement, nouvelle profession, rupture, naissance dun enfant – peuvent déclencher une anxiété intense même lorsquils sont désirés. Cette réaction, parfaitement normale, touche de nombreuses personnes qui se retrouvent déstabilisées face à lincertitude et à la...',
   content: `# Anxiété liée au changement : pourquoi les transitions de vie nous déstabilisent et comment retrouver son équilibre
 
 Les grands changements de vie – déménagement, nouvelle profession, rupture, naissance d'un enfant – peuvent déclencher une anxiété intense même lorsqu'ils sont désirés. Cette réaction, parfaitement normale, touche de nombreuses personnes qui se retrouvent déstabilisées face à l'incertitude et à la rupture de leurs repères habituels.

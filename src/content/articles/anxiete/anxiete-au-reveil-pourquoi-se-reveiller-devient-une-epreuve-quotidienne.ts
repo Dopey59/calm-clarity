@@ -11,7 +11,7 @@ export const article: Article = {
   id: '1',
   slug: 'anxiete-au-reveil-pourquoi-se-reveiller-devient-une-epreuve-quotidienne',
   title: 'Anxiété au réveil : pourquoi se réveiller devient une épreuve quotidienne',
-  excerpt: 'Se réveiller devrait marquer le début paisible dune nouvelle journée. Pourtant, pour de nombreuses personnes, les premiers instants de conscience saccompagnent dune vague danxiété immédiate et int',
+  excerpt: 'Se réveiller devrait marquer le début paisible dune nouvelle journée. Pourtant, pour de nombreuses personnes, les premiers instants de conscience saccompagnent dune vague danxiété immédiate et intense.',
   content: `# Anxiété au réveil : pourquoi se réveiller devient une épreuve quotidienne
 
 Se réveiller devrait marquer le début paisible d'une nouvelle journée. Pourtant, pour de nombreuses personnes, les premiers instants de conscience s'accompagnent d'une vague d'anxiété immédiate et intense. Cette forme particulière d'anxiété au réveil transforme ce moment naturel de transition entre sommeil et éveil en une véritable épreuve quotidienne.

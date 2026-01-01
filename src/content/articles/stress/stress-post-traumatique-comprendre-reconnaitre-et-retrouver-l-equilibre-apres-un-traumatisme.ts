@@ -11,7 +11,7 @@ export const article: Article = {
   id: '1',
   slug: 'stress-post-traumatique-comprendre-reconnaitre-et-retrouver-l-equilibre-apres-un-traumatisme',
   title: 'Stress Post-Traumatique : Comprendre, Reconnaître et Retrouver l\'Équilibre Après un Traumatisme',
-  excerpt: 'Le stress post-traumatique peut bouleverser une existence après quune personne a vécu ou été témoin dun événement traumatisant. Cette réaction psychologique complexe, qui dépasse largement le simple',
+  excerpt: 'Le stress post-traumatique peut bouleverser une existence après quune personne a vécu ou été témoin dun événement traumatisant. Cette réaction psychologique complexe, qui dépasse largement le simple stress du quotidien, touche des milliers de personnes en France chaque année.',
   content: `# Stress Post-Traumatique : Comprendre, Reconnaître et Retrouver l'Équilibre Après un Traumatisme
 
 Le stress post-traumatique peut bouleverser une existence après qu'une personne a vécu ou été témoin d'un événement traumatisant. Cette réaction psychologique complexe, qui dépasse largement le simple "stress" du quotidien, touche des milliers de personnes en France chaque année. Selon l'Inserm (https://www.inserm.fr/dossier/troubles-stress-post-traumatique/, 2023), cette condition peut survenir après exposition directe ou indirecte à des événements mettant en jeu la mort, des blessures graves ou des violences sexuelles.

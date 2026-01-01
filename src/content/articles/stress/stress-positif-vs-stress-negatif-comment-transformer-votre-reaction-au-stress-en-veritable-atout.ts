@@ -10,7 +10,7 @@ export const article: Article = {
   id: '23',
   slug: 'stress-positif-vs-stress-negatif-comment-transformer-votre-reaction-au-stress-en-veritable-atout',
   title: 'Stress positif vs stress négatif : comment transformer votre réaction au stress en véritable atout',
-  excerpt: 'Le stress fait partie intégrante de notre existence, mais saviez-vous quil existe deux visages de cette réaction physiologique ? Contrairement aux idées reçues, le stress nest pas toujours notre enn',
+  excerpt: 'Le stress fait partie intégrante de notre existence, mais saviez-vous quil existe deux visages de cette réaction physiologique ? Contrairement aux idées reçues, le stress nest pas toujours notre ennemi.',
   content: `# Stress positif vs stress négatif : comment transformer votre réaction au stress en véritable atout
 
 Le stress fait partie intégrante de notre existence, mais saviez-vous qu'il existe deux visages de cette réaction physiologique ? Contrairement aux idées reçues, le stress n'est pas toujours notre ennemi. Comprendre la différence entre stress positif et stress négatif peut révolutionner votre approche du bien-être mental et transformer votre rapport aux défis quotidiens.

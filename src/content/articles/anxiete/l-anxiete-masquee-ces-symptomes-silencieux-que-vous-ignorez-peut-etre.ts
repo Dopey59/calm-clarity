@@ -8,7 +8,7 @@ export const article: Article = {
     id: '21',
     slug: 'l-anxiete-masquee-ces-symptomes-silencieux-que-vous-ignorez-peut-etre',
     title: 'L\'Anxiété Masquée : Ces Symptômes Silencieux que Vous Ignorez Peut-être',
-    excerpt: 'Lanxiété ne se manifeste pas toujours par des crises de panique spectaculaires ou des palpitations cardiaques évidentes. Parfois, elle se dissimule derrière des symptômes apparemment anodins que nous',
+    excerpt: 'Lanxiété ne se manifeste pas toujours par des crises de panique spectaculaires ou des palpitations cardiaques évidentes. Parfois, elle se dissimule derrière des symptômes apparemment anodins que nous attribuons au stress quotidien, à la fatigue ou même à des problèmes physiques.',
     content: `# L'Anxiété Masquée : Ces Symptômes Silencieux que Vous Ignorez Peut-être
 
 L'anxiété ne se manifeste pas toujours par des crises de panique spectaculaires ou des palpitations cardiaques évidentes. Parfois, elle se dissimule derrière des symptômes apparemment anodins que nous attribuons au stress quotidien, à la fatigue ou même à des problèmes physiques. Cette forme d'anxiété masquée touche des millions de personnes qui vivent avec un mal-être constant sans comprendre sa véritable origine.

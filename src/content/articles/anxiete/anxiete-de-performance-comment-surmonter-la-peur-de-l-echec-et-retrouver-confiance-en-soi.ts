@@ -8,7 +8,8 @@ export const article: Article = {
     id: '10',
     slug: 'anxiete-de-performance-comment-surmonter-la-peur-de-l-echec-et-retrouver-confiance-en-soi',
     title: 'Anxiété de performance : Comment surmonter la peur de l\'échec et retrouver confiance en soi',
-    excerpt: 'L\'anxiété de performance touche des millions de personnes à travers le monde, transformant des situations normales en véritables épreuves. Que vous soyez étudiant face à un examen, employé avant une p',
+    excerpt: '
+# Anxiété de performance : Comment surmonter la peur de léchec et retrouver confiance en soi'anxiété de performance touche des millions de personnes à travers le monde, transformant des situations normales en véritables épreuves. Que vous soyez étudiant face à un examen, employé avant une p',
     content: `
 # Anxiété de performance : Comment surmonter la peur de l'échec et retrouver confiance en soi
 

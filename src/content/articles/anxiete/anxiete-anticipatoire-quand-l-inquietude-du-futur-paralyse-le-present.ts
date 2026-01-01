@@ -8,7 +8,8 @@ export const article: Article = {
     id: '14',
     slug: 'anxiete-anticipatoire-quand-l-inquietude-du-futur-paralyse-le-present',
     title: 'Anxiété anticipatoire : quand linquiétude du futur paralyse le présent',
-    excerpt: 'Lanxiété anticipatoire touche des millions de personnes dans le monde, créant un cercle vicieux où la peur de ce qui pourrait arriver devient plus handicapante que les événements eux-mêmes. Cette for',
+    excerpt: '
+# Anxiété anticipatoire : quand linquiétude du futur paralyse le présent',
     content: `
 # Anxiété anticipatoire : quand l'inquiétude du futur paralyse le présent
 

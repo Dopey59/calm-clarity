@@ -11,7 +11,7 @@ export const article: Article = {
   id: '1',
   slug: 'ruminations-anxieuses-comment-briser-le-cycle-des-pensees-repetitives-et-retrouver-la-serenite',
   title: 'Ruminations anxieuses : comment briser le cycle des pensées répétitives et retrouver la sérénité',
-  excerpt: 'Les ruminations anxieuses représentent lun des mécanismes les plus épuisants de lanxiété : ces pensées répétitives qui tournent en boucle dans notre esprit, nous empêchant de trouver la paix mentale',
+  excerpt: 'Les ruminations anxieuses représentent lun des mécanismes les plus épuisants de lanxiété : ces pensées répétitives qui tournent en boucle dans notre esprit, nous empêchant de trouver la paix mentale.',
   content: `# Ruminations anxieuses : comment briser le cycle des pensées répétitives et retrouver la sérénité
 
 Les ruminations anxieuses représentent l'un des mécanismes les plus épuisants de l'anxiété : ces pensées répétitives qui tournent en boucle dans notre esprit, nous empêchant de trouver la paix mentale. Contrairement à l'anxiété anticipatoire qui se concentre sur l'avenir ou aux préoccupations ponctuelles, les ruminations anxieuses constituent un processus mental spécifique où l'individu ressasse de manière compulsive des situations, des problèmes ou des inquiétudes sans parvenir à les résoudre. Ce phénomène, particulièrement invalidant, peut transformer les moments de calme en véritables tempêtes mentales et affecter significativement la qualité de vie. Comprendre les mécanismes de ces ruminations et apprendre à les gérer représente un enjeu crucial pour retrouver un équilibre psychologique et mental durable.

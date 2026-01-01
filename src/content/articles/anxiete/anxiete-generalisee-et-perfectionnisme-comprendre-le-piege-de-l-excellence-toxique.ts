@@ -8,7 +8,8 @@ export const article: Article = {
     id: '13',
     slug: 'anxiete-generalisee-et-perfectionnisme-comprendre-le-piege-de-l-excellence-toxique',
     title: 'Anxiété généralisée et perfectionnisme : comprendre le piège de lexcellence toxique',
-    excerpt: 'Lanxiété généralisée touche près de 6% de la population mondiale, mais lorsquelle sentremêle avec le perfectionnisme, elle peut devenir particulièrement invalidante. Si vous vous reconnaissez dans',
+    excerpt: '
+# Anxiété généralisée et perfectionnisme : comprendre le piège de lexcellence toxique',
     content: `
 # Anxiété généralisée et perfectionnisme : comprendre le piège de l'excellence toxique
 

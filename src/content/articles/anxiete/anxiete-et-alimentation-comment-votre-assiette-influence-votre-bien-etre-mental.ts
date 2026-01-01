@@ -8,7 +8,7 @@ export const article: Article = {
     id: '16',
     slug: 'anxiete-et-alimentation-comment-votre-assiette-influence-votre-bien-etre-mental',
     title: 'Anxiété et alimentation : comment votre assiette influence votre bien-être mental',
-    excerpt: 'Lanxiété touche aujourdhui près de 280 millions de personnes dans le monde selon lOrganisation mondiale de la santé. Si les approches thérapeutiques traditionnelles restent essentielles, une dimens',
+    excerpt: 'Lanxiété touche aujourdhui près de 280 millions de personnes dans le monde selon lOrganisation mondiale de la santé. Si les approches thérapeutiques traditionnelles restent essentielles, une dimension souvent négligée mérite toute notre attention : limpact de lalimentation sur notre santé mentale.',
     content: `# Anxiété et alimentation : comment votre assiette influence votre bien-être mental
 
 L'anxiété touche aujourd'hui près de 280 millions de personnes dans le monde selon l'Organisation mondiale de la santé. Si les approches thérapeutiques traditionnelles restent essentielles, une dimension souvent négligée mérite toute notre attention : l'impact de l'alimentation sur notre santé mentale. Découvrez comment transformer votre assiette en alliée contre l'anxiété.

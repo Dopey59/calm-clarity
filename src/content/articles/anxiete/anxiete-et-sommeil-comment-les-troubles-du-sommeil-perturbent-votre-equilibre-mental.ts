@@ -10,7 +10,7 @@ export const article: Article = {
   id: '1',
   slug: 'anxiete-et-sommeil-comment-les-troubles-du-sommeil-perturbent-votre-equilibre-mental',
   title: 'Anxiété et Sommeil : Comment les Troubles du Sommeil Perturbent votre Équilibre Mental',
-  excerpt: 'Lanxiété et les troubles du sommeil entretiennent une relation complexe qui affecte des millions de personnes. Quand linquiétude empêche de trouver le sommeil, et quand le manque de repos alimente l',
+  excerpt: 'Lanxiété et les troubles du sommeil entretiennent une relation complexe qui affecte des millions de personnes. Quand linquiétude empêche de trouver le sommeil, et quand le manque de repos alimente les préoccupations, un cercle vicieux sinstalle.',
   content: `# Anxiété et Sommeil : Comment les Troubles du Sommeil Perturbent votre Équilibre Mental
 
 L'anxiété et les troubles du sommeil entretiennent une relation complexe qui affecte des millions de personnes. Quand l'inquiétude empêche de trouver le sommeil, et quand le manque de repos alimente les préoccupations, un cercle vicieux s'installe. Cette interdépendance entre santé mentale et qualité du sommeil nécessite une compréhension approfondie pour briser ce cycle délétère.

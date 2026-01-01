@@ -11,7 +11,7 @@ export const article: Article = {
   id: '1',
   slug: 'alimentation-anti-stress-comment-adapter-votre-assiette-pour-mieux-gerer-les-tensions-quotidiennes',
   title: 'Alimentation Anti-Stress : Comment Adapter Votre Assiette pour Mieux Gérer les Tensions Quotidiennes',
-  excerpt: 'Le stress fait partie intégrante de notre vie moderne, mais saviez-vous que certains aliments peuvent naturellement contribuer à réguler notre réponse physiologique aux tensions ? Lalimentation anti-',
+  excerpt: 'Le stress fait partie intégrante de notre vie moderne, mais saviez-vous que certains aliments peuvent naturellement contribuer à réguler notre réponse physiologique aux tensions ? Lalimentation anti-stress représente une approche nutritionnelle spécifique qui vise à sélectionner des nutriments...',
   content: `# Alimentation Anti-Stress : Comment Adapter Votre Assiette pour Mieux Gérer les Tensions Quotidiennes
 
 Le stress fait partie intégrante de notre vie moderne, mais saviez-vous que certains aliments peuvent naturellement contribuer à réguler notre réponse physiologique aux tensions ? L'alimentation anti-stress représente une approche nutritionnelle spécifique qui vise à sélectionner des nutriments capables de soutenir notre système nerveux lors de périodes difficiles.
